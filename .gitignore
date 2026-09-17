@@ -1,4 +1,5 @@
 fruit_dataset.tar
+small_dataset.tar
 /fruit_dataset
 /original_dataset
 /data
@@ -6,4 +7,4 @@ fruit_dataset.tar
 /outputs
 /outputs_quality
 /runs_benchmark
-*.zip
+*.zip
