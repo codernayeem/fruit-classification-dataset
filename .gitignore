@@ -1,2 +1,9 @@
 fruit_dataset.tar
 /fruit_dataset
+/original_dataset
+/data
+/data_quality
+/outputs
+/outputs_quality
+/runs_benchmark
+*.zip
