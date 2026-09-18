@@ -206,7 +206,7 @@ Arka Braja Prasad Nath (2107055)
 % 2. ABSTRACT
 % =========================================================
 \section{Abstract}
-Automated fruit quality inspection and classification are critical for minimizing post-harvest food waste, reducing human grading subjectivity, and enhancing packing line throughput in precision agriculture. This article presents a large-scale, standardized multi-fruit image dataset comprising \textbf{20,823 high-resolution RGB photographs} across \textbf{13 economically vital fruit types}: Papaya, Lemon, Lychee, Jackfruit, Mango, Star Fruit, Guava, Jujube, Banana, Dragon Fruit, Pineapple, Sapodilla, and Custard Apple. Each fruit variety is annotated into three distinct physical condition grades—\textbf{Good} (fresh, prime ripeness, unblemished), \textbf{Medium} (partially ripe, superficial skin blemishes, early-stage decay), and \textbf{Bad} (rotten, fungal decay, severe mechanical damage)—yielding a total of 39 granular sub-classes. Data were acquired through primary photographic collection in local retail markets and orchards across southwestern Bangladesh, complemented by curated secondary agricultural archives. Strict data hygiene protocols eliminated corrupted files, duplicates, and severe optical distortions. All samples were standardized to $224 \times 224$ pixels, normalized, and contrast-enhanced via Contrast Limited Adaptive Histogram Equalization (CLAHE). To prevent data leakage, a strict stratified 75\%/15\%/10\% train/validation/test partitioning protocol was enforced prior to applying data augmentations solely to the training sets. We demonstrate dataset utility across two machine learning tasks: (1)~a unified 13-class fruit-type recognition baseline achieving up to 99.86\% accuracy (ResNet-50), and (2)~thirteen independent 3-class quality classification benchmarks comparing a custom baseline CNN against five transfer-learning architectures (MobileNetV3-Large, YOLOv8n-cls, YOLO26n-cls, EfficientNet-B0, ResNet-50), where pre-trained models achieve average accuracies of 96.00\%--96.61\% across all fruits. The dataset, scripts, and model baselines provide an extensible open-access resource for smart agricultural robotics, automated conveyor sorting, and food supply chain monitoring.
+Automated fruit quality inspection and classification are critical for minimizing post-harvest food waste, reducing human grading subjectivity, and enhancing packing line throughput in precision agriculture. This article presents a large-scale, standardized multi-fruit image dataset comprising \textbf{20,823 high-resolution RGB photographs} across \textbf{13 economically vital fruit types}: Papaya, Lemon, Lychee, Jackfruit, Mango, Star Fruit, Guava, Jujube, Banana, Dragon Fruit, Pineapple, Sapodilla, and Custard Apple. Each fruit variety is annotated into three distinct physical condition grades—\textbf{Good} (fresh, prime ripeness, unblemished), \textbf{Medium} (partially ripe, superficial skin blemishes, early-stage decay), and \textbf{Bad} (rotten, fungal decay, severe mechanical damage)—yielding a total of 39 granular sub-classes. Data were acquired through primary photographic collection in local retail markets and orchards across southwestern Bangladesh, complemented by curated secondary agricultural archives. Strict data hygiene protocols eliminated corrupted files, duplicates, and severe optical distortions. All samples were standardized to $224 \times 224$ pixels, normalized, and contrast-enhanced via Contrast Limited Adaptive Histogram Equalization (CLAHE). To prevent data leakage, a strict stratified 75\%/15\%/10\% train/validation/test partitioning protocol was enforced prior to applying data augmentations solely to the training sets. We demonstrate dataset utility across two machine learning tasks: (1)~a unified 13-class fruit-type recognition baseline achieving up to 99.93\% accuracy (ResNet-50, YOLO26n-cls), and (2)~thirteen independent 3-class quality classification benchmarks comparing a custom baseline CNN against five transfer-learning architectures (MobileNetV3-Large, YOLOv8n-cls, YOLO26n-cls, EfficientNet-B0, ResNet-50), where pre-trained models achieve average accuracies of 96.00\%--96.61\% across all fruits. The dataset, scripts, and model baselines provide an extensible open-access resource for smart agricultural robotics, automated conveyor sorting, and food supply chain monitoring.
 
 % =========================================================
 % 3. DATASET SPECIFICATIONS TABLE
@@ -484,7 +484,7 @@ Image format & JPG / PNG \\
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.88\textwidth]{Output/13-fruits/outputs/plots/eda_fruit_quality_distribution.png}
+    \includegraphics[width=0.88\textwidth]{Output/13-fruits/fruit_classification_outputs/plots/eda_fruit_quality_distribution.png}
     \caption{Overall dataset class distribution across all 13 fruits and quality grades}
     \label{fig:eda-overall-dist}
 \end{figure}
@@ -1104,7 +1104,7 @@ Table~\ref{tab:baseline-summary-compact} presents a compact summary of baseline 
 \toprule
 \textbf{Task / Dataset} & \textbf{Custom CNN} & \textbf{MobileNetV3} & \textbf{ResNet-50} & \textbf{Top Architecture} \\
 \midrule
-Overall 13-Fruit Recognition & 96.45\% & 99.76\% & \textbf{99.86\%} & ResNet-50 (99.86\%) \\
+Overall 13-Fruit Recognition & 96.37\% & 99.86\% & \textbf{99.93\%} & ResNet-50 / YOLO26n (99.93\%) \\
 Mean Quality Classification (13 Fruits) & 87.62\% & \textbf{96.99\%} & 96.59\% & MobileNetV3-Large (96.99\%) \\
 Best-case Quality (Lychee, Dragon Fruit) & 99.06\% & 100.00\% & 100.00\% & All Transfer Models (100.00\%) \\
 Challenging Quality (Papaya) & 76.18\% & \textbf{85.59\%} & 85.29\% & MobileNetV3-Large (85.59\%) \\
@@ -1123,11 +1123,11 @@ Before diving into the per-fruit quality classification, a unified 13-class frui
 \toprule
 \textbf{Model} & \textbf{Accuracy (\%)} & \textbf{Macro F1} & \textbf{Weighted F1} \\
 \midrule
-Small Custom CNN & 96.45 & 0.9639 & 0.9642 \\
-MobileNetV3-Large & 99.76 & 0.9975 & 0.9976 \\
-YOLO26n-cls & 99.76 & 0.9975 & 0.9976 \\
-EfficientNet-B0 & 99.81 & 0.9981 & 0.9981 \\
-\textbf{ResNet-50} & \textbf{99.86} & \textbf{0.9985} & \textbf{0.9986} \\
+Custom CNN & 96.37 & 0.9632 & 0.9636 \\
+MobileNetV3-Large & 99.86 & 0.9986 & 0.9986 \\
+\textbf{YOLO26n-cls} & \textbf{99.93} & \textbf{0.9993} & \textbf{0.9993} \\
+EfficientNet-B0 & 99.88 & 0.9988 & 0.9988 \\
+\textbf{ResNet-50} & \textbf{99.93} & \textbf{0.9993} & \textbf{0.9993} \\
 \bottomrule
 \end{tabular}
 \caption{Fruit-type recognition (13 classes) benchmark}
@@ -1136,54 +1136,47 @@ EfficientNet-B0 & 99.81 & 0.9981 & 0.9981 \\
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/13-fruits/outputs/plots/eda_fruit_quality_distribution.png}
-    \caption{All 13 Fruits: Dataset class distribution}
+    \includegraphics[width=0.85\textwidth]{Output/13-fruits/fruit_classification_outputs/plots/eda_fruit_quality_distribution.png}
+    \caption{All 13 Fruits: Dataset class and quality distribution across 20,823 images}
     \label{fig:13fruits-dist}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/13-fruits/outputs/plots/final_benchmark_accuracy.png}
-    \caption{All 13 Fruits: Test accuracy comparison across model architectures}
-    \label{fig:13fruits-benchmark-acc}
+    \includegraphics[width=0.85\textwidth]{Output/13-fruits/fruit_classification_outputs/plots/final_benchmark_comparison.png}
+    \caption{All 13 Fruits: Model benchmark comparison across architectures}
+    \label{fig:13fruits-benchmark}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/13-fruits/outputs/plots/final_benchmark_macro_f1.png}
-    \caption{All 13 Fruits: Macro F1-score comparison across model architectures}
-    \label{fig:13fruits-benchmark-f1}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.85\textwidth]{Output/13-fruits/outputs/plots/resnet50_confusion_matrix.png}
-    \caption{All 13 Fruits: ResNet-50 (best model, 99.86\% accuracy) -- Normalized confusion matrix across 13 classes}
+    \includegraphics[width=0.85\textwidth]{Output/13-fruits/fruit_classification_outputs/plots/resnet_50_confusion_matrix_and_roc.png}
+    \caption{All 13 Fruits: ResNet-50 (top model, 99.93\% accuracy) -- Confusion matrix and One-vs-Rest ROC curves across 13 classes}
     \label{fig:13fruits-cm}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/13-fruits/outputs/plots/resnet50_roc_curve.png}
-    \caption{All 13 Fruits: ResNet-50 -- One-vs-Rest ROC curves for all 13 fruit classes}
-    \label{fig:13fruits-roc}
+    \includegraphics[width=0.85\textwidth]{Output/13-fruits/fruit_classification_outputs/plots/resnet_50_learning_curves.png}
+    \caption{All 13 Fruits: ResNet-50 -- Training and validation loss and accuracy curves}
+    \label{fig:13fruits-lc}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/13-fruits/outputs/plots/resnet50_loss_curve.png}
-    \caption{All 13 Fruits: ResNet-50 -- Training and validation loss curves}
-    \label{fig:13fruits-loss}
+    \includegraphics[width=0.85\textwidth]{Output/13-fruits/fruit_classification_outputs/plots/resnet_50_correct_predictions.png}
+    \caption{All 13 Fruits: ResNet-50 -- Representative correct fruit species predictions with confidence scores}
+    \label{fig:13fruits-correct}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/13-fruits/outputs/plots/resnet50_accuracy_curve.png}
-    \caption{All 13 Fruits: ResNet-50 -- Training and validation accuracy curves}
-    \label{fig:13fruits-acc}
+    \includegraphics[width=0.85\textwidth]{Output/13-fruits/fruit_classification_outputs/plots/resnet_50_wrong_predictions.png}
+    \caption{All 13 Fruits: ResNet-50 -- Sample misclassifications and failure case analysis across fruit species}
+    \label{fig:13fruits-wrong}
 \end{figure}
 
-The fruit-type recognition task achieves near-perfect accuracy (up to 99.86\% with ResNet-50), indicating that the inter-class variance between different fruit species is extremely high and easily learned. Even the lightweight Custom CNN achieves an impressive 96.45\% accuracy across 13 classes. This confirms that basic fruit identification is a highly solvable problem, shifting the primary challenge to the more nuanced intra-class quality classification task.
+The fruit-type recognition task achieves near-perfect accuracy (up to 99.93\% with ResNet-50 and YOLO26n-cls), indicating that the inter-class variance between different fruit species is extremely high and easily learned. Even the lightweight Custom CNN achieves an impressive 96.37\% accuracy across 13 classes. This confirms that basic fruit identification is a highly solvable problem, shifting the primary challenge to the more nuanced intra-class quality classification task. Representative correct predictions and failure case diagnostics are illustrated in Figure~\ref{fig:13fruits-correct} and Figure~\ref{fig:13fruits-wrong}.
 
 
 
