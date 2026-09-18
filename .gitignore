@@ -8,3 +8,5 @@ small_dataset.tar
 /outputs_quality
 /runs_benchmark
 *.zip
+
+/report/Output
