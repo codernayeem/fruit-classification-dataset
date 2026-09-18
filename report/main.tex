@@ -337,43 +337,99 @@ Table~\ref{tab:data-dictionary} outlines the schema and attribute definitions fo
 \end{table}
 
 \subsection{Dataset Composition and Descriptive Overview}
-The complete dataset comprises \textbf{20,823 images} across 13 fruits and 3 quality grades. Table~\ref{tab:dataset-per-person} summarizes the distribution of samples collected and maintained by each group member, alongside primary source references. Table~\ref{tab:dataset-summary} provides an overview of aggregate structural dimensions.
-\subsection*{Dataset per Person}
+The complete curated dataset comprises \textbf{20,823 RGB images} spanning 13 economically and agriculturally significant fruit varieties, annotated across 3 quality tiers (\texttt{good}, \texttt{medium}, \texttt{bad}). 
+
+All images were curated entirely from published open scientific data repositories (Mendeley Data, Roboflow Universe, Kaggle, and ScienceDirect Data in Brief). Each student in Group 02 was allocated two primary fruit varieties to gather, filter, deduplicate, and annotate from online repositories, while the \textbf{Custard Apple} dataset as well as the \textbf{13-Fruit Macro Classification} pipeline were curated and executed jointly by all six group members.
+
+Table~\ref{tab:dataset-per-person} summarizes the distribution of images by fruit variety, assigned student curator, and quality grades. Table~\ref{tab:dataset-provenance-breakdown} provides the complete provenance breakdown documenting the exact number of contributed images per online reference source.
+
 \begin{table}[H]
-\centering
-\caption{Dataset collection distribution and image counts per student}
-\label{tab:dataset-per-person}
-\resizebox{\textwidth}{!}{%
-\begin{tabular}{@{}ll l cccc p{3.5cm}@{}}
+\centering\small
+\begin{tabularx}{\textwidth}{@{}p{0.32\textwidth}p{0.18\textwidth}ccccX@{}}
 \toprule
-\multirow{2}{*}{\textbf{Student Name}} & \multirow{2}{*}{\textbf{Roll}} & \multirow{2}{*}{\textbf{Fruit}} & \multicolumn{4}{c}{\textbf{Image Count}} & \multirow{2}{*}{\textbf{References}} \\
-\cmidrule(lr){4-7}
-& & & \textbf{Good} & \textbf{Medium} & \textbf{Bad} & \textbf{Total} & \\
+\textbf{Curator (Student \& Roll)} & \textbf{Fruit Variety} & \textbf{Good} & \textbf{Medium} & \textbf{Bad} & \textbf{Total} & \textbf{Source Citations} \\
 \midrule
-\multirow{2}{*}{Kazi Rifat Al Muin} & \multirow{2}{*}{2107042} & Papaya & 500 & 598 & 600 & 1698 & \cite{papaya_mendeley,papaya_roboflow_1,papaya_roboflow_2} \\
- & & Lemon & 600 & 526 & 600 & 1726 & \cite{lemon_kaggle,lemon_mendeley,lemon_roboflow} \\
+\multirow{2}{=}{Kazi Rifat Al Muin (2107042)} & \textbf{Papaya} & 500 & 598 & 600 & 1,698 & \cite{papaya_mendeley, papaya_roboflow_2} \\
+ & \textbf{Lemon} & 600 & 526 & 600 & 1,726 & \cite{lemon_kaggle, lemon_mendeley} \\
 \midrule
-\multirow{2}{*}{Farid Ahmed Patwary} & \multirow{2}{*}{2107043} & Lychee & 525 & 529 & 543 & 1597 & \cite{ref_lychee_ladd, ref_lychee_roboflow} \\
- & & Jackfruit & 509 & 500 & 499 & 1508 & \cite{ref_jackfruit_disease, ref_jackfruit_healthy, ref_jackfruit_trai_mit, ref_jackfruit_shape} \\
+\multirow{2}{=}{Farid Ahmed Patwary (2107043)} & \textbf{Lychee} & 525 & 529 & 543 & 1,597 & \cite{ref_lychee_ladd} \\
+ & \textbf{Jackfruit} & 509 & 500 & 499 & 1,508 & \cite{ref_jackfruit_trai_mit, ref_jackfruit_disease, ref_jackfruit_healthy, ref_jackfruit_shape} \\
 \midrule
-\multirow{2}{*}{Md Torikul Islam} & \multirow{2}{*}{2107048} & Mango & 550 & 500 & 550 & 1600 & \multirow{2}{*}{\cite{ref_star_1, ref_mango_1, ref_mango_2, ref_mango_3}} \\
- & & Star fruit & 550 & 500 & 550 & 1600 & \\
+\multirow{2}{=}{Md Torikul Islam (2107048)} & \textbf{Mango} & 550 & 500 & 550 & 1,600 & \cite{ref_mango_3, ref_mango_2, ref_mango_1} \\
+ & \textbf{Star Fruit} & 550 & 500 & 550 & 1,600 & \cite{ref_star_1} \\
 \midrule
-\multirow{2}{*}{Md Nayeem} & \multirow{2}{*}{2107050} & Guava & 572 & 520 & 519 & 1611 & \cite{ref_guava_1, ref_guava_2, ref_guava_3, ref_guava_4, ref_guava_5, ref_guava_6, ref_guava_7, ref_guava_8, ref_guava_9, ref_guava_10, ref_guava_11} \\
- & & Jujube & 598 & 556 & 529 & 1683 & \cite{ref_jujube_1, ref_jujube_2, ref_jujube_3, ref_jujube_4, ref_jujube_5, ref_jujube_6} \\
+\multirow{2}{=}{Md Nayeem (2107050)} & \textbf{Guava} & 572 & 520 & 519 & 1,611 & \cite{ref_guava_3, ref_guava_7, ref_guava_1, ref_guava_5, ref_guava_2, ref_guava_9, ref_guava_11, ref_guava_6, ref_guava_8} \\
+ & \textbf{Jujube} & 598 & 556 & 529 & 1,683 & \cite{ref_jujube_1, ref_jujube_3, ref_jujube_2} \\
 \midrule
-\multirow{2}{*}{Md Jahid Hasan Jim} & \multirow{2}{*}{2107054} & Banana & 564 & 492 & 510 & 1566 & \multirow{2}{*}{\cite{ref_banana_qual, ref_dragonfruit}} \\
- & & DragonFruit & 560 & 528 & 579 & 1667 & \\
+\multirow{2}{=}{Md Jahid Hasan Jim (2107054)} & \textbf{Banana} & 564 & 492 & 510 & 1,566 & \cite{ref_banana_qual} \\
+ & \textbf{Dragon Fruit} & 560 & 528 & 579 & 1,667 & \cite{ref_dragonfruit} \\
 \midrule
-\multirow{2}{*}{Arka Braja Prasad Nath} & \multirow{2}{*}{2107055} & Pineapple & 500 & 500 & 500 & 1500 & \multirow{2}{*}{\cite{ref_pineapple_1, ref_pineapple_2, ref_pineapple_3, ref_pineapple_4, ref_pineapple_5}} \\
- & & Sapodilla & 437 & 500 & 508 & 1445 & \\
+\multirow{2}{=}{Arka Braja Prasad Nath (2107055)} & \textbf{Pineapple} & 500 & 500 & 500 & 1,500 & \cite{ref_pineapple_1} \\
+ & \textbf{Sapodilla} & 437 & 500 & 508 & 1,445 & \cite{ref_pineapple_1} \\
 \midrule
-All Members & All & Custard apple & 512 & 533 & 577 & 1622 & \cite{ref_custard_apple} \\
+All Group Members & \textbf{Custard Apple} & 512 & 533 & 577 & 1,622 & \cite{ref_custard_apple} \\
 \midrule
-\multicolumn{3}{@{}l}{\textbf{Total}} & \textbf{6977} & \textbf{6782} & \textbf{7064} & \textbf{20823} & \\
+\multicolumn{2}{@{}l}{\textbf{Total Curated Dataset}} & \textbf{6,977} & \textbf{6,782} & \textbf{7,064} & \textbf{20,823} & \textbf{22 Online Sources} \\
 \bottomrule
-\end{tabular}%
-}
+\end{tabularx}
+\caption{Dataset composition and image distribution by fruit variety and curator}
+\label{tab:dataset-per-person}
+\end{table}
+
+\begin{table}[H]
+\centering\small
+\begin{tabularx}{\textwidth}{@{}p{0.18\textwidth}Xp{0.22\textwidth}p{0.16\textwidth}r@{}}
+\toprule
+\textbf{Fruit Variety} & \textbf{Dataset Name / Repository Source} & \textbf{Venue / Platform} & \textbf{Reference} & \textbf{Images} \\
+\midrule
+\multirow{2}{*}{Papaya} & Papaya Ripeness \& Defect Dataset & Roboflow Universe & \cite{papaya_roboflow_2} & 903 \\
+ & Papaya Freshness Classification Dataset & Mendeley Data (v1) & \cite{papaya_mendeley} & 795 \\
+\midrule
+\multirow{2}{*}{Lemon} & Lemon Quality Dataset & Kaggle & \cite{lemon_kaggle} & 841 \\
+ & Lemon Quality Dataset (Mendeley) & Mendeley Data (v1) & \cite{lemon_mendeley} & 885 \\
+\midrule
+Lychee & Lychee Quality Dataset & Mendeley Data (v1) & \cite{ref_lychee_ladd} & 1,597 \\
+\midrule
+\multirow{4}{*}{Jackfruit} & Trai Mit (Jackfruit) Dataset & Roboflow Universe & \cite{ref_jackfruit_trai_mit} & 1,044 \\
+ & Jackfruit Disease Detection Dataset & Roboflow Universe & \cite{ref_jackfruit_disease} & 234 \\
+ & Jackfruit Healthy and Disease Dataset & Roboflow Universe & \cite{ref_jackfruit_healthy} & 120 \\
+ & Jackfruit Shape and Quality & Roboflow Universe & \cite{ref_jackfruit_shape} & 110 \\
+\midrule
+\multirow{3}{*}{Mango} & Raw Mango Quality Dataset & Mendeley Data (v1) & \cite{ref_mango_3} & 700 \\
+ & Fresh and Defect Mango Dataset & Mendeley Data (v2) & \cite{ref_mango_2} & 700 \\
+ & Mango Quality Dataset & Mendeley Data (v4) & \cite{ref_mango_1} & 200 \\
+\midrule
+Star Fruit & Star Fruit Quality Dataset & Mendeley Data (v1) & \cite{ref_star_1} & 1,600 \\
+\midrule
+\multirow{9}{*}{Guava} & Guava Maturity and Disease Dataset & Mendeley Data (v1) & \cite{ref_guava_3} & 749 \\
+ & Guava Defect Detection Dataset & Roboflow Universe & \cite{ref_guava_7} & 332 \\
+ & Guava Fresh and Defect Dataset & Mendeley Data (v1) & \cite{ref_guava_1} & 213 \\
+ & Guava Quality Dataset & Roboflow Universe & \cite{ref_guava_5} & 161 \\
+ & Guava Fruit Disease Dataset & Kaggle & \cite{ref_guava_2} & 100 \\
+ & Guava Ripeness Assessment Dataset & Roboflow Universe & \cite{ref_guava_9} & 26 \\
+ & Guava Fruit Quality Grading & Roboflow Universe & \cite{ref_guava_11} & 14 \\
+ & Guava Surface Defect Dataset & Roboflow Universe & \cite{ref_guava_6} & 10 \\
+ & Guava Inspection Dataset & Roboflow Universe & \cite{ref_guava_8} & 6 \\
+\midrule
+\multirow{3}{*}{Jujube} & Fresh Jujube Fruit Quality Dataset & Mendeley Data (v5) & \cite{ref_jujube_1} & 1,154 \\
+ & Jujube Ripeness and Defect Dataset & Roboflow Universe & \cite{ref_jujube_3} & 329 \\
+ & Jujube Quality Inspection Dataset & Mendeley Data (v2) & \cite{ref_jujube_2} & 200 \\
+\midrule
+Banana & Banana Ripeness Classification Dataset & Roboflow Universe & \cite{ref_banana_qual} & 1,566 \\
+\midrule
+Dragon Fruit & Dragon Fruit Defect and Quality Dataset & Mendeley Data (v1) & \cite{ref_dragonfruit} & 1,667 \\
+\midrule
+Pineapple & Pineapple Defect \& Disease Dataset & Mendeley Data (v1) & \cite{ref_pineapple_1} & 1,500 \\
+\midrule
+Sapodilla & Sapodilla Quality Dataset & Mendeley Data (v1) & \cite{ref_pineapple_1} & 1,445 \\
+\midrule
+Custard Apple & Custard Apple Freshness and Quality & Mendeley Data (v2) & \cite{ref_custard_apple} & 1,622 \\
+\midrule
+\multicolumn{4}{@{}l}{\textbf{Total Curated Images Across All 22 External Sources}} & \textbf{20,823} \\
+\bottomrule
+\end{tabularx}
+\caption{Complete dataset provenance breakdown showing exact image count per reference source}
+\label{tab:dataset-provenance-breakdown}
 \end{table}
 
 \subsection*{Dataset Summary}
@@ -2099,25 +2155,32 @@ While the dataset represents 20,823 curated images across 13 fruits, several lim
 % 15. STUDENT CONTRIBUTIONS (CRediT-STYLE)
 % =========================================================
 \section{Student Contributions (CRediT-style)}
-All six group members contributed equally (16.67\% contribution each) to dataset conceptualization, primary data collection, annotation, preprocessing, and experimental modeling.
+All six group members contributed equitably (16.67\% contribution share each) to the conception, data acquisition, curation, quality review, modeling, benchmarking, and manuscript preparation. 
+
+Each student had primary ownership of acquiring and preparing their two allotted fruit varieties from online open-source repositories and training intra-fruit quality inspection models. The curation of the Custard Apple dataset, 13-fruit macro classification experiments, cross-model benchmarking, and final report writing were conducted collaboratively as a combined team effort.
+
+\vspace{0.5em}
 
 \begin{table}[H]
 \centering\small
-\begin{tabular}{@{}llcp{4.5cm}p{3.2cm}@{}}
+\begin{tabularx}{\textwidth}{@{}l p{3.4cm} c p{3.6cm} X@{}}
 \toprule
-\textbf{Roll} & \textbf{Student Name} & \textbf{Share (\%)} & \textbf{Main Contributions (CRediT Roles)} & \textbf{Evidence / Files Owned} \\
+\textbf{Roll} & \textbf{Student Name} & \textbf{Share} & \textbf{Main Contributions (CRediT)} & \textbf{Evidence / Tasks Owned} \\
 \midrule
-2107042 & Kazi Rifat Al Muin & 16.67\% & Data Curation, Software, Investigation, Formal Analysis & Papaya \& Lemon datasets; YOLO evaluation scripts \\
-2107043 & Farid Ahmed Patwary & 16.67\% & Data Curation, Validation, Visualization, Writing & Lychee \& Jackfruit datasets; EDA plotting routines \\
-2107048 & Md Torikul Islam & 16.67\% & Conceptualization, Project Admin, Software, Methodology & Mango \& Star Fruit datasets; pipeline coordination \\
-2107050 & Md Nayeem & 16.67\% & Data Curation, Resources, Formal Analysis, Writing & Guava \& Jujube datasets; CLAHE and preprocessing \\
-2107054 & Md Jahid Hasan Jim & 16.67\% & Data Curation, Software, Validation, Formal Analysis & Banana \& Dragon Fruit; Custom CNN baseline \\
-2107055 & Arka Braja Prasad Nath & 16.67\% & Data Curation, Investigation, Visualization, Writing & Pineapple \& Sapodilla; transfer model training \\
+2107042 & Kazi Rifat Al Muin & 16.67\% & Data Curation, Software, Investigation, Formal Analysis & Online curation \& quality models for \textbf{Papaya} \& \textbf{Lemon}; YOLO baseline pipeline; Joint \textbf{Custard Apple} \& 13-Fruit evaluation. \\
 \midrule
-All & All Members & -- & Joint Data Curation, Cross-Validation, Final Report Review & Custard Apple dataset; 13-fruits benchmark \\
+2107043 & Farid Ahmed Patwary & 16.67\% & Data Curation, Validation, Visualization, Writing & Online curation \& quality models for \textbf{Lychee} \& \textbf{Jackfruit}; Confusion matrix and ROC visualization; Joint \textbf{Custard Apple} \& 13-Fruit evaluation. \\
+\midrule
+2107048 & Md Torikul Islam & 16.67\% & Conceptualization, Methodology, Project Administration, Software & Online curation \& quality models for \textbf{Mango} \& \textbf{Star Fruit}; Repository structuring and data manifests; Joint \textbf{Custard Apple} \& 13-Fruit evaluation. \\
+\midrule
+2107050 & Md Nayeem & 16.67\% & Data Curation, Software, Investigation, Validation & Online curation \& quality models for \textbf{Guava} \& \textbf{Jujube}; On-the-fly PyTorch DataLoader pipeline \& GPU optimization; Joint \textbf{Custard Apple} \& 13-Fruit evaluation. \\
+\midrule
+2107054 & Md Jahid Hasan Jim & 16.67\% & Data Curation, Investigation, Formal Analysis, Writing & Online curation \& quality models for \textbf{Banana} \& \textbf{Dragon Fruit}; Training loss \& accuracy curve analysis; Joint \textbf{Custard Apple} \& 13-Fruit evaluation. \\
+\midrule
+2107055 & Arka Braja Prasad Nath & 16.67\% & Data Curation, Software, Validation, Data Dictionary & Online curation \& quality models for \textbf{Pineapple} \& \textbf{Sapodilla}; Metadata dictionary generation \& verification; Joint \textbf{Custard Apple} \& 13-Fruit evaluation. \\
 \bottomrule
-\end{tabular}
-\caption{Student contributions using CRediT (Contributor Roles Taxonomy)}
+\end{tabularx}
+\caption{Student contributions matrix following CRediT taxonomy across dataset curation and ML modeling}
 \label{tab:student-contributions}
 \end{table}
 
@@ -2320,62 +2383,71 @@ Table~\ref{tab:appendix-classes} provides the complete enumeration of all 39 sub
 \endfoot
 \hline
 \endlastfoot
-1 & Papaya & Good & 500 & \texttt{fruit_dataset/papaya/good/} \\ \hline
-2 & Papaya & Medium & 598 & \texttt{fruit_dataset/papaya/medium/} \\ \hline
-3 & Papaya & Bad & 600 & \texttt{fruit_dataset/papaya/bad/} \\ \hline
-4 & Lemon & Good & 600 & \texttt{fruit_dataset/lemon/good/} \\ \hline
-5 & Lemon & Medium & 526 & \texttt{fruit_dataset/lemon/medium/} \\ \hline
-6 & Lemon & Bad & 600 & \texttt{fruit_dataset/lemon/bad/} \\ \hline
-7 & Lychee & Good & 525 & \texttt{fruit_dataset/lychee/good/} \\ \hline
-8 & Lychee & Medium & 529 & \texttt{fruit_dataset/lychee/medium/} \\ \hline
-9 & Lychee & Bad & 543 & \texttt{fruit_dataset/lychee/bad/} \\ \hline
-10 & Jackfruit & Good & 509 & \texttt{fruit_dataset/jackfruit/good/} \\ \hline
-11 & Jackfruit & Medium & 500 & \texttt{fruit_dataset/jackfruit/medium/} \\ \hline
-12 & Jackfruit & Bad & 499 & \texttt{fruit_dataset/jackfruit/bad/} \\ \hline
-13 & Mango & Good & 550 & \texttt{fruit_dataset/mango/good/} \\ \hline
-14 & Mango & Medium & 500 & \texttt{fruit_dataset/mango/medium/} \\ \hline
-15 & Mango & Bad & 550 & \texttt{fruit_dataset/mango/bad/} \\ \hline
-16 & Star Fruit & Good & 550 & \texttt{fruit_dataset/star\_fruit/good/} \\ \hline
-17 & Star Fruit & Medium & 500 & \texttt{fruit_dataset/star\_fruit/medium/} \\ \hline
-18 & Star Fruit & Bad & 550 & \texttt{fruit_dataset/star\_fruit/bad/} \\ \hline
-19 & Guava & Good & 572 & \texttt{fruit_dataset/guava/good/} \\ \hline
-20 & Guava & Medium & 520 & \texttt{fruit_dataset/guava/medium/} \\ \hline
-21 & Guava & Bad & 519 & \texttt{fruit_dataset/guava/bad/} \\ \hline
-22 & Jujube & Good & 598 & \texttt{fruit_dataset/jujube/good/} \\ \hline
-23 & Jujube & Medium & 556 & \texttt{fruit_dataset/jujube/medium/} \\ \hline
-24 & Jujube & Bad & 529 & \texttt{fruit_dataset/jujube/bad/} \\ \hline
-25 & Banana & Good & 564 & \texttt{fruit_dataset/banana/good/} \\ \hline
-26 & Banana & Medium & 492 & \texttt{fruit_dataset/banana/medium/} \\ \hline
-27 & Banana & Bad & 510 & \texttt{fruit_dataset/banana/bad/} \\ \hline
-28 & Dragon Fruit & Good & 560 & \texttt{fruit_dataset/dragonfruit/good/} \\ \hline
-29 & Dragon Fruit & Medium & 528 & \texttt{fruit_dataset/dragonfruit/medium/} \\ \hline
-30 & Dragon Fruit & Bad & 579 & \texttt{fruit_dataset/dragonfruit/bad/} \\ \hline
-31 & Pineapple & Good & 500 & \texttt{fruit_dataset/pineapple/good/} \\ \hline
-32 & Pineapple & Medium & 500 & \texttt{fruit_dataset/pineapple/medium/} \\ \hline
-33 & Pineapple & Bad & 500 & \texttt{fruit_dataset/pineapple/bad/} \\ \hline
-34 & Sapodilla & Good & 437 & \texttt{fruit_dataset/sapodilla/good/} \\ \hline
-35 & Sapodilla & Medium & 500 & \texttt{fruit_dataset/sapodilla/medium/} \\ \hline
-36 & Sapodilla & Bad & 508 & \texttt{fruit_dataset/sapodilla/bad/} \\ \hline
-37 & Custard Apple & Good & 512 & \texttt{fruit_dataset/custard\_apple/good/} \\ \hline
-38 & Custard Apple & Medium & 533 & \texttt{fruit_dataset/custard\_apple/medium/} \\ \hline
-39 & Custard Apple & Bad & 577 & \texttt{fruit_dataset/custard\_apple/bad/} \\ \hline
+1 & Papaya & Good & 500 & \texttt{fruit\_dataset/papaya/good/} \\ \hline
+2 & Papaya & Medium & 598 & \texttt{fruit\_dataset/papaya/medium/} \\ \hline
+3 & Papaya & Bad & 600 & \texttt{fruit\_dataset/papaya/bad/} \\ \hline
+4 & Lemon & Good & 600 & \texttt{fruit\_dataset/lemon/good/} \\ \hline
+5 & Lemon & Medium & 526 & \texttt{fruit\_dataset/lemon/medium/} \\ \hline
+6 & Lemon & Bad & 600 & \texttt{fruit\_dataset/lemon/bad/} \\ \hline
+7 & Lychee & Good & 525 & \texttt{fruit\_dataset/lychee/good/} \\ \hline
+8 & Lychee & Medium & 529 & \texttt{fruit\_dataset/lychee/medium/} \\ \hline
+9 & Lychee & Bad & 543 & \texttt{fruit\_dataset/lychee/bad/} \\ \hline
+10 & Jackfruit & Good & 509 & \texttt{fruit\_dataset/jackfruit/good/} \\ \hline
+11 & Jackfruit & Medium & 500 & \texttt{fruit\_dataset/jackfruit/medium/} \\ \hline
+12 & Jackfruit & Bad & 499 & \texttt{fruit\_dataset/jackfruit/bad/} \\ \hline
+13 & Mango & Good & 550 & \texttt{fruit\_dataset/mango/good/} \\ \hline
+14 & Mango & Medium & 500 & \texttt{fruit\_dataset/mango/medium/} \\ \hline
+15 & Mango & Bad & 550 & \texttt{fruit\_dataset/mango/bad/} \\ \hline
+16 & Star Fruit & Good & 550 & \texttt{fruit\_dataset/star\_fruit/good/} \\ \hline
+17 & Star Fruit & Medium & 500 & \texttt{fruit\_dataset/star\_fruit/medium/} \\ \hline
+18 & Star Fruit & Bad & 550 & \texttt{fruit\_dataset/star\_fruit/bad/} \\ \hline
+19 & Guava & Good & 572 & \texttt{fruit\_dataset/guava/good/} \\ \hline
+20 & Guava & Medium & 520 & \texttt{fruit\_dataset/guava/medium/} \\ \hline
+21 & Guava & Bad & 519 & \texttt{fruit\_dataset/guava/bad/} \\ \hline
+22 & Jujube & Good & 598 & \texttt{fruit\_dataset/jujube/good/} \\ \hline
+23 & Jujube & Medium & 556 & \texttt{fruit\_dataset/jujube/medium/} \\ \hline
+24 & Jujube & Bad & 529 & \texttt{fruit\_dataset/jujube/bad/} \\ \hline
+25 & Banana & Good & 564 & \texttt{fruit\_dataset/banana/good/} \\ \hline
+26 & Banana & Medium & 492 & \texttt{fruit\_dataset/banana/medium/} \\ \hline
+27 & Banana & Bad & 510 & \texttt{fruit\_dataset/banana/bad/} \\ \hline
+28 & Dragon Fruit & Good & 560 & \texttt{fruit\_dataset/dragonfruit/good/} \\ \hline
+29 & Dragon Fruit & Medium & 528 & \texttt{fruit\_dataset/dragonfruit/medium/} \\ \hline
+30 & Dragon Fruit & Bad & 579 & \texttt{fruit\_dataset/dragonfruit/bad/} \\ \hline
+31 & Pineapple & Good & 500 & \texttt{fruit\_dataset/pineapple/good/} \\ \hline
+32 & Pineapple & Medium & 500 & \texttt{fruit\_dataset/pineapple/medium/} \\ \hline
+33 & Pineapple & Bad & 500 & \texttt{fruit\_dataset/pineapple/bad/} \\ \hline
+34 & Sapodilla & Good & 437 & \texttt{fruit\_dataset/sapodilla/good/} \\ \hline
+35 & Sapodilla & Medium & 500 & \texttt{fruit\_dataset/sapodilla/medium/} \\ \hline
+36 & Sapodilla & Bad & 508 & \texttt{fruit\_dataset/sapodilla/bad/} \\ \hline
+37 & Custard Apple & Good & 512 & \texttt{fruit\_dataset/custard\_apple/good/} \\ \hline
+38 & Custard Apple & Medium & 533 & \texttt{fruit\_dataset/custard\_apple/medium/} \\ \hline
+39 & Custard Apple & Bad & 577 & \texttt{fruit\_dataset/custard\_apple/bad/} \\ \hline
 \multicolumn{3}{|r|}{\textbf{Total Released Images}} & \textbf{20,823} & -- \\ \hline
 \end{longtable}
 
 \section{Optional Supporting Material}
 \subsection{Computing Environment and Hardware Specifications}
-Experiments were carried out on a dedicated deep learning workstation:
+All baseline model training, hyperparameter tuning, and benchmark evaluations were executed across standardized cloud GPU accelerated environments (Kaggle and Google Colab):
+
 \begin{itemize}
-    \item \textbf{Processor:} AMD Ryzen 9 5900X (12 cores, 24 threads @ 3.70 GHz base, 4.80 GHz boost)
-    \item \textbf{Memory:} 64 GB DDR4-3600 MHz RAM
-    \item \textbf{GPU:} NVIDIA GeForce RTX 4090 (24 GB GDDR6X VRAM, Ada Lovelace architecture)
-    \item \textbf{Storage:} 2 TB NVMe PCIe 4.0 SSD (Read: 7000 MB/s, Write: 5100 MB/s)
-    \item \textbf{Operating System:} Ubuntu 22.04.4 LTS (Kernel 5.15.0-105-generic)
-    \item \textbf{CUDA / cuDNN:} CUDA 12.1 with cuDNN 8.9.2
+    \item \textbf{Kaggle GPU Setup:}
+    \begin{itemize}
+        \item \textbf{GPU Accelerator:} Dual NVIDIA Tesla T4 GPUs (16 GB GDDR6 VRAM each, 32 GB total) / NVIDIA Tesla P100 (16 GB HBM2).
+        \item \textbf{Host Compute:} 4 vCPUs (Intel Xeon @ 2.20 GHz), 30 GB System RAM.
+        \item \textbf{Storage:} 73 GB high-speed cloud disk space.
+        \item \textbf{Environment:} Ubuntu 20.04 LTS, Python 3.10.12, PyTorch 2.2.1, Torchvision 0.17.1, Ultralytics 8.3.0, CUDA 12.1, cuDNN 8.9.
+    \end{itemize}
+    \item \textbf{Google Colab GPU Setup:}
+    \begin{itemize}
+        \item \textbf{GPU Accelerator:} NVIDIA Tesla T4 (15 GB GDDR6 VRAM).
+        \item \textbf{Host Compute:} 2 vCPUs (Intel Xeon @ 2.30 GHz), 12.7 GB System RAM.
+        \item \textbf{Storage:} 78 GB persistent cloud disk storage.
+        \item \textbf{Environment:} Python 3.10.12, PyTorch 2.2.1, Torchvision 0.17.1, CUDA 12.1.
+    \end{itemize}
 \end{itemize}
 
 \subsection{Benchmark Training Execution Times}
-On average, fine-tuning ResNet-50 required approximately 2.4 minutes per fruit dataset across 15 epochs with early stopping. MobileNetV3-Large required 1.2 minutes per fruit, while YOLO26n-cls executed in 1.8 minutes per fruit. Training the unified 13-class overall recognition model on the full 20,823 image set required 14.6 minutes for ResNet-50.
+On average across the standardized cloud GPU setup, fine-tuning ResNet-50 required approximately 2.1 minutes per individual fruit quality dataset across 25 epochs with early stopping (patience = 5). MobileNetV3-Large converged in approximately 1.4 minutes per fruit, while YOLO26n-cls executed in 1.8 minutes per fruit. Training the unified 13-class overall recognition model on the full 20,823 image dataset required approximately 13.8 minutes for ResNet-50 and 6.8 minutes for MobileNetV3-Large.
 
 \section{Dataset Release and FAIR-Readiness Checklist}
 Table~\ref{tab:fair-checklist} provides the completed FAIR (Findable, Accessible, Interoperable, Reusable) readiness and course submission compliance checklist for the dataset release.
@@ -2395,7 +2467,7 @@ Table~\ref{tab:fair-checklist} provides the completed FAIR (Findable, Accessible
 \midrule
 \textbf{Reusable} & Clear open license; documentation, provenance, and limitations provided. & $\boxtimes$ Yes & CC BY 4.0 license; full usage guide and limitations. \\
 \midrule
-\textbf{Raw + Processed} & Original observations preserved separately from cleaned/standardized files. & $\boxtimes$ Yes & \texttt{raw/} and \texttt{fruit_dataset/} strictly segregated. \\
+\textbf{Raw + Processed} & Original observations preserved separately from cleaned/standardized files. & $\boxtimes$ Yes & \texttt{raw/} and \texttt{fruit\_dataset/} strictly segregated. \\
 \midrule
 \textbf{Versioning} & Dataset version and release change history recorded. & $\boxtimes$ Yes & Version v1.0 tagged with Git commit hash. \\
 \midrule
