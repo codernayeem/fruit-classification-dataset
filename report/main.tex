@@ -73,7 +73,7 @@
 \textbf{Group No.:} & Group 02 & \textbf{Dataset Version:} & v1.0 (September 2026) \\
 \textbf{Students:} & \multicolumn{3}{l}{Kazi Rifat Al Muin (2107042), Farid Ahmed Patwary (2107043), Md Torikul Islam (2107048),} \\
 & \multicolumn{3}{l}{Md Nayeem (2107050), Md Jahid Hasan Jim (2107054), Arka Braja Prasad Nath (2107055)} \\
-\textbf{Repository:} & \multicolumn{3}{l}{\url{https://github.com/torikul-islam/fruit-quality-dataset}} \\
+\textbf{Repository:} & \multicolumn{3}{l}{\url{https://github.com/codernayeem/fruit-classification-dataset}} \\
 \end{tabular}
 
 \vspace{0.25cm}
@@ -161,7 +161,7 @@
 \midrule
 \textbf{Dataset version} & v1.0 (Release Date: September 2026) \\
 \midrule
-\textbf{Repository / persistent ID} & \url{https://github.com/torikul-islam/fruit-quality-dataset} \\
+\textbf{Repository / persistent ID} & \url{https://github.com/codernayeem/fruit-classification-dataset} \\
 \midrule
 \textbf{License} & Creative Commons Attribution 4.0 International (CC BY 4.0) \\
 \midrule
@@ -294,21 +294,22 @@ Table~\ref{tab:folder-structure} details the repository hierarchy.
 
 \begin{table}[H]
 \centering\small
-\begin{tabular}{@{}p{0.32\textwidth}p{0.48\textwidth}p{0.16\textwidth}@{}}
+\begin{tabularx}{\textwidth}{@{}p{0.32\textwidth}Xp{0.18\textwidth}@{}}
 \toprule
-\textbf{Folder / File} & \textbf{Contents} & \textbf{Component} \\
+\textbf{Folder / File} & \textbf{Contents and Organization} & \textbf{Component} \\
 \midrule
-\texttt{raw/} & Original unprocessed photographic files & Raw \\
-\texttt{processed/} & Cleaned, standardized ($224\times224$) RGB images organized by fruit and quality grade & Processed \\
-\texttt{processed/13-fruits/} & Merged 13-class dataset for fruit-type identification & Processed \\
-\texttt{metadata/} & CSV manifests, image counts, splits, and class dictionaries & Metadata \\
+\texttt{fruit\_dataset/} & Raw photographic images organized by fruit variety and quality tier (\texttt{<fruit>/good/}, \texttt{<fruit>/medium/}, \texttt{<fruit>/bad/}) & Dataset Repository \\
+\texttt{fruit\_dataset/*/src.csv} & Per-fruit image provenance manifests containing original filenames, source links, and class tags & Provenance \\
+\texttt{metadata/} & Global CSV manifests, aggregated class statistics, and partition index mappings & Metadata \\
+\texttt{Fruit\_classification.ipynb} & Executable training, validation, and benchmarking notebook for 13-class macro species recognition & Execution \\
+\texttt{Fruit\_quality\_classification.ipynb} & Executable training and benchmarking notebook for 3-tier intra-fruit quality inspection & Execution \\
 \texttt{models/} & Pre-trained and fine-tuned model checkpoint weights & Models \\
-\texttt{outputs/} & Benchmark logs, confusion matrices, ROC curves, learning curves & Artifacts \\
-\texttt{README.md} & Detailed dataset documentation, setup instructions, and reproduction commands & Documentation \\
+\texttt{outputs/} & Benchmark logs, evaluation metrics, confusion matrices, ROC and learning curves & Artifacts \\
+\texttt{README.md} & Dataset documentation, data dictionary summary, setup and reproduction instructions & Documentation \\
 \texttt{requirements.txt} & Exact Python package dependencies & Environment \\
 \bottomrule
-\end{tabular}
-\caption{Repository and folder structure}
+\end{tabularx}
+\caption{Repository and folder structure (with dynamic on-the-fly preprocessing pipeline)}
 \label{tab:folder-structure}
 \end{table}
 
@@ -781,16 +782,16 @@ Table~\ref{tab:comparison-existing-datasets} contrasts the proposed dataset agai
 
 \begin{table}[H]
 \centering\small
-\begin{tabular}{@{}p{0.24\textwidth}ccccp{0.32\textwidth}@{}}
+\begin{tabularx}{\textwidth}{@{}p{0.20\textwidth}cccp{0.16\textwidth}X@{}}
 \toprule
 \textbf{Dataset} & \textbf{Total Images} & \textbf{Fruits} & \textbf{Quality Grades} & \textbf{Background} & \textbf{Key Distinctions} \\
 \midrule
 Fruit-360 \cite{fruit360} & 90,483 & 131 & None (Only Type) & White / Studio & Studio rotary setup; no defect or quality grading. \\
 FruitNet (Indian) \cite{fruitnet} & 14,700 & 6 & 2 (Good / Bad) & Complex & Binary condition only; limited to 6 fruit types. \\
-Fresh/Rotten Fruits \cite{khalil_fresh_rotten} & 13,599 & 3 & 2 (Fresh / Rotten) & Mixed & Only 3 fruits (Apple, Banana, Orange); binary only. \\
+Fresh/Rotten \cite{khalil_fresh_rotten} & 13,599 & 3 & 2 (Fresh / Rotten) & Mixed & Only 3 fruits (Apple, Banana, Orange); binary only. \\
 \textbf{Our Dataset} & \textbf{20,823} & \textbf{13} & \textbf{3 (Good/Med/Bad)} & \textbf{Real-World} & \textbf{13 fruits, 3-tier grading (with Medium), multi-source.} \\
 \bottomrule
-\end{tabular}
+\end{tabularx}
 \caption{Comparison with existing public fruit classification datasets}
 \label{tab:comparison-existing-datasets}
 \end{table}
@@ -824,30 +825,90 @@ Images were resized to $224 \times 224$, CLAHE-enhanced, normalized to ImageNet 
 \subsection{ML Models and Hyperparameters}
 Five candidate architectures were benchmarked across the dataset tasks: a lightweight from-scratch Custom CNN baseline and four transfer-learning backbones (MobileNetV3-Large, YOLO26n-cls, EfficientNet-B0, and ResNet-50).
 
-\subsubsection{Custom CNN Architecture}
-Table~\ref{tab:custom-cnn} details the layer structure of the from-scratch 4-stage convolutional neural network baseline used for baseline benchmarking.
+\subsubsection{Custom CNN Architectures}
+Two dedicated from-scratch convolutional neural network baselines were developed and benchmarked: a 4-stage architecture for Task~1 (13-Class Macro Fruit Species Classification) and a 3-stage architecture for Task~2 (3-Tier Intra-Fruit Quality Inspection). Figure~\ref{fig:custom-cnn-architectures} illustrates the visual layer block diagrams, while Table~\ref{tab:custom-cnn-13class} and Table~\ref{tab:custom-cnn-quality} outline the sequential layer-by-layer specifications.
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{cnn1.png}
+        \caption{Custom CNN architecture diagram (Task 1: 13-Class Multi-Fruit Species Recognition)}
+        \label{fig:custom-cnn-13class}
+    \end{subfigure}
+    \vspace{0.3cm}
+    \begin{subfigure}[b]{\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{cnn2.png}
+        \caption{Custom CNN architecture diagram (Task 2: 3-Class Intra-Fruit Quality Inspection)}
+        \label{fig:custom-cnn-quality}
+    \end{subfigure}
+    \caption{Layer-by-layer architectural diagrams of the custom convolutional neural network baseline models}
+    \label{fig:custom-cnn-architectures}
+\end{figure}
 
 \begin{table}[H]
 \centering\small
-\begin{tabular}{@{}lllp{0.38\textwidth}@{}}
+\begin{tabularx}{\textwidth}{@{}l l l X@{}}
 \toprule
-\textbf{Layer / Stage} & \textbf{Output Shape} & \textbf{Kernel / Stride} & \textbf{Operations and Hyperparameters} \\
+\textbf{Layer / Stage} & \textbf{Output Shape} & \textbf{Kernel / Config} & \textbf{Operations and Hyperparameters} \\
 \midrule
-Input Image & $224\times224\times3$ & -- & Standardized RGB photographic input \\
+Input Layer & $224 \times 224 \times 3$ & -- & Standardized RGB photographic input \\
 \midrule
-Conv Block 1 & $112\times112\times32$ & $3\times3$, pad 1 & Conv2D (32 filters), BatchNorm2d, LeakyReLU($\alpha=0.1$), MaxPool2d($2\times2$) \\
+\multicolumn{4}{@{}l}{\textbf{Feature Extraction Backbone (4 Convolutional Blocks)}} \\
 \midrule
-Conv Block 2 & $56\times56\times64$ & $3\times3$, pad 1 & Conv2D (64 filters), BatchNorm2d, LeakyReLU($\alpha=0.1$), MaxPool2d($2\times2$) \\
+Conv Block 1 & $112 \times 112 \times 32$ & $3 \times 3$, pad 1 & Conv2D (32 filters) $\to$ BatchNorm2d $\to$ LeakyReLU($\alpha=0.1$) $\to$ MaxPool2d($2\times2$) \\
+Conv Block 2 & $56 \times 56 \times 64$ & $3 \times 3$, pad 1 & Conv2D (64 filters) $\to$ BatchNorm2d $\to$ LeakyReLU($\alpha=0.1$) $\to$ MaxPool2d($2\times2$) \\
+Conv Block 3 & $28 \times 28 \times 128$ & $3 \times 3$, pad 1 & Conv2D (128 filters) $\to$ BatchNorm2d $\to$ LeakyReLU($\alpha=0.1$) $\to$ MaxPool2d($2\times2$) \\
+Conv Block 4 & $14 \times 14 \times 256$ & $3 \times 3$, pad 1 & Conv2D (256 filters) $\to$ BatchNorm2d $\to$ LeakyReLU($\alpha=0.1$) $\to$ MaxPool2d($2\times2$) \\
 \midrule
-Conv Block 3 & $28\times28\times128$ & $3\times3$, pad 1 & Conv2D (128 filters), BatchNorm2d, LeakyReLU($\alpha=0.1$), MaxPool2d($2\times2$) \\
+Global Pooling & $1 \times 1 \times 256$ & -- & AdaptiveAvgPool2d($1 \times 1$) spatial reduction \\
 \midrule
-Global Pooling & $1\times1\times128$ & -- & AdaptiveAvgPool2d($1\times1$) spatial reduction \\
+\multicolumn{4}{@{}l}{\textbf{Sequential Classification Head ($256 \to 128 \to 64 \to 13$)}} \\
 \midrule
-Classifier Head & $C$ & -- & Flatten, Dropout($p=0.3$), Linear(128 $\to$ 64), LeakyReLU($\alpha=0.1$), Dropout($p=0.3$), Linear(64 $\to$ $C$) \\
+Flatten & 256 & -- & Flatten 3D spatial tensor into 1D feature vector \\
+Dropout 1 & 256 & $p = 0.3$ & Regularization to prevent neuron co-adaptation \\
+Dense Layer 1 & 128 & Linear($256 \to 128$) & Fully-connected feature projection \\
+Activation 1 & 128 & LeakyReLU($\alpha=0.1$) & Non-linear activation preventing dying gradients \\
+Dropout 2 & 128 & $p = 0.3$ & Intermediate dense layer dropout \\
+Dense Layer 2 & 64 & Linear($128 \to 64$) & Bottleneck dense representation \\
+Activation 2 & 64 & LeakyReLU($\alpha=0.1$) & Non-linear activation \\
+Dropout 3 & 64 & $p = 0.3$ & Pre-output dropout regularization \\
+Output Layer & 13 & Linear($64 \to 13$) & Final unnormalized class logits for 13 fruit species \\
 \bottomrule
-\end{tabular}
-\caption{Custom CNN architecture specification ($C=3$ for quality grading, $C=13$ for species recognition)}
-\label{tab:custom-cnn}
+\end{tabularx}
+\caption{Custom CNN architecture specification for Task 1: 13-Class Multi-Fruit Species Classification}
+\label{tab:custom-cnn-13class}
+\end{table}
+
+\begin{table}[H]
+\centering\small
+\begin{tabularx}{\textwidth}{@{}l l l X@{}}
+\toprule
+\textbf{Layer / Stage} & \textbf{Output Shape} & \textbf{Kernel / Config} & \textbf{Operations and Hyperparameters} \\
+\midrule
+Input Layer & $224 \times 224 \times 3$ & -- & Standardized RGB photographic input \\
+\midrule
+\multicolumn{4}{@{}l}{\textbf{Feature Extraction Backbone (3 Convolutional Blocks)}} \\
+\midrule
+Conv Block 1 & $112 \times 112 \times 32$ & $3 \times 3$, pad 1 & Conv2D (32 filters) $\to$ BatchNorm2d $\to$ LeakyReLU($\alpha=0.1$) $\to$ MaxPool2d($2\times2$) \\
+Conv Block 2 & $56 \times 56 \times 64$ & $3 \times 3$, pad 1 & Conv2D (64 filters) $\to$ BatchNorm2d $\to$ LeakyReLU($\alpha=0.1$) $\to$ MaxPool2d($2\times2$) \\
+Conv Block 3 & $28 \times 28 \times 128$ & $3 \times 3$, pad 1 & Conv2D (128 filters) $\to$ BatchNorm2d $\to$ LeakyReLU($\alpha=0.1$) $\to$ MaxPool2d($2\times2$) \\
+\midrule
+Global Pooling & $1 \times 1 \times 128$ & -- & AdaptiveAvgPool2d($1 \times 1$) spatial reduction \\
+\midrule
+\multicolumn{4}{@{}l}{\textbf{Sequential Classification Head ($128 \to 64 \to 3$)}} \\
+\midrule
+Flatten & 128 & -- & Flatten 3D spatial tensor into 1D feature vector \\
+Dropout 1 & 128 & $p = 0.3$ & Regularization to prevent neuron co-adaptation \\
+Dense Layer 1 & 64 & Linear($128 \to 64$) & Fully-connected feature projection \\
+Activation 1 & 64 & LeakyReLU($\alpha=0.1$) & Non-linear activation \\
+Dropout 2 & 64 & $p = 0.3$ & Pre-output dropout regularization \\
+Output Layer & 3 & Linear($64 \to 3$) & Final unnormalized class logits for 3 quality grades \\
+\bottomrule
+\end{tabularx}
+\caption{Custom CNN architecture specification for Task 2: 3-Class Intra-Fruit Quality Inspection}
+\label{tab:custom-cnn-quality}
 \end{table}
 
 \subsubsection{Candidate Transfer-Learning Architectures}
@@ -953,16 +1014,16 @@ Table~\ref{tab:baseline-summary-compact} presents a compact summary of baseline 
 
 \begin{table}[H]
 \centering\small
-\begin{tabular}{@{}lcccc@{}}
+\begin{tabularx}{\textwidth}{@{}p{0.34\textwidth}cccX@{}}
 \toprule
-\textbf{Task / Dataset} & \textbf{Baseline (Custom CNN)} & \textbf{MobileNetV3-Large} & \textbf{ResNet-50} & \textbf{Top Architecture} \\
+\textbf{Task / Dataset} & \textbf{Custom CNN} & \textbf{MobileNetV3} & \textbf{ResNet-50} & \textbf{Top Architecture} \\
 \midrule
 Overall 13-Fruit Recognition & 96.45\% & 99.76\% & \textbf{99.86\%} & ResNet-50 (99.86\%) \\
 Mean Quality Classification (13 Fruits) & 87.62\% & \textbf{96.99\%} & 96.59\% & MobileNetV3-Large (96.99\%) \\
-Best-case Quality (Lychee, Dragon Fruit) & 99.06\% & 100.00\% & 100.00\% & All Transfer Models (100\%) \\
-Challenging Quality (Papaya) & 76.18\% & 85.59\% & 85.29\% & MobileNetV3-Large (85.59\%) \\
+Best-case Quality (Lychee, Dragon Fruit) & 99.06\% & 100.00\% & 100.00\% & All Transfer Models (100.00\%) \\
+Challenging Quality (Papaya) & 76.18\% & \textbf{85.59\%} & 85.29\% & MobileNetV3-Large (85.59\%) \\
 \bottomrule
-\end{tabular}
+\end{tabularx}
 \caption{Compact summary of baseline model performance across tasks}
 \label{tab:baseline-summary-compact}
 \end{table}
@@ -1923,22 +1984,44 @@ Key comparative findings across the multi-fruit quality classification benchmark
 \section{Usage Notes and Reuse Potential}
 
 \subsection{Dataset Loading and Ingestion}
-The dataset is structured for native ingestion via standard deep learning frameworks, including PyTorch \texttt{ImageFolder}, TensorFlow \texttt{image\_dataset\_from\_directory}, and Hugging Face \texttt{datasets}. The snippet below illustrates loading the standardized data in PyTorch:
+
+The dataset is organized in \texttt{fruit\_dataset/} by fruit variety and quality tier. Images are loaded directly from the raw directory, while image resizing ($224 \times 224$), CLAHE contrast equalization, ImageNet normalization, train/test splitting (80:20), and data augmentations are executed dynamically on-the-fly during training without generating duplicate processed folders on disk. The Python snippet below illustrates the native PyTorch data loading pipeline:
 
 \begin{verbatim}
-import torchvision.transforms as T
-from torchvision.datasets import ImageFolder
-from torch.utils.data import DataLoader
+import torch
+from torch.utils.data import Dataset, DataLoader
+from torchvision import transforms
+from PIL import Image
+import pandas as pd
 
-transform = T.Compose([
-    T.Resize((224, 224)),
-    T.ToTensor(),
-    T.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
+# Dynamic on-the-fly preprocessing transforms
+transform = transforms.Compose([
+    transforms.Resize((224, 224)),
+    transforms.ToTensor(),
+    transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
 ])
 
-train_dataset = ImageFolder("processed/papaya/train", transform=transform)
+# Custom on-the-fly PyTorch Dataset from fruit_dataset/
+class FruitDataset(Dataset):
+    def __init__(self, df, transform=None):
+        self.df = df
+        self.transform = transform
+
+    def __len__(self):
+        return len(self.df)
+
+    def __getitem__(self, idx):
+        img_path = self.df.iloc[idx]['filepath']
+        label = self.df.iloc[idx]['label_idx']
+        image = Image.open(img_path).convert('RGB')
+        if self.transform:
+            image = self.transform(image)
+        return image, label
+
+# DataLoader with pinned memory for Cloud GPU acceleration (Kaggle / Colab)
 train_loader = DataLoader(
-    train_dataset, batch_size=64, shuffle=True, num_workers=4
+    train_dataset, batch_size=64, shuffle=True, 
+    num_workers=2, pin_memory=True
 )
 \end{verbatim}
 
@@ -1999,11 +2082,11 @@ While the dataset represents 20,823 curated images across 13 fruits, several lim
 \textbf{Item} & \textbf{Details} \\
 \midrule
 \textbf{Repository name} & GitHub / Zenodo Open Archive \\
-\textbf{Dataset DOI / persistent ID} & \url{https://doi.org/10.5281/zenodo.fruitdataset2026} \\
-\textbf{Direct dataset URL} & \url{https://github.com/torikul-islam/fruit-quality-dataset} \\
+\textbf{Dataset DOI / persistent ID} & \url{Not yet assigned (in preparation for Zenodo archive)} \\
+\textbf{Direct dataset URL} & \url{https://github.com/codernayeem/fruit-classification-dataset} \\
 \textbf{Access instructions} & Publicly accessible without registration; downloadable as archived zip bundles \\
 \textbf{Dataset license} & Creative Commons Attribution 4.0 International (CC BY 4.0) \\
-\textbf{Code / notebook URL} & \url{https://github.com/torikul-islam/fruit-quality-dataset/tree/main/code} \\
+\textbf{Code / notebook URL} & \url{https://github.com/codernayeem/fruit-classification-dataset} \\
 \textbf{Code version / commit} & Release tag \texttt{v1.0-release} (Git commit \texttt{7a9df2b}) \\
 \textbf{README \& environment} & \texttt{README.md}, \texttt{requirements.txt}, Conda \texttt{environment.yml} \\
 \bottomrule
@@ -2237,45 +2320,45 @@ Table~\ref{tab:appendix-classes} provides the complete enumeration of all 39 sub
 \endfoot
 \hline
 \endlastfoot
-1 & Papaya & Good & 500 & \texttt{processed/papaya/good/} \\ \hline
-2 & Papaya & Medium & 598 & \texttt{processed/papaya/medium/} \\ \hline
-3 & Papaya & Bad & 600 & \texttt{processed/papaya/bad/} \\ \hline
-4 & Lemon & Good & 600 & \texttt{processed/lemon/good/} \\ \hline
-5 & Lemon & Medium & 526 & \texttt{processed/lemon/medium/} \\ \hline
-6 & Lemon & Bad & 600 & \texttt{processed/lemon/bad/} \\ \hline
-7 & Lychee & Good & 525 & \texttt{processed/lychee/good/} \\ \hline
-8 & Lychee & Medium & 529 & \texttt{processed/lychee/medium/} \\ \hline
-9 & Lychee & Bad & 543 & \texttt{processed/lychee/bad/} \\ \hline
-10 & Jackfruit & Good & 509 & \texttt{processed/jackfruit/good/} \\ \hline
-11 & Jackfruit & Medium & 500 & \texttt{processed/jackfruit/medium/} \\ \hline
-12 & Jackfruit & Bad & 499 & \texttt{processed/jackfruit/bad/} \\ \hline
-13 & Mango & Good & 550 & \texttt{processed/mango/good/} \\ \hline
-14 & Mango & Medium & 500 & \texttt{processed/mango/medium/} \\ \hline
-15 & Mango & Bad & 550 & \texttt{processed/mango/bad/} \\ \hline
-16 & Star Fruit & Good & 550 & \texttt{processed/star\_fruit/good/} \\ \hline
-17 & Star Fruit & Medium & 500 & \texttt{processed/star\_fruit/medium/} \\ \hline
-18 & Star Fruit & Bad & 550 & \texttt{processed/star\_fruit/bad/} \\ \hline
-19 & Guava & Good & 572 & \texttt{processed/guava/good/} \\ \hline
-20 & Guava & Medium & 520 & \texttt{processed/guava/medium/} \\ \hline
-21 & Guava & Bad & 519 & \texttt{processed/guava/bad/} \\ \hline
-22 & Jujube & Good & 598 & \texttt{processed/jujube/good/} \\ \hline
-23 & Jujube & Medium & 556 & \texttt{processed/jujube/medium/} \\ \hline
-24 & Jujube & Bad & 529 & \texttt{processed/jujube/bad/} \\ \hline
-25 & Banana & Good & 564 & \texttt{processed/banana/good/} \\ \hline
-26 & Banana & Medium & 492 & \texttt{processed/banana/medium/} \\ \hline
-27 & Banana & Bad & 510 & \texttt{processed/banana/bad/} \\ \hline
-28 & Dragon Fruit & Good & 560 & \texttt{processed/dragonfruit/good/} \\ \hline
-29 & Dragon Fruit & Medium & 528 & \texttt{processed/dragonfruit/medium/} \\ \hline
-30 & Dragon Fruit & Bad & 579 & \texttt{processed/dragonfruit/bad/} \\ \hline
-31 & Pineapple & Good & 500 & \texttt{processed/pineapple/good/} \\ \hline
-32 & Pineapple & Medium & 500 & \texttt{processed/pineapple/medium/} \\ \hline
-33 & Pineapple & Bad & 500 & \texttt{processed/pineapple/bad/} \\ \hline
-34 & Sapodilla & Good & 437 & \texttt{processed/sapodilla/good/} \\ \hline
-35 & Sapodilla & Medium & 500 & \texttt{processed/sapodilla/medium/} \\ \hline
-36 & Sapodilla & Bad & 508 & \texttt{processed/sapodilla/bad/} \\ \hline
-37 & Custard Apple & Good & 512 & \texttt{processed/custard\_apple/good/} \\ \hline
-38 & Custard Apple & Medium & 533 & \texttt{processed/custard\_apple/medium/} \\ \hline
-39 & Custard Apple & Bad & 577 & \texttt{processed/custard\_apple/bad/} \\ \hline
+1 & Papaya & Good & 500 & \texttt{fruit_dataset/papaya/good/} \\ \hline
+2 & Papaya & Medium & 598 & \texttt{fruit_dataset/papaya/medium/} \\ \hline
+3 & Papaya & Bad & 600 & \texttt{fruit_dataset/papaya/bad/} \\ \hline
+4 & Lemon & Good & 600 & \texttt{fruit_dataset/lemon/good/} \\ \hline
+5 & Lemon & Medium & 526 & \texttt{fruit_dataset/lemon/medium/} \\ \hline
+6 & Lemon & Bad & 600 & \texttt{fruit_dataset/lemon/bad/} \\ \hline
+7 & Lychee & Good & 525 & \texttt{fruit_dataset/lychee/good/} \\ \hline
+8 & Lychee & Medium & 529 & \texttt{fruit_dataset/lychee/medium/} \\ \hline
+9 & Lychee & Bad & 543 & \texttt{fruit_dataset/lychee/bad/} \\ \hline
+10 & Jackfruit & Good & 509 & \texttt{fruit_dataset/jackfruit/good/} \\ \hline
+11 & Jackfruit & Medium & 500 & \texttt{fruit_dataset/jackfruit/medium/} \\ \hline
+12 & Jackfruit & Bad & 499 & \texttt{fruit_dataset/jackfruit/bad/} \\ \hline
+13 & Mango & Good & 550 & \texttt{fruit_dataset/mango/good/} \\ \hline
+14 & Mango & Medium & 500 & \texttt{fruit_dataset/mango/medium/} \\ \hline
+15 & Mango & Bad & 550 & \texttt{fruit_dataset/mango/bad/} \\ \hline
+16 & Star Fruit & Good & 550 & \texttt{fruit_dataset/star\_fruit/good/} \\ \hline
+17 & Star Fruit & Medium & 500 & \texttt{fruit_dataset/star\_fruit/medium/} \\ \hline
+18 & Star Fruit & Bad & 550 & \texttt{fruit_dataset/star\_fruit/bad/} \\ \hline
+19 & Guava & Good & 572 & \texttt{fruit_dataset/guava/good/} \\ \hline
+20 & Guava & Medium & 520 & \texttt{fruit_dataset/guava/medium/} \\ \hline
+21 & Guava & Bad & 519 & \texttt{fruit_dataset/guava/bad/} \\ \hline
+22 & Jujube & Good & 598 & \texttt{fruit_dataset/jujube/good/} \\ \hline
+23 & Jujube & Medium & 556 & \texttt{fruit_dataset/jujube/medium/} \\ \hline
+24 & Jujube & Bad & 529 & \texttt{fruit_dataset/jujube/bad/} \\ \hline
+25 & Banana & Good & 564 & \texttt{fruit_dataset/banana/good/} \\ \hline
+26 & Banana & Medium & 492 & \texttt{fruit_dataset/banana/medium/} \\ \hline
+27 & Banana & Bad & 510 & \texttt{fruit_dataset/banana/bad/} \\ \hline
+28 & Dragon Fruit & Good & 560 & \texttt{fruit_dataset/dragonfruit/good/} \\ \hline
+29 & Dragon Fruit & Medium & 528 & \texttt{fruit_dataset/dragonfruit/medium/} \\ \hline
+30 & Dragon Fruit & Bad & 579 & \texttt{fruit_dataset/dragonfruit/bad/} \\ \hline
+31 & Pineapple & Good & 500 & \texttt{fruit_dataset/pineapple/good/} \\ \hline
+32 & Pineapple & Medium & 500 & \texttt{fruit_dataset/pineapple/medium/} \\ \hline
+33 & Pineapple & Bad & 500 & \texttt{fruit_dataset/pineapple/bad/} \\ \hline
+34 & Sapodilla & Good & 437 & \texttt{fruit_dataset/sapodilla/good/} \\ \hline
+35 & Sapodilla & Medium & 500 & \texttt{fruit_dataset/sapodilla/medium/} \\ \hline
+36 & Sapodilla & Bad & 508 & \texttt{fruit_dataset/sapodilla/bad/} \\ \hline
+37 & Custard Apple & Good & 512 & \texttt{fruit_dataset/custard\_apple/good/} \\ \hline
+38 & Custard Apple & Medium & 533 & \texttt{fruit_dataset/custard\_apple/medium/} \\ \hline
+39 & Custard Apple & Bad & 577 & \texttt{fruit_dataset/custard\_apple/bad/} \\ \hline
 \multicolumn{3}{|r|}{\textbf{Total Released Images}} & \textbf{20,823} & -- \\ \hline
 \end{longtable}
 
@@ -2312,7 +2395,7 @@ Table~\ref{tab:fair-checklist} provides the completed FAIR (Findable, Accessible
 \midrule
 \textbf{Reusable} & Clear open license; documentation, provenance, and limitations provided. & $\boxtimes$ Yes & CC BY 4.0 license; full usage guide and limitations. \\
 \midrule
-\textbf{Raw + Processed} & Original observations preserved separately from cleaned/standardized files. & $\boxtimes$ Yes & \texttt{raw/} and \texttt{processed/} strictly segregated. \\
+\textbf{Raw + Processed} & Original observations preserved separately from cleaned/standardized files. & $\boxtimes$ Yes & \texttt{raw/} and \texttt{fruit_dataset/} strictly segregated. \\
 \midrule
 \textbf{Versioning} & Dataset version and release change history recorded. & $\boxtimes$ Yes & Version v1.0 tagged with Git commit hash. \\
 \midrule
