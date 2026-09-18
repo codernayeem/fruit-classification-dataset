@@ -4,8 +4,7 @@
 \usepackage[margin=20mm]{geometry}
 
 % --- Typography & Font Setup ---
-\usepackage{times}              % Times New Roman equivalent for body text
-\usepackage{helvet}             % Arial/Helvetica equivalent for headings
+\usepackage{times}              % Times New Roman for entire document
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage{microtype}
@@ -34,13 +33,13 @@
 \usepackage{fancyhdr}
 \usepackage[colorlinks=true, linkcolor=blue, urlcolor=blue, citecolor=blue]{hyperref}
 
-% --- Section Heading Formatting (Arial-like Sans-Serif) ---
+% --- Section Heading Formatting (Times New Roman) ---
 \titleformat{\section}
-  {\sffamily\large\bfseries}{\thesection.}{0.5em}{}
+  {\large\bfseries}{\thesection.}{0.5em}{}
 \titleformat{\subsection}
-  {\sffamily\normalsize\bfseries}{\thesubsection}{0.5em}{}
+  {\normalsize\bfseries}{\thesubsection}{0.5em}{}
 \titleformat{\subsubsection}
-  {\sffamily\normalsize\bfseries}{\thesubsubsection}{0.5em}{}
+  {\normalsize\bfseries}{\thesubsubsection}{0.5em}{}
 
 % --- Table Helpers ---
 \newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
@@ -50,8 +49,8 @@
 % --- Running Header & Footer ---
 \pagestyle{fancy}
 \fancyhf{}
-\fancyhead[L]{\footnotesize\textsf{CSE 4112: Machine Learning Laboratory \textbar\ Dataset Report}}
-\fancyhead[R]{\footnotesize\textsf{\thepage}}
+\fancyhead[L]{\footnotesize CSE 4112: Machine Learning Laboratory \textbar\ Dataset Report}
+\fancyhead[R]{\footnotesize\thepage}
 \renewcommand{\headrulewidth}{0.4pt}
 
 \begin{document}
@@ -62,21 +61,52 @@
 \thispagestyle{plain}
 \begin{center}
 {\large\textbf{Khulna University of Engineering \& Technology}}\\[2pt]
-{\large\textbf{Department of Computer Science and Engineering}}\\[2pt]
-{\large\textbf{CSE 4112: Machine Learning Laboratory}}\\[8pt]
-{\Large\textbf{DATASET REPORT}}\\[5pt]
-{\LARGE\textbf{A Multi-Fruit Quality Inspection and Classification Dataset: 13 Fruit Classes across Freshness Grades}}\\[10pt]
+{\large{Department of Computer Science and Engineering}}\\[2pt]
+{\large\textbf{CSE 4112: Machine Learning Laboratory}}\\[28pt]
+{\fontsize{20pt}{24pt}\textbf{DATASET REPORT}}\\[10pt]
+{\fontsize{16pt}{20pt}\textbf{A Multi-Fruit Quality Inspection and Classification Dataset: 13 Fruit Classes across Freshness Grades}}\\[30pt]
 \end{center}
+\vspace{0.5em}
 
-\noindent\small
-\begin{tabular}{@{}p{0.18\textwidth}@{}p{0.32\textwidth}@{}p{0.22\textwidth}@{}p{0.28\textwidth}@{}}
-\textbf{Group No.:} & Group 02 & \textbf{Dataset Version:} & v1.0 (September 2026) \\
-\textbf{Students:} & \multicolumn{3}{l}{Kazi Rifat Al Muin (2107042), Farid Ahmed Patwary (2107043), Md Torikul Islam (2107048),} \\
-& \multicolumn{3}{l}{Md Nayeem (2107050), Md Jahid Hasan Jim (2107054), Arka Braja Prasad Nath (2107055)} \\
-\textbf{Repository:} & \multicolumn{3}{l}{\url{https://github.com/codernayeem/fruit-classification-dataset}} \\
-\end{tabular}
+\noindent
+\begin{tabularx}{\textwidth}{|p{2.3cm}|X|p{3.0cm}|X|}
+\hline
 
-\vspace{0.25cm}
+\textbf{Group No.}
+&
+Group A2-03
+&
+\textbf{Dataset Version}
+&
+v1.0 (September 2026)
+\\
+\hline
+
+\textbf{Students}
+&
+\parbox[t]{\linewidth}{
+Kazi Rifat Al Muin (2107042)\\
+Farid Ahmed Patwary (2107043)\\
+Md Torikul Islam (2107048)\\
+Md Nayeem (2107050)\\
+Md Jahid Hasan Jim (2107054)\\
+Arka Braja Prasad Nath (2107055)
+}
+&
+\textbf{Repository}
+&
+\parbox[t]{\linewidth}{
+\url{https://github.com/}\\
+\url{codernayeem/}\\
+\url{fruit-classification-}\\
+\url{dataset}
+}
+\\
+\hline
+
+\end{tabularx}
+
+\vspace{1.2em}
 \noindent\textbf{(a) Framework illustrating the practical application of the data}
 \begin{figure}[H]
 \centering
@@ -85,9 +115,9 @@
     arrow/.style={-{Stealth[scale=1.0]}, thick, color=blue!70!black}
 ]
 \node[box] (b1) {\textbf{Domain Problem}\\Manual grading subjectivity \& post-harvest fruit waste};
-\node[box, right=0.55cm of b1] (b2) {\textbf{Data Acquisition}\\20,823 images of 13 fruits from fields \& open sources};
+\node[box, right=0.55cm of b1] (b2) {\textbf{Data Acquisition}\\20,823 images of 13 fruits from online repositories};
 \node[box, right=0.55cm of b2] (b3) {\textbf{Curated Dataset}\\3-tier quality annotations (Good, Medium, Bad)};
-\node[box, right=0.55cm of b3] (b4) {\textbf{ML / Analytics}\\Transfer models (ResNet, EfficientNet, MobileNet, YOLO)};
+\node[box, right=0.55cm of b3] (b4) {\textbf{ML / Analytics}\\Custom CNN \& Transfer Models (ResNet, EfficientNet, MobileNet, YOLO)};
 \node[box, right=0.55cm of b4] (b5) {\textbf{Practical Impact}\\Automated conveyor sorting, quality assurance \& pricing};
 
 \draw[arrow] (b1) -- (b2);
@@ -95,10 +125,10 @@
 \draw[arrow] (b3) -- (b4);
 \draw[arrow] (b4) -- (b5);
 \end{tikzpicture}
-\caption*{Figure 1(a). Dataset-specific practical application framework illustrating end-to-end impact from post-harvest harvest collection to automated industrial grading.}
+\caption*{Figure 1(a). Dataset-specific practical application framework illustrating end-to-end impact from post-harvest collection to automated industrial grading.}
 \end{figure}
 
-\vspace{0.1cm}
+\vspace{0.15cm}
 \noindent\textbf{(b) Technical pipeline of the ML method using the dataset}
 \begin{figure}[H]
 \centering
@@ -145,7 +175,7 @@
 \midrule
 \textbf{Dataset / report title} & A Multi-Fruit Quality Inspection and Classification Image Dataset: 13 Fruit Classes across Freshness Grades \\
 \midrule
-\textbf{Group and students} & Group 02 \\
+\textbf{Group and students} & Group A2-03 \\
  & Kazi Rifat Al Muin (Roll: 2107042) \\
  & Farid Ahmed Patwary (Roll: 2107043) \\
  & Md Torikul Islam (Roll: 2107048) \\
@@ -339,7 +369,7 @@ Table~\ref{tab:data-dictionary} outlines the schema and attribute definitions fo
 \subsection{Dataset Composition and Descriptive Overview}
 The complete curated dataset comprises \textbf{20,823 RGB images} spanning 13 economically and agriculturally significant fruit varieties, annotated across 3 quality tiers (\texttt{good}, \texttt{medium}, \texttt{bad}). 
 
-All images were curated entirely from published open scientific data repositories (Mendeley Data, Roboflow Universe, Kaggle, and ScienceDirect Data in Brief). Each student in Group 02 was allocated two primary fruit varieties to gather, filter, deduplicate, and annotate from online repositories, while the \textbf{Custard Apple} dataset as well as the \textbf{13-Fruit Macro Classification} pipeline were curated and executed jointly by all six group members.
+All images were curated entirely from published open scientific data repositories (Mendeley Data, Roboflow Universe, Kaggle, and ScienceDirect Data in Brief). Each student in Group A2-03 was allocated two primary fruit varieties to gather, filter, deduplicate, and annotate from online repositories, while the \textbf{Custard Apple} dataset as well as the \textbf{13-Fruit Macro Classification} pipeline were curated and executed jointly by all six group members.
 
 Table~\ref{tab:dataset-per-person} summarizes the distribution of images by fruit variety, assigned student curator, and quality grades. Table~\ref{tab:dataset-provenance-breakdown} provides the complete provenance breakdown documenting the exact number of contributed images per online reference source.
 
@@ -2138,7 +2168,7 @@ While the dataset represents 20,823 curated images across 13 fruits, several lim
 \textbf{Item} & \textbf{Details} \\
 \midrule
 \textbf{Repository name} & GitHub / Zenodo Open Archive \\
-\textbf{Dataset DOI / persistent ID} & \url{Not yet assigned (in preparation for Zenodo archive)} \\
+\textbf{Dataset DOI / persistent ID} & N/A \\
 \textbf{Direct dataset URL} & \url{https://github.com/codernayeem/fruit-classification-dataset} \\
 \textbf{Access instructions} & Publicly accessible without registration; downloadable as archived zip bundles \\
 \textbf{Dataset license} & Creative Commons Attribution 4.0 International (CC BY 4.0) \\
