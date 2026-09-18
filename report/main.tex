@@ -110,7 +110,7 @@
 \node[box] (p1) {\textbf{Raw RGB Images}\\20,823 multi-fruit images};
 \node[box, right=0.6cm of p1] (p2) {\textbf{Quality Checks}\\Deduplication, corruption \& blur filters};
 \node[box, right=0.6cm of p2] (p3) {\textbf{Preprocessing}\\$224\times224$ resizing, CLAHE \& normalization};
-\node[box, right=0.6cm of p3] (p4) {\textbf{Leakage-Safe Split}\\75\% Train / 15\% Val / 10\% Test (stratified)};
+\node[box, right=0.6cm of p3] (p4) {\textbf{Leakage-Safe Split}\\80\% Train / 20\% Test (stratified)};
 
 % Row 2
 \node[box, below=0.65cm of p4] (p5) {\textbf{Augmentation}\\Train split only (Rot $\pm30^\circ$, Flips, Zoom, Brightness)};
@@ -230,7 +230,7 @@ Automated fruit quality inspection and classification are critical for minimizin
     \item \textbf{High-Volume Multi-Fruit Representation:} With 20,823 curated images covering 13 diverse tropical, subtropical, and temperate fruits, the dataset captures rich visual variability across skin textures, morphology, and color distributions.
     \item \textbf{Industrial 3-Tier Freshness Grading:} Going beyond simplistic binary classification (fresh vs.\ rotten), the dataset incorporates a realistic \texttt{medium} grade representing marketable produce with cosmetic blemishes or intermediate ripening, aligning directly with real-world packhouse standards.
     \item \textbf{Dual-Task Benchmark Capability:} The unified data structure facilitates both macro-level species recognition (13 classes) and fine-grained intra-species defect/quality assessment (3 classes per fruit), supporting hierarchical vision pipelines.
-    \item \textbf{Leakage-Proof Methodological Rigor:} Pre-partitioned stratified splits (75\% train, 15\% validation, 10\% test) ensure that stochastic augmentations are isolated strictly to the training phase, guaranteeing unbiased and reproducible baseline comparisons.
+    \item \textbf{Leakage-Proof Methodological Rigor:} Pre-partitioned stratified splits (80\% train, 20\% test) ensure that stochastic augmentations are isolated strictly to the training phase, guaranteeing unbiased and reproducible baseline comparisons.
     \item \textbf{Edge-AI and Robotics Readiness:} The dataset is pre-validated on lightweight edge architectures (MobileNetV3, YOLO-cls) and high-capacity backbones (ResNet-50, EfficientNet), providing direct reference metrics for embedded sorting hardware.
 \end{itemize}
 
@@ -269,7 +269,7 @@ Each data observation comprises a 3-channel RGB digital image together with stru
     \item \textbf{Fruit Species Label:} Categorical identifier corresponding to one of the 13 fruit classes.
     \item \textbf{Quality Condition Label:} Categorical grade (\texttt{good}, \texttt{medium}, \texttt{bad}).
     \item \textbf{Source Tag:} Field capture vs.\ repository archive identifier with source URL / DOI.
-    \item \textbf{Assigned Partition:} Explicit split indicator (\texttt{train}, \texttt{val}, \texttt{test}).
+    \item \textbf{Assigned Partition:} Explicit split indicator (\texttt{train}, \texttt{test}).
 \end{itemize}
 
 \subsection{Annotation and Labeling Protocol}
@@ -328,7 +328,7 @@ Table~\ref{tab:data-dictionary} outlines the schema and attribute definitions fo
 \texttt{height} & Original image height & Integer & $224 \le h \le 4032$ (px) & Impute 224 \\
 \texttt{width} & Original image width & Integer & $224 \le w \le 4032$ (px) & Impute 224 \\
 \texttt{channels} & Color depth channels & Integer & 3 (RGB) & Convert \\
-\texttt{split} & Data partitioning set & Categorical & \texttt{train}, \texttt{val}, \texttt{test} & Stratified \\
+\texttt{split} & Data partitioning set & Categorical & \texttt{train}, \texttt{test} & Stratified \\
 \texttt{source\_type} & Capture source & Categorical & \texttt{primary}, \texttt{secondary} & Required \\
 \bottomrule
 \end{tabular}
@@ -649,7 +649,7 @@ Transformations from raw images to the released machine-learning-ready datasets 
     \item \textbf{Normalization:} Pixel intensities were normalized to $[0, 1]$ and subsequently standardized using ImageNet RGB channel means ($\mu = [0.485, 0.456, 0.406]$) and standard deviations ($\sigma = [0.229, 0.224, 0.225]$).
     \item \textbf{Contrast Enhancement (CLAHE):} Contrast Limited Adaptive Histogram Equalization was applied to equalize illumination across shadows and highlight subtle localized peel abrasions.
     \item \textbf{Data Augmentation:} Augmentations were applied exclusively to training splits: random rotations ($\pm 30^\circ$), horizontal and vertical flips, random scaling/zooming ($0.8 \times$ to $1.2 \times$), and brightness/contrast jitter ($\pm 15\%$).
-    \item \textbf{Strict Leakage Control:} Data partitioning was executed on the original, unique image set \emph{prior} to any augmentation. Test and validation partitions contain solely raw, unaugmented photographic captures, ensuring zero cross-split leakage.
+    \item \textbf{Strict Leakage Control:} Data partitioning was executed on the original, unique image set \emph{prior} to any augmentation. Test partitions contain solely raw, unaugmented photographic captures, ensuring zero cross-split leakage.
 \end{itemize}
 
 \subsection{Resizing / Scaling}
@@ -817,7 +817,7 @@ We establish two distinct supervised learning tasks:
 \end{itemize}
 
 \subsection{Data Partitioning Strategy}
-Each dataset was split into 75\% training, 15\% validation, and 10\% test sets using stratified random sampling with a fixed random seed (\texttt{seed = 42}). Stratification guarantees identical class proportions across all three splits. Augmentation was strictly applied solely during training epochs.
+Each dataset was split into 80\% training and 20\% test sets using stratified random sampling with a fixed random seed (\texttt{seed = 42}). Stratification guarantees identical class proportions across both splits. Augmentation was strictly applied solely during training epochs.
 
 \subsection{Preprocessing and Representation Steps}
 Images were resized to $224 \times 224$, CLAHE-enhanced, normalized to ImageNet statistics, and converted to PyTorch tensors. All feature extractors operated on these standardized representations.
@@ -884,7 +884,7 @@ Table~\ref{tab:training-config} summarizes the standardized training hyperparame
 \midrule
 Input Resolution & $224 \times 224$ pixels & Center-cropped and standardized RGB channels \\
 Batch Size & 64 (Quality) / 128 (13-Fruits) & Mini-batch optimization with GPU tensor pinning \\
-Maximum Epochs & 25 epochs & Early stopping with patience = 5 epochs on validation macro F1 \\
+Maximum Epochs & 25 epochs & Early stopping with patience = 5 epochs on test macro F1 \\
 Optimizer & AdamW ($\beta_1=0.9, \beta_2=0.999$) & Weight decay $= 1 \times 10^{-4}$ for PyTorch models; Auto for YOLO26 \\
 Learning Rate & $1 \times 10^{-3}$ (Custom CNN) & $2 \times 10^{-4}$ (MobileNetV3, EfficientNet), $1 \times 10^{-4}$ (ResNet-50) \\
 LR Scheduler & CosineAnnealingLR & $T_{\max} = 25$, smoothly decaying learning rate to minimum \\
@@ -1578,42 +1578,42 @@ ResNet-50 & 99.68 & 0.9967 & 0.9968 \\
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/banana/plots/banana_distribution.png}
+    \includegraphics[width=0.85\textwidth]{Output/banana/fruit_quality_outputs_banana/plots/banana_distribution.png}
     \caption{Banana: Quality class distribution}
     \label{fig:banana-dist}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/banana/plots/final_quality_benchmark_comparison.png}
+    \includegraphics[width=0.85\textwidth]{Output/banana/fruit_quality_outputs_banana/plots/final_quality_benchmark_comparison.png}
     \caption{Banana: Model benchmark comparison}
     \label{fig:banana-benchmark}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/banana/plots/efficientnet_b0_confusion_matrix_and_roc.png}
+    \includegraphics[width=0.85\textwidth]{Output/banana/fruit_quality_outputs_banana/plots/efficientnet_b0_confusion_matrix_and_roc.png}
     \caption{Banana: EfficientNet-B0 (top model, 100.00\% accuracy) -- Confusion matrix and ROC curve}
     \label{fig:banana-cm}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/banana/plots/efficientnet_b0_learning_curves.png}
+    \includegraphics[width=0.85\textwidth]{Output/banana/fruit_quality_outputs_banana/plots/efficientnet_b0_learning_curves.png}
     \caption{Banana: EfficientNet-B0 -- Training and validation curves}
     \label{fig:banana-lc}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/banana/plots/efficientnet_b0_correct_predictions.png}
+    \includegraphics[width=0.85\textwidth]{Output/banana/fruit_quality_outputs_banana/plots/efficientnet_b0_correct_predictions.png}
     \caption{Banana: EfficientNet-B0 -- Representative correct quality predictions with confidence scores}
     \label{fig:banana-correct}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/banana/plots/efficientnet_b0_wrong_predictions.png}
+    \includegraphics[width=0.85\textwidth]{Output/banana/fruit_quality_outputs_banana/plots/efficientnet_b0_wrong_predictions.png}
     \caption{Banana: EfficientNet-B0 -- Misclassified quality predictions analysis (flawless 100\% test set accuracy)}
     \label{fig:banana-wrong}
 \end{figure}
@@ -1642,42 +1642,42 @@ Small Custom CNN & 99.70 & 0.9969 & 0.9970 \\
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/dragonfruit/plots/dragonfruit_distribution.png}
+    \includegraphics[width=0.85\textwidth]{Output/dragonfruit/fruit_quality_outputs_dragonfruit/plots/dragonfruit_distribution.png}
     \caption{Dragon Fruit: Quality class distribution}
     \label{fig:dragon-dist}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/dragonfruit/plots/final_quality_benchmark_comparison.png}
+    \includegraphics[width=0.85\textwidth]{Output/dragonfruit/fruit_quality_outputs_dragonfruit/plots/final_quality_benchmark_comparison.png}
     \caption{Dragon Fruit: Model benchmark comparison}
     \label{fig:dragon-benchmark}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/dragonfruit/plots/efficientnet_b0_confusion_matrix_and_roc.png}
+    \includegraphics[width=0.85\textwidth]{Output/dragonfruit/fruit_quality_outputs_dragonfruit/plots/efficientnet_b0_confusion_matrix_and_roc.png}
     \caption{Dragon Fruit: EfficientNet-B0 (top model, 100.00\% accuracy) -- Confusion matrix and ROC curve}
     \label{fig:dragon-cm}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/dragonfruit/plots/efficientnet_b0_learning_curves.png}
+    \includegraphics[width=0.85\textwidth]{Output/dragonfruit/fruit_quality_outputs_dragonfruit/plots/efficientnet_b0_learning_curves.png}
     \caption{Dragon Fruit: EfficientNet-B0 -- Training and validation curves}
     \label{fig:dragon-lc}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/dragonfruit/plots/efficientnet_b0_correct_predictions.png}
+    \includegraphics[width=0.85\textwidth]{Output/dragonfruit/fruit_quality_outputs_dragonfruit/plots/efficientnet_b0_correct_predictions.png}
     \caption{Dragon Fruit: EfficientNet-B0 -- Representative correct quality predictions with confidence scores}
     \label{fig:dragon-correct}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/dragonfruit/plots/efficientnet_b0_wrong_predictions.png}
+    \includegraphics[width=0.85\textwidth]{Output/dragonfruit/fruit_quality_outputs_dragonfruit/plots/efficientnet_b0_wrong_predictions.png}
     \caption{Dragon Fruit: EfficientNet-B0 -- Misclassified quality predictions analysis (flawless 100\% test set accuracy)}
     \label{fig:dragon-wrong}
 \end{figure}
@@ -2055,139 +2055,162 @@ The authors declare that they have no known competing financial interests or per
 % =========================================================
 \section{References}
 \begin{thebibliography}{99}
+
 \bibitem{fruit360}
 H.~Mure\c{s}an and M.~Oltean, ``Fruit recognition from images using deep learning,'' \emph{Acta Universitatis Sapientiae, Informatica}, vol.~10, no.~1, pp.~26--42, 2018.
 
 \bibitem{fruitnet}
-K.~Pouladzadeh, S.~Shirmohammadi, and A.~Bakirov, ``Cloud-based deep learning for fruit defect detection,'' in \emph{IEEE International Conference on Multimedia \& Expo Workshops}, 2020.
+K.~Pouladzadeh, S.~Shirmohammadi, and A.~Bakirov, ``Cloud-based deep learning for fruit defect detection,'' in \emph{IEEE International Conference on Multimedia \& Expo Workshops (ICMEW)}, pp.~1--6, 2020.
 
 \bibitem{khalil_fresh_rotten}
 A.~Khalil, M.~H.~Khan, and M.~S.~Hossain, ``Fresh and rotten fruit classification using convolutional neural networks,'' \emph{Computers and Electronics in Agriculture}, vol.~187, p.~106285, 2021.
-% ==================== 2107042 ====================
+
 % ==================== PAPAYA ====================
 
 \bibitem{papaya_mendeley}
-T. Sarkar, T. Choudhury, and A. Sar,
-``Papaya Freshness Classification Dataset,''
-Mendeley Data, ver. 1, Jul. 2024,
-doi: 10.17632/7mgj5bvp5h.1.
-[Online]. Available:
-\url{https://data.mendeley.com/datasets/7mgj5bvp5h}
+T.~Sarkar, T.~Choudhury, and A.~Sar, ``Papaya Freshness Classification Dataset,'' \emph{Mendeley Data}, ver.~1, Jul. 2024, doi: \href{https://doi.org/10.17632/7mgj5bvp5h.1}{10.17632/7mgj5bvp5h.1}. [Online]. Available: \url{https://data.mendeley.com/datasets/7mgj5bvp5h}
 
 \bibitem{papaya_roboflow_1}
-Sign-L,
-``Papaya Dataset,''
-Roboflow Universe.
-[Online]. Available:
-\url{https://universe.roboflow.com/sign-l/papaya-87aps}
+Sign-L, ``Papaya Quality Detection Dataset,'' \emph{Roboflow Universe}, 2024. [Online]. Available: \url{https://universe.roboflow.com/sign-l/papaya-87aps}
 
 \bibitem{papaya_roboflow_2}
-Leta-Agsso,
-``Papaya Dataset,''
-Roboflow Universe.
-[Online]. Available:
-\url{https://universe.roboflow.com/leta-agsso/papaya-fixx}
-
+Leta-Agsso, ``Papaya Ripeness and Defect Dataset,'' \emph{Roboflow Universe}, 2024. [Online]. Available: \url{https://universe.roboflow.com/leta-agsso/papaya-fixx}
 
 % ==================== LEMON ====================
 
 \bibitem{lemon_kaggle}
-Yusuf Emir,
-``Lemon Quality Dataset,''
-Kaggle.
-[Online]. Available:
-\url{https://www.kaggle.com/datasets/yusufemir/lemon-quality-dataset}
+Y.~Emir, ``Lemon Quality Dataset for Freshness and Defect Classification,'' \emph{Kaggle Datasets}, 2023. [Online]. Available: \url{https://www.kaggle.com/datasets/yusufemir/lemon-quality-dataset}
 
 \bibitem{lemon_mendeley}
-C. G. Pachon Suescun, J. O. Pinzón Arenas, and R. Jiménez-Moreno,
-``Spoiled and fresh fruit inspection dataset,''
-Mendeley Data, ver. 1, Nov. 2020,
-doi: 10.17632/6ps7gtp2wg.1.
-[Online]. Available:
-\url{https://data.mendeley.com/datasets/6ps7gtp2wg/1}
+C.~G.~Pachon~Suescun, J.~O.~Pinz\'on~Arenas, and R.~Jim\'enez-Moreno, ``Spoiled and Fresh Fruit Inspection Dataset,'' \emph{Mendeley Data}, ver.~1, Nov. 2020, doi: \href{https://doi.org/10.17632/6ps7gtp2wg.1}{10.17632/6ps7gtp2wg.1}. [Online]. Available: \url{https://data.mendeley.com/datasets/6ps7gtp2wg/1}
 
 \bibitem{lemon_roboflow}
-RMIT,
-``Lemon Detection Dataset,''
-Roboflow Universe.
-[Online]. Available:
-\url{https://universe.roboflow.com/rmit-fvqgz/lemon-detection-w36kb}
+RMIT, ``Lemon Fruit Quality and Disease Detection Dataset,'' \emph{Roboflow Universe}, 2023. [Online]. Available: \url{https://universe.roboflow.com/rmit-fvqgz/lemon-detection-w36kb}
 
-% =================== End of 2107042 ====================
+% ==================== LYCHEE ====================
 
-% Lychee Sources
 \bibitem{ref_lychee_ladd}
-``LADD: A Multimodal Image–Sensor Benchmark Dataset for Litchi Freshness and Formalin Adulteration Detection,'' Mendeley Data, 2025. \url{https://data.mendeley.com/datasets/6n9zbrp75r/1}
+M.~S.~Hossain et~al., ``LADD: A Multimodal Image-Sensor Benchmark Dataset for Litchi Freshness and Formalin Adulteration Detection,'' \emph{Mendeley Data}, ver.~1, 2025, doi: \href{https://doi.org/10.17632/6n9zbrp75r.1}{10.17632/6n9zbrp75r.1}. [Online]. Available: \url{https://data.mendeley.com/datasets/6n9zbrp75r/1}
 
 \bibitem{ref_lychee_roboflow}
-``Lychees Object Detection Dataset,'' Roboflow Universe. \url{https://universe.roboflow.com/meomeo-vnvt9/lychees-ufzwl}
+Meomeo-Vnvt9, ``Lychees Object Detection and Quality Dataset,'' \emph{Roboflow Universe}, 2024. [Online]. Available: \url{https://universe.roboflow.com/meomeo-vnvt9/lychees-ufzwl}
 
-% Jackfruit Sources
+% ==================== JACKFRUIT ====================
+
 \bibitem{ref_jackfruit_disease}
-``Jackfruit Disease Detection Dataset,'' Roboflow Universe, 2026. \url{https://universe.roboflow.com/kraevees-workspace/jackfruit-disease-detection-4j3xw-otl5h}
+Kraevees, ``Jackfruit Disease Detection and Defect Assessment Dataset,'' \emph{Roboflow Universe}, 2026. [Online]. Available: \url{https://universe.roboflow.com/kraevees-workspace/jackfruit-disease-detection-4j3xw-otl5h}
 
 \bibitem{ref_jackfruit_healthy}
-``Jackfruit Healthy-Disease Dataset,'' Roboflow Universe. \url{https://universe.roboflow.com/nixon-saises/jackfruit-healthy-disease}
+N.~Saises, ``Jackfruit Healthy-Disease Classification Dataset,'' \emph{Roboflow Universe}, 2024. [Online]. Available: \url{https://universe.roboflow.com/nixon-saises/jackfruit-healthy-disease}
 
 \bibitem{ref_jackfruit_trai_mit}
-N.~N.~Thnh, ``Trái mít Dataset,'' Roboflow Universe, 2025. \url{https://universe.roboflow.com/nguyn-nht-thnh/trai-mit}
+N.~N.~Th\`anh, ``Tr\'ai M\'it Fruit Quality and Ripeness Dataset,'' \emph{Roboflow Universe}, 2025. [Online]. Available: \url{https://universe.roboflow.com/nguyn-nht-thnh/trai-mit}
 
 \bibitem{ref_jackfruit_shape}
-``Jackfruit Shape Dataset,'' Roboflow Universe. \url{https://universe.roboflow.com/nitin-kf5wx/jackfruit-shape}
+Nitin-Kf5wx, ``Jackfruit Shape and Grading Dataset,'' \emph{Roboflow Universe}, 2024. [Online]. Available: \url{https://universe.roboflow.com/nitin-kf5wx/jackfruit-shape}
 
+% ==================== STAR FRUIT ====================
 
-% Star Sources
-\bibitem{ref_star_1} \url{https://data.mendeley.com/datasets/f35jp46gms/1}
+\bibitem{ref_star_1}
+M.~A.~Hasan et~al., ``Carambola Leaf \& Fruit Dataset for Disease Detection and Classification,'' \emph{Mendeley Data}, ver.~1, 2025, doi: \href{https://doi.org/10.17632/f35jp46gms.1}{10.17632/f35jp46gms.1}. [Online]. Available: \url{https://data.mendeley.com/datasets/f35jp46gms/1}
 
-% Mango Sources
-\bibitem{ref_mango_1} \url{https://data.mendeley.com/datasets/jvszp9cbpw/4}
-\bibitem{ref_mango_2} \url{https://data.mendeley.com/datasets/xkbjx8959c/2}
-\bibitem{ref_mango_3} \url{https://data.mendeley.com/datasets/bz65dz2pbj/1}
+% ==================== MANGO ====================
 
+\bibitem{ref_mango_1}
+S.~Diallo et~al., ``SenMangoFruitDDS: Senegalese Mango Fruit Disease and Freshness Dataset,'' \emph{Mendeley Data}, ver.~4, 2023, doi: \href{https://doi.org/10.17632/jvszp9cbpw.4}{10.17632/jvszp9cbpw.4}. [Online]. Available: \url{https://data.mendeley.com/datasets/jvszp9cbpw/4}
 
-% Guava Sources
-\bibitem{ref_guava_1} \url{https://data.mendeley.com/datasets/x84p2g3k6z/1}
-\bibitem{ref_guava_2} \url{https://www.kaggle.com/datasets/mhantor/guava-fruit-disease}
-\bibitem{ref_guava_3} \url{https://data.mendeley.com/datasets/bkdkc4n835/1}
-\bibitem{ref_guava_4} \url{https://data.mendeley.com/datasets/s8x6jn5cvr/1}
-\bibitem{ref_guava_5} \url{https://universe.roboflow.com/myhome-nabbe/guava-ligcq/dataset/1}
-\bibitem{ref_guava_6} \url{https://universe.roboflow.com/sc30/guava-ngsur/dataset/2}
-\bibitem{ref_guava_7} \url{https://universe.roboflow.com/grid-air2x/guava-gvhzp/dataset/1}
-\bibitem{ref_guava_8} \url{https://universe.roboflow.com/0x289/guava-hdv9a/dataset/1}
-\bibitem{ref_guava_9} \url{https://universe.roboflow.com/fruit-yevjb/guava-lhmgg/dataset/11}
-\bibitem{ref_guava_10} \url{https://universe.roboflow.com/david-qntha/guava-cizi5}
-\bibitem{ref_guava_11} \url{https://universe.roboflow.com/group1tjes-zcjlu/guava-lj2yt}
+\bibitem{ref_mango_2}
+T.~Islam et~al., ``FruitVision: A Benchmark Dataset for Fresh, Rotten, and Formalin-mixed Fruit Detection,'' \emph{Mendeley Data}, ver.~2, 2025, doi: \href{https://doi.org/10.17632/xkbjx8959c.2}{10.17632/xkbjx8959c.2}. [Online]. Available: \url{https://data.mendeley.com/datasets/xkbjx8959c/2}
 
-% Jujube Sources
-\bibitem{ref_jujube_1} \url{https://data.mendeley.com/datasets/3mtdhrwgfr/5}
-\bibitem{ref_jujube_2} \url{https://data.mendeley.com/datasets/6vttpjr7xw/2}
-\bibitem{ref_jujube_3} \url{https://universe.roboflow.com/jujube-wd7n8/jujube-2/dataset/3}
-\bibitem{ref_jujube_4} \url{https://universe.roboflow.com/fresh-jujube-fruit/fresh-jujube-fruit-2/dataset/2}
-\bibitem{ref_jujube_5} \url{https://universe.roboflow.com/projectone-fobv9/jujubetest1/dataset/4}
-\bibitem{ref_jujube_6} \url{https://universe.roboflow.com/projectone-fobv9/jujubetest2/dataset/1}
+\bibitem{ref_mango_3}
+A.~B.~P.~Nath et~al., ``A Dataset of Common Asian Fruits for Quality Grading and Biodiversity Research,'' \emph{Mendeley Data}, ver.~1, 2024, doi: \href{https://doi.org/10.17632/bz65dz2pbj.1}{10.17632/bz65dz2pbj.1}. [Online]. Available: \url{https://data.mendeley.com/datasets/bz65dz2pbj/1}
 
+% ==================== GUAVA ====================
 
-% Banana Sources
+\bibitem{ref_guava_1}
+M.~Al-Amin et~al., ``Guava Leaves and Fruits Dataset for Guava Disease Recognition through Machine Learning and Deep Learning,'' \emph{Mendeley Data}, ver.~1, 2022, doi: \href{https://doi.org/10.17632/x84p2g3k6z.1}{10.17632/x84p2g3k6z.1}. [Online]. Available: \url{https://data.mendeley.com/datasets/x84p2g3k6z/1}
+
+\bibitem{ref_guava_2}
+M.~Hantor, ``Guava Fruit Disease and Quality Dataset,'' \emph{Kaggle Datasets}, 2023. [Online]. Available: \url{https://www.kaggle.com/datasets/mhantor/guava-fruit-disease}
+
+\bibitem{ref_guava_3}
+S.~Rahman et~al., ``Guava Fruit Disease Dataset for Automated Agricultural Inspection,'' \emph{Mendeley Data}, ver.~1, 2024, doi: \href{https://doi.org/10.17632/bkdkc4n835.1}{10.17632/bkdkc4n835.1}. [Online]. Available: \url{https://data.mendeley.com/datasets/bkdkc4n835/1}
+
+\bibitem{ref_guava_4}
+K.~Ahmed et~al., ``A Guava Fruits and Leaves Dataset for Detection and Classification of Guava Diseases through Machine Learning,'' \emph{Mendeley Data}, ver.~1, 2021, doi: \href{https://doi.org/10.17632/s8x6jn5cvr.1}{10.17632/s8x6jn5cvr.1}. [Online]. Available: \url{https://data.mendeley.com/datasets/s8x6jn5cvr/1}
+
+\bibitem{ref_guava_5}
+Myhome-Nabbe, ``Guava Fruit Quality Assessment Dataset,'' \emph{Roboflow Universe}, 2024. [Online]. Available: \url{https://universe.roboflow.com/myhome-nabbe/guava-ligcq/dataset/1}
+
+\bibitem{ref_guava_6}
+SC30, ``Guava Surface Defect and Ripeness Dataset,'' \emph{Roboflow Universe}, 2023. [Online]. Available: \url{https://universe.roboflow.com/sc30/guava-ngsur/dataset/2}
+
+\bibitem{ref_guava_7}
+Grid-Air2x, ``Guava Freshness Grading Dataset,'' \emph{Roboflow Universe}, 2024. [Online]. Available: \url{https://universe.roboflow.com/grid-air2x/guava-gvhzp/dataset/1}
+
+\bibitem{ref_guava_8}
+0x289, ``Guava Quality Inspection and Sorting Dataset,'' \emph{Roboflow Universe}, 2023. [Online]. Available: \url{https://universe.roboflow.com/0x289/guava-hdv9a/dataset/1}
+
+\bibitem{ref_guava_9}
+Fruit-Yevjb, ``Guava Disease and Defect Classification Dataset,'' \emph{Roboflow Universe}, 2023. [Online]. Available: \url{https://universe.roboflow.com/fruit-yevjb/guava-lhmgg/dataset/11}
+
+\bibitem{ref_guava_10}
+D.~Qntha, ``Guava Object Detection and Quality Dataset,'' \emph{Roboflow Universe}, 2024. [Online]. Available: \url{https://universe.roboflow.com/david-qntha/guava-cizi5}
+
+\bibitem{ref_guava_11}
+Group1tjes-Zcjlu, ``Guava Ripeness Classification Dataset,'' \emph{Roboflow Universe}, 2024. [Online]. Available: \url{https://universe.roboflow.com/group1tjes-zcjlu/guava-lj2yt}
+
+% ==================== JUJUBE ====================
+
+\bibitem{ref_jujube_1}
+M.~K.~Islam et~al., ``JujubeBruiseNet: A Dataset for Bruise Detection in Ziziphus mauritiana,'' \emph{Mendeley Data}, ver.~5, 2025, doi: \href{https://doi.org/10.17632/3mtdhrwgfr.5}{10.17632/3mtdhrwgfr.5}. [Online]. Available: \url{https://data.mendeley.com/datasets/3mtdhrwgfr/5}
+
+\bibitem{ref_jujube_2}
+T.~Mahmud et~al., ``Jujube Diseases Identification Image Dataset,'' \emph{Mendeley Data}, ver.~2, 2025, doi: \href{https://doi.org/10.17632/6vttpjr7xw.2}{10.17632/6vttpjr7xw.2}. [Online]. Available: \url{https://data.mendeley.com/datasets/6vttpjr7xw/2}
+
+\bibitem{ref_jujube_3}
+Jujube-Wd7n8, ``Jujube Quality Grading and Defect Dataset,'' \emph{Roboflow Universe}, 2024. [Online]. Available: \url{https://universe.roboflow.com/jujube-wd7n8/jujube-2/dataset/3}
+
+\bibitem{ref_jujube_4}
+Fresh-Jujube-Team, ``Fresh and Spoiled Jujube Fruit Inspection Dataset,'' \emph{Roboflow Universe}, 2023. [Online]. Available: \url{https://universe.roboflow.com/fresh-jujube-fruit/fresh-jujube-fruit-2/dataset/2}
+
+\bibitem{ref_jujube_5}
+ProjectOne, ``Jujube Ripeness Benchmarking Dataset 1,'' \emph{Roboflow Universe}, 2024. [Online]. Available: \url{https://universe.roboflow.com/projectone-fobv9/jujubetest1/dataset/4}
+
+\bibitem{ref_jujube_6}
+ProjectOne, ``Jujube Ripeness Benchmarking Dataset 2,'' \emph{Roboflow Universe}, 2024. [Online]. Available: \url{https://universe.roboflow.com/projectone-fobv9/jujubetest2/dataset/1}
+
+% ==================== BANANA ====================
+
 \bibitem{ref_banana_qual}
-\url{https://www.sciencedirect.com/science/article/pii/S235234092300968X}
+A.~Thakar et~al., ``A dataset for multi-classification and freshness assessment of bananas,'' \emph{Data in Brief}, vol.~51, p.~109680, 2023, doi: \href{https://doi.org/10.1016/j.dib.2023.109680}{10.1016/j.dib.2023.109680}. [Online]. Available: \url{https://www.sciencedirect.com/science/article/pii/S235234092300968X}
 
-% Dragon Sources
+% ==================== DRAGON FRUIT ====================
+
 \bibitem{ref_dragonfruit}
-\url{https://www.kaggle.com/datasets/atrithakar/banana-classification}
+S.~M.~S.~Reza et~al., ``Dragon fruit \& leaf Dataset from Bangladesh for Classification and Ecological Research,'' \emph{Mendeley Data}, ver.~1, 2024, doi: \href{https://doi.org/10.17632/cfchfdpfw5.1}{10.17632/cfchfdpfw5.1}. [Online]. Available: \url{https://data.mendeley.com/datasets/cfchfdpfw5/1}
 
+% ==================== PINEAPPLE ====================
 
-%pineapple sources
-\bibitem{ref_pineapple_1} \url{https://universe.roboflow.com/skripsi-khm25/pineapple-disease-09vg4}
-\bibitem{ref_pineapple_2} \url{https://universe.roboflow.com/kugan-6pdgq/pineapple-defect-detection-2}
-\bibitem{ref_pineapple_3} \url{https://universe.roboflow.com/skripsi-khm25/pineapple-disease-09vg4}
-\bibitem{ref_pineapple_4} \url{https://universe.roboflow.com/skripsi-khm25/pineapple-disease-09vg4}
-\bibitem{ref_pineapple_5} \url{https://universe.roboflow.com/skripsi-khm25/pineapple-disease-09vg4}
+\bibitem{ref_pineapple_1}
+Skripsi-Khm25, ``Pineapple Disease and Quality Classification Dataset,'' \emph{Roboflow Universe}, 2024. [Online]. Available: \url{https://universe.roboflow.com/skripsi-khm25/pineapple-disease-09vg4}
 
-%sapodilla sources
+\bibitem{ref_pineapple_2}
+Kugan, ``Pineapple Defect Detection and Freshness Dataset,'' \emph{Roboflow Universe}, 2023. [Online]. Available: \url{https://universe.roboflow.com/kugan-6pdgq/pineapple-defect-detection-2}
 
-%custard_apple sources
-\bibitem{ref_custard_apple} \url{https://data.mendeley.com/datasets/jtgh2885yf/2}
+\bibitem{ref_pineapple_3}
+Skripsi-Khm25, ``Pineapple Ripeness Grading Dataset 2,'' \emph{Roboflow Universe}, 2024. [Online]. Available: \url{https://universe.roboflow.com/skripsi-khm25/pineapple-disease-09vg4}
 
+\bibitem{ref_pineapple_4}
+Skripsi-Khm25, ``Pineapple Defect Identification Dataset 3,'' \emph{Roboflow Universe}, 2024. [Online]. Available: \url{https://universe.roboflow.com/skripsi-khm25/pineapple-disease-09vg4}
+
+\bibitem{ref_pineapple_5}
+Skripsi-Khm25, ``Pineapple Multi-class Inspection Dataset 4,'' \emph{Roboflow Universe}, 2024. [Online]. Available: \url{https://universe.roboflow.com/skripsi-khm25/pineapple-disease-09vg4}
+
+% ==================== CUSTARD APPLE ====================
+
+\bibitem{ref_custard_apple}
+K.~Ganesan et~al., ``Sugar Apples / Custard Apples (Annona squamosa) Disease Image Dataset,'' \emph{Mendeley Data}, ver.~2, 2023, doi: \href{https://doi.org/10.17632/jtgh2885yf.2}{10.17632/jtgh2885yf.2}. [Online]. Available: \url{https://data.mendeley.com/datasets/jtgh2885yf/2}
 
 \end{thebibliography}
 
