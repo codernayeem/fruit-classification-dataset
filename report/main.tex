@@ -33,6 +33,8 @@
 \usepackage{fancyhdr}
 \usepackage[colorlinks=true, linkcolor=blue, urlcolor=blue, citecolor=blue]{hyperref}
 
+\usepackage{xcolor}
+
 % --- Section Heading Formatting (Times New Roman) ---
 \titleformat{\section}
   {\large\bfseries}{\thesection.}{0.5em}{}
@@ -49,8 +51,8 @@
 % --- Running Header & Footer ---
 \pagestyle{fancy}
 \fancyhf{}
-\fancyhead[L]{\footnotesize CSE 4112: Machine Learning Laboratory \textbar\ Dataset Report}
-\fancyhead[R]{\footnotesize\thepage}
+\fancyhead[R]{\footnotesize\textcolor{gray}{CSE 4112: Machine Learning Laboratory \textbar\ Dataset Report}}
+\fancyfoot[C]{\footnotesize\thepage}
 \renewcommand{\headrulewidth}{0.4pt}
 
 \begin{document}
@@ -64,7 +66,7 @@
 {\large{Department of Computer Science and Engineering}}\\[2pt]
 {\large\textbf{CSE 4112: Machine Learning Laboratory}}\\[28pt]
 {\fontsize{20pt}{24pt}\textbf{DATASET REPORT}}\\[10pt]
-{\fontsize{16pt}{20pt}\textbf{A Multi-Fruit Quality Inspection and Classification Dataset: 13 Fruit Classes across Freshness Grades}}\\[30pt]
+{\fontsize{16pt}{20pt}\textbf{A Multi-Fruit Classification and Quality Inspection Dataset}}\\[30pt]
 \end{center}
 \vspace{0.5em}
 
@@ -173,7 +175,7 @@ Arka Braja Prasad Nath (2107055)
 \toprule
 \textbf{Field} & \textbf{Details} \\
 \midrule
-\textbf{Dataset / report title} & A Multi-Fruit Quality Inspection and Classification Image Dataset: 13 Fruit Classes across Freshness Grades \\
+\textbf{Dataset / report title} & A Multi-Fruit Classification and Quality Inspection Dataset \\
 \midrule
 \textbf{Group and students} & Group A2-03 \\
  & Kazi Rifat Al Muin (Roll: 2107042) \\
@@ -187,7 +189,7 @@ Arka Braja Prasad Nath (2107055)
 \midrule
 \textbf{Corresponding student} & Md Torikul Islam (Roll: 2107048, Email: \texttt{torikul2107048@stud.kuet.ac.bd}) \\
 \midrule
-\textbf{Keywords} & Fruit Quality Inspection, Computer Vision, Deep Learning, Image Classification, Transfer Learning, Agricultural Automation, Multi-Class Dataset \\
+\textbf{Keywords} & Machine Learning, Fruit Quality Inspection, Computer Vision, Deep Learning, Image Classification, Transfer Learning, Agricultural Automation, Multi-Class Dataset \\
 \midrule
 \textbf{Dataset version} & v1.0 (Release Date: September 2026) \\
 \midrule
@@ -206,7 +208,7 @@ Arka Braja Prasad Nath (2107055)
 % 2. ABSTRACT
 % =========================================================
 \section{Abstract}
-Automated fruit quality inspection and classification are critical for minimizing post-harvest food waste, reducing human grading subjectivity, and enhancing packing line throughput in precision agriculture. This article presents a large-scale, standardized multi-fruit image dataset comprising \textbf{20,823 high-resolution RGB photographs} across \textbf{13 economically vital fruit types}: Papaya, Lemon, Lychee, Jackfruit, Mango, Star Fruit, Guava, Jujube, Banana, Dragon Fruit, Pineapple, Sapodilla, and Custard Apple. Each fruit variety is annotated into three distinct physical condition grades—\textbf{Good} (fresh, prime ripeness, unblemished), \textbf{Medium} (partially ripe, superficial skin blemishes, early-stage decay), and \textbf{Bad} (rotten, fungal decay, severe mechanical damage)—yielding a total of 39 granular sub-classes. Data were acquired through primary photographic collection in local retail markets and orchards across southwestern Bangladesh, complemented by curated secondary agricultural archives. Strict data hygiene protocols eliminated corrupted files, duplicates, and severe optical distortions. All samples were standardized to $224 \times 224$ pixels, normalized, and contrast-enhanced via Contrast Limited Adaptive Histogram Equalization (CLAHE). To prevent data leakage, a strict stratified 75\%/15\%/10\% train/validation/test partitioning protocol was enforced prior to applying data augmentations solely to the training sets. We demonstrate dataset utility across two machine learning tasks: (1)~a unified 13-class fruit-type recognition baseline achieving up to 99.93\% accuracy (ResNet-50, YOLO26n-cls), and (2)~thirteen independent 3-class quality classification benchmarks comparing a custom baseline CNN against five transfer-learning architectures (MobileNetV3-Large, YOLOv8n-cls, YOLO26n-cls, EfficientNet-B0, ResNet-50), where pre-trained models achieve average accuracies of 96.00\%--96.61\% across all fruits. The dataset, scripts, and model baselines provide an extensible open-access resource for smart agricultural robotics, automated conveyor sorting, and food supply chain monitoring.
+Automated fruit quality inspection and classification are critical for minimizing post-harvest food waste, reducing human grading subjectivity, and enhancing packing line throughput in precision agriculture. This article presents a large-scale, standardized multi-fruit image dataset comprising \textbf{20,823 high-resolution RGB photographs} across \textbf{13 economically vital fruit types}: Papaya, Lemon, Lychee, Jackfruit, Mango, Star Fruit, Guava, Jujube, Banana, Dragon Fruit, Pineapple, Sapodilla, and Custard Apple. Each fruit variety is annotated into three distinct physical condition grades---\textbf{Good} (fresh, prime ripeness, unblemished), \textbf{Medium} (partially ripe, superficial skin blemishes, early-stage decay), and \textbf{Bad} (rotten, fungal decay, severe mechanical damage)---yielding a total of 39 granular sub-classes. Data were curated from open-access scientific repositories (Mendeley Data, Roboflow Universe, Kaggle, and ScienceDirect Data in Brief). Strict data hygiene protocols eliminated corrupted files, duplicates, and severe optical distortions. All samples were standardized to $224 \times 224$ pixels, normalized, and contrast-enhanced via Contrast Limited Adaptive Histogram Equalization (CLAHE). To prevent data leakage, a strict stratified 80\%/20\% train/test partitioning protocol was enforced prior to applying data augmentations solely to the training sets. We demonstrate dataset utility across two machine learning tasks: (1)~a unified 13-class fruit-type recognition baseline achieving up to 99.93\% accuracy (ResNet-50, YOLO26n-cls), and (2)~thirteen independent 3-class quality classification benchmarks comparing a custom baseline CNN against five transfer-learning architectures (MobileNetV3-Large, YOLOv8n-cls, YOLO26n-cls, EfficientNet-B0, ResNet-50), where pre-trained models achieve average accuracies of 96.00\%--96.61\% across all fruits. The dataset, scripts, and model baselines provide an extensible open-access resource for smart agricultural robotics, automated conveyor sorting, and food supply chain monitoring.
 
 % =========================================================
 % 3. DATASET SPECIFICATIONS TABLE
@@ -219,7 +221,7 @@ Automated fruit quality inspection and classification are critical for minimizin
 \toprule
 \textbf{Item} & \textbf{Required Information} \\
 \midrule
-\textbf{Subject / domain} & Computer Vision, Smart Agriculture, Post-Harvest Quality Assessment \\
+\textbf{Subject / domain} & Machine Learning, Computer Vision, Smart Agriculture, Post-Harvest Quality Assessment \\
 \midrule
 \textbf{Specific subject area} & Multi-Class Fruit Variety Recognition and Multi-Tier Freshness/Defect Grading \\
 \midrule
@@ -229,13 +231,13 @@ Automated fruit quality inspection and classification are critical for minimizin
 \midrule
 \textbf{Unit of observation} & Single photographic capture of an individual fruit specimen or cluster \\
 \midrule
-\textbf{Data collection / source} & Primary field photography in local markets/orchards + secondary curated open compilations (Mendeley Data, Roboflow Universe, Kaggle) \\
+\textbf{Data collection / source} & Curated open-access scientific repositories (Mendeley Data, Roboflow Universe, Kaggle, ScienceDirect Data in Brief) \\
 \midrule
-\textbf{Instrument / software} & Smartphone cameras (12--48 MP), DSLR cameras, Python 3.10+, PyTorch 2.2, Torchvision 0.17, Ultralytics 8.1, OpenCV 4.9, Albumentations \\
+\textbf{Instrument / software} & Python 3.10+, PyTorch 2.2, Torchvision 0.17, Ultralytics 8.1, OpenCV 4.9, Scikit-learn 1.4, Albumentations \\
 \midrule
-\textbf{Data source location} & Khulna region, Bangladesh ($22.8456^\circ$ N, $89.5403^\circ$ E) and open global agricultural repositories \\
+\textbf{Data source location} & Open global agricultural repositories (Mendeley Data, Roboflow Universe, Kaggle, ScienceDirect) \\
 \midrule
-\textbf{Collection period} & January 2026 -- September 2026 \\
+\textbf{Collection period} & July 2026 -- September 2026 \\
 \midrule
 \textbf{Dataset size} & 20,823 images; 13 fruit varieties; 3 quality categories per fruit (39 total sub-classes); $\approx$ 2.45 GB uncompressed \\
 \midrule
@@ -278,18 +280,16 @@ This dataset was created to provide a realistic, comprehensive benchmark for 13 
 % =========================================================
 \section{Data Acquisition / Experimental Design, Materials and Methods}
 
-\subsection{Data Source and Sampling Strategy}
-Data collection followed a coordinated multi-member sampling strategy combining primary field captures with secondary open-access agricultural repositories. Primary samples were photographed across commercial fruit markets, farm gates, and wholesale depots in the Khulna district of Bangladesh. Secondary samples were compiled from verified open datasets on Mendeley Data, Roboflow Universe, and Kaggle. 
+\subsection{Data Sources and Sampling Strategy}
+Data collection followed a structured curation strategy from open-access scientific data repositories (Mendeley Data, Roboflow Universe, Kaggle, and ScienceDirect Data in Brief). All image candidates were systematically retrieved from verified open compilations to cover 13 distinct fruit varieties across three freshness tiers (\texttt{good}, \texttt{medium}, \texttt{bad}).
 
 Inclusion criteria required: (1)~clear visibility of the fruit surface, (2)~adequate ambient lighting without severe underexposure, (3)~natural orientation, and (4)~resolution of at least $300 \times 300$ pixels. Exclusion criteria eliminated duplicate frames, motion-blurred captures, images where background clutter obscured $>70\%$ of the fruit, and heavily compressed images with block artifacts. Each group member was assigned primary custody of two distinct fruit classes (with Custard Apple curated jointly by the team), ensuring structured provenance.
 
-\subsection{Collection Setting, Period and Location}
-Primary photography was conducted between January 2026 and September 2026 across open-air bazaars, retail grocery stores, and local orchards in Khulna, Bangladesh ($22.8456^\circ$ N, $89.5403^\circ$ E). Photography was conducted under varying natural daytime lighting (morning, noon, late afternoon) as well as indoor fluorescent lighting to replicate real-world packaging environments.
+\subsection{Collection Period and Repository Sources}
+Repository harvesting, filtering, and data curation were conducted between \textbf{July 2026 and September 2026} across open-access repositories. The images capture a wide spectrum of natural daylight and artificial packing-line illumination conditions, reflecting genuine industrial and retail operational variability.
 
-\subsection{Instruments, Hardware, Software and Versions}
-Primary image acquisition utilized standard mobile devices (Samsung Galaxy S22 with 50 MP main sensor, iPhone 13 with 12 MP sensor, Xiaomi Redmi Note 11 with 50 MP sensor) and a Nikon D5600 DSLR camera with an 18--55mm lens. Images were captured at native resolutions and archived in losslessly compressed JPEG format. 
-
-Software pipelines were built using Python 3.10.12, PyTorch 2.2.1, Torchvision 0.17.1, Ultralytics 8.1.34 (YOLOv8 and YOLO26 classification engines), OpenCV 4.9.0, Albumentations 1.4.0, Scikit-learn 1.4.1, and Matplotlib 3.8.3. Model training and benchmarking were executed on an NVIDIA RTX 4090 GPU (24 GB VRAM) workstation running Ubuntu 22.04 LTS and CUDA 12.1.
+\subsection{Computing Environment, Hardware, Software and Versions}
+All data ingestion, preprocessing, training, and benchmarking pipelines were implemented in Python 3.10+ using PyTorch 2.2.1, Torchvision 0.17.1, Ultralytics 8.1.34 (YOLO26 classification engine), OpenCV 4.9.0, Albumentations 1.4.0, Scikit-learn 1.4.1, and Matplotlib 3.8.3. Model training and evaluation were executed on cloud-accelerated computing infrastructure (Kaggle GPU with NVIDIA Tesla T4 16~GB VRAM and Google Colab GPU environments with CUDA 12.1).
 
 \subsection{Variables, Measurements and Metadata}
 Each data observation comprises a 3-channel RGB digital image together with structured metadata:
@@ -297,7 +297,7 @@ Each data observation comprises a 3-channel RGB digital image together with stru
     \item \textbf{Image Content:} Standardized RGB color matrices ($224 \times 224 \times 3$, 8 bits per channel).
     \item \textbf{Fruit Species Label:} Categorical identifier corresponding to one of the 13 fruit classes.
     \item \textbf{Quality Condition Label:} Categorical grade (\texttt{good}, \texttt{medium}, \texttt{bad}).
-    \item \textbf{Source Tag:} Field capture vs.\ repository archive identifier with source URL / DOI.
+    \item \textbf{Source Tag:} Online repository archive identifier with source URL / DOI citation.
     \item \textbf{Assigned Partition:} Explicit split indicator (\texttt{train}, \texttt{test}).
 \end{itemize}
 
@@ -310,8 +310,8 @@ Images were labeled based on a standardized 3-tier visual grading protocol formu
 \end{itemize}
 All annotations underwent a two-stage peer-review protocol: after individual student assignment, every class was cross-inspected by an independent group member. Borderline cases were reviewed jointly until unanimous consensus was achieved.
 
-\subsection{Provenance, Versioning and Raw-Data Preservation}
-Raw, unedited images are preserved in an immutable, read-only storage directory (\texttt{raw/}) organized by student and collection date. File integrity is verified via SHA-256 checksums. Preprocessing transformations are deterministic and version-controlled, allowing exact re-generation of processed sets from raw inputs using release tag \texttt{v1.0}.
+\subsection{Provenance, Versioning and Data Integrity}
+Raw images are maintained in structured directory trees (\texttt{fruit\_dataset/}) organized by fruit species and quality condition tiers. Data integrity is enforced through rigorous PIL/OpenCV image decode validation, corrupt header removal, aspect-ratio checks, and perceptual hash (pHash) deduplication. All preprocessing transformations and stratified splits are deterministic, allowing exact re-generation of datasets using release tag \texttt{v1.0}.
 
 % =========================================================
 % 7. DATA DESCRIPTION / DATA RECORDS
@@ -852,7 +852,7 @@ The integrity of the dataset was verified along seven distinct quality dimension
 \midrule
 \textbf{Measurement Quality} & Optical clarity confirmed via Laplacian blur variance thresholding ($> 100$). Standardized color balance verified under varied indoor and field illumination. \\
 \midrule
-\textbf{Integrity} & Cryptographic SHA-256 checksums computed for every file to verify corruption-free archival and reproducible download verification. \\
+\textbf{Integrity} & Automatic image decoding verification and corrupt header elimination across all images to ensure 100\% defect-free image matrices. \\
 \midrule
 \textbf{Representativeness} & Balanced representation across 13 diverse fruits with balanced quality distributions ($\approx 500$--$600$ images per quality class per fruit). \\
 \midrule
@@ -1164,19 +1164,26 @@ EfficientNet-B0 & 99.88 & 0.9988 & 0.9988 \\
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/13-fruits/fruit_classification_outputs/plots/resnet_50_correct_predictions.png}
-    \caption{All 13 Fruits: ResNet-50 -- Representative correct fruit species predictions with confidence scores}
-    \label{fig:13fruits-correct}
+    \includegraphics[height=0.9\textheight,keepaspectratio]{figures/13_fruits_correct_part1.png}
+    \caption{All 13 Fruits: ResNet-50 -- Representative correct fruit species predictions with confidence scores (Part 1: Classes 1--7)}
+    \label{fig:13fruits-correct-1}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/13-fruits/fruit_classification_outputs/plots/resnet_50_wrong_predictions.png}
-    \caption{All 13 Fruits: ResNet-50 -- Sample misclassifications and failure case analysis across fruit species}
+    \includegraphics[height=0.9\textheight,keepaspectratio]{figures/13_fruits_correct_part2.png}
+    \caption{All 13 Fruits: ResNet-50 -- Representative correct fruit species predictions with confidence scores (Part 2: Classes 8--13)}
+    \label{fig:13fruits-correct-2}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{figures/13_fruits_wrong_cropped.png}
+    \caption{All 13 Fruits: ResNet-50 -- Misclassified test samples and failure case analysis (Only Guava and Papaya shown; all other 11 fruit species achieved 100.00\% test accuracy with zero misclassifications).}
     \label{fig:13fruits-wrong}
 \end{figure}
 
-The fruit-type recognition task achieves near-perfect accuracy (up to 99.93\% with ResNet-50 and YOLO26n-cls), indicating that the inter-class variance between different fruit species is extremely high and easily learned. Even the lightweight Custom CNN achieves an impressive 96.37\% accuracy across 13 classes. This confirms that basic fruit identification is a highly solvable problem, shifting the primary challenge to the more nuanced intra-class quality classification task. Representative correct predictions and failure case diagnostics are illustrated in Figure~\ref{fig:13fruits-correct} and Figure~\ref{fig:13fruits-wrong}.
+The fruit-type recognition task achieves near-perfect accuracy (up to 99.93\% with ResNet-50 and YOLO26n-cls), indicating that the inter-class variance between different fruit species is extremely high and easily learned. Even the lightweight Custom CNN achieves an impressive 96.37\% accuracy across 13 classes. This confirms that basic fruit identification is a highly solvable problem, shifting the primary challenge to the more nuanced intra-class quality classification task. Representative correct predictions and failure case diagnostics are illustrated in Figure~\ref{fig:13fruits-correct-1}, Figure~\ref{fig:13fruits-correct-2}, and Figure~\ref{fig:13fruits-wrong}.
 
 
 
@@ -1240,8 +1247,8 @@ ResNet-50 & 85.29 & 0.8570 & 0.8527 \\
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/papaya/fruit_quality_outputs_papaya/plots/mobilenetv3_large_wrong_predictions.png}
-    \caption{Papaya: MobileNetV3-Large -- Sample misclassifications and failure case analysis}
+    \includegraphics[width=0.85\textwidth]{figures/papaya_wrong_predictions.png}
+    \caption{Papaya: MobileNetV3-Large -- Sample misclassifications and failure case analysis across Bad, Good, and Medium quality tiers.}
     \label{fig:papaya-wrong}
 \end{figure}
 
@@ -1304,8 +1311,8 @@ EfficientNet-B0 & 95.95 & 0.9586 & 0.9596 \\
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/lemon/fruit_quality_outputs_lemon (1)/plots/resnet_50_wrong_predictions.png}
-    \caption{Lemon: ResNet-50 -- Sample misclassifications and failure case analysis}
+    \includegraphics[width=0.85\textwidth]{figures/lemon_wrong_cropped.png}
+    \caption{Lemon: ResNet-50 -- Misclassified samples for Bad and Medium grades (Good quality achieved 100.00\% accuracy with zero misclassifications).}
     \label{fig:lemon-wrong}
 \end{figure}
 
@@ -1366,14 +1373,9 @@ Small Custom CNN & 99.06 & 0.9907 & 0.9906 \\
     \label{fig:lychee-correct}
 \end{figure}
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.85\textwidth]{Output/lychee/fruit_quality_outputs_lychee/plots/efficientnet_b0_wrong_predictions.png}
-    \caption{Lychee: EfficientNet-B0 -- Misclassified quality predictions analysis (flawless 100\% test set accuracy)}
-    \label{fig:lychee-wrong}
-\end{figure}
+\noindent\textbf{Misclassification Analysis:}\quad EfficientNet-B0 achieved \textbf{100.00\% test accuracy} (320/320 samples correctly classified) across all three quality tiers (\texttt{good}, \texttt{medium}, \texttt{bad}), yielding \textbf{zero misclassifications}. Consequently, no failure-case diagnostic plot is applicable.
 
-Lychee quality classification achieves \textbf{flawless 100.00\% accuracy} across all four transfer-learning backbones (MobileNetV3-Large, YOLO26n-cls, EfficientNet-B0, and ResNet-50), with macro and weighted F1-scores of 1.0000. Even the Small Custom CNN baseline performs exceptionally well at 99.06\%. The distinctive visual indicators of lychee deterioration---transitioning from bright red pericarp to brown, desiccated shells---provide unambiguous features that enable complete class separation. Figure~\ref{fig:lychee-correct} and Figure~\ref{fig:lychee-wrong} demonstrate the high prediction confidence of EfficientNet-B0 and confirm zero test-set misclassifications.
+Lychee quality classification achieves \textbf{flawless 100.00\% accuracy} across all four transfer-learning backbones (MobileNetV3-Large, YOLO26n-cls, EfficientNet-B0, and ResNet-50), with macro and weighted F1-scores of 1.0000. Even the Small Custom CNN baseline performs exceptionally well at 99.06\%. The distinctive visual indicators of lychee deterioration---transitioning from bright red pericarp to brown, desiccated shells---provide unambiguous features that enable complete class separation. Figure~\ref{fig:lychee-correct} demonstrates the high prediction confidence of EfficientNet-B0 and confirms zero test-set misclassifications.
 
 % ---------- JACKFRUIT ----------
 \subsection{Jackfruit}
@@ -1432,8 +1434,8 @@ ResNet-50 & 99.34 & 0.9934 & 0.9934 \\
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/jackfruit/fruit_quality_outputs_jackfruit/plots/mobilenetv3_large_wrong_predictions.png}
-    \caption{Jackfruit: MobileNetV3-Large -- Sample misclassifications and failure case analysis}
+    \includegraphics[width=0.85\textwidth]{figures/jackfruit_wrong_cropped.png}
+    \caption{Jackfruit: MobileNetV3-Large -- Single misclassified sample for Good quality (Bad and Medium grades achieved 100.00\% accuracy with zero misclassifications).}
     \label{fig:jackfruit-wrong}
 \end{figure}
 
@@ -1496,8 +1498,8 @@ ResNet-50 & 92.50 & 0.9245 & 0.9251 \\
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/mango/fruit_quality_outputs_mango/plots/mobilenetv3_large_wrong_predictions.png}
-    \caption{Mango: MobileNetV3-Large -- Sample misclassifications and failure case analysis}
+    \includegraphics[width=0.85\textwidth]{figures/mango_wrong_predictions.png}
+    \caption{Mango: MobileNetV3-Large -- Sample misclassifications across Bad, Good, and Medium quality grades.}
     \label{fig:mango-wrong}
 \end{figure}
 
@@ -1560,8 +1562,8 @@ ResNet-50 & 90.00 & 0.8964 & 0.8981 \\
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/starfruit/fruit_quality_outputs_star_fruit/plots/mobilenetv3_large_wrong_predictions.png}
-    \caption{Star Fruit: MobileNetV3-Large -- Sample misclassifications and failure case analysis}
+    \includegraphics[width=0.85\textwidth]{figures/starfruit_wrong_predictions.png}
+    \caption{Star Fruit: MobileNetV3-Large -- Sample misclassifications across Bad, Good, and Medium quality grades.}
     \label{fig:star-wrong}
 \end{figure}
 
@@ -1624,8 +1626,8 @@ ResNet-50 & 99.07 & 0.9905 & 0.9907 \\
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/guava/fruit_quality_outputs_guava/plots/efficientnet_b0_wrong_predictions.png}
-    \caption{Guava: EfficientNet-B0 -- Sample misclassifications and failure case analysis}
+    \includegraphics[width=0.85\textwidth]{figures/guava_wrong_cropped.png}
+    \caption{Guava: EfficientNet-B0 -- Misclassified samples for Medium grade (Bad and Good grades achieved 100.00\% accuracy with zero misclassifications).}
     \label{fig:guava-wrong}
 \end{figure}
 
@@ -1688,8 +1690,8 @@ ResNet-50 & 97.63 & 0.9769 & 0.9763 \\
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/jujube/fruit_quality_outputs_jujube/plots/mobilenetv3_large_wrong_predictions.png}
-    \caption{Jujube: MobileNetV3-Large -- Sample misclassifications and failure case analysis}
+    \includegraphics[width=0.85\textwidth]{figures/jujube_wrong_cropped.png}
+    \caption{Jujube: MobileNetV3-Large -- Misclassified samples for Good and Medium grades (Bad grade achieved 100.00\% accuracy with zero misclassifications).}
     \label{fig:jujube-wrong}
 \end{figure}
 
@@ -1750,14 +1752,9 @@ ResNet-50 & 99.68 & 0.9967 & 0.9968 \\
     \label{fig:banana-correct}
 \end{figure}
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.85\textwidth]{Output/banana/fruit_quality_outputs_banana/plots/efficientnet_b0_wrong_predictions.png}
-    \caption{Banana: EfficientNet-B0 -- Misclassified quality predictions analysis (flawless 100\% test set accuracy)}
-    \label{fig:banana-wrong}
-\end{figure}
+\noindent\textbf{Misclassification Analysis:}\quad EfficientNet-B0 achieved \textbf{100.00\% test accuracy} (314/314 samples correctly classified) across all three quality tiers (\texttt{good}, \texttt{medium}, \texttt{bad}), yielding \textbf{zero misclassifications}. Consequently, no failure-case diagnostic plot is applicable.
 
-Banana quality grading yields \textbf{perfect 100.00\% accuracy} with \textbf{EfficientNet-B0} and \textbf{YOLO26n-cls} (1.0000 macro and weighted F1), while MobileNetV3-Large and ResNet-50 achieve 99.68\%. The Custom CNN baseline reaches 97.45\%. The pronounced chromatic progression from uniform yellow to senescence brown spotting and blackened peel provides clear visual boundaries across freshness tiers. Figure~\ref{fig:banana-correct} and Figure~\ref{fig:banana-wrong} show the high certainty of EfficientNet-B0 predictions and verify flawless test performance.
+Banana quality grading yields \textbf{perfect 100.00\% accuracy} with \textbf{EfficientNet-B0} and \textbf{YOLO26n-cls} (1.0000 macro and weighted F1), while MobileNetV3-Large and ResNet-50 achieve 99.68\%. The Custom CNN baseline reaches 97.45\%. The pronounced chromatic progression from uniform yellow to senescence brown spotting and blackened peel provides clear visual boundaries across freshness tiers. Figure~\ref{fig:banana-correct} shows the high certainty of EfficientNet-B0 predictions and verifies flawless test performance.
 
 % ---------- DRAGON FRUIT ----------
 \subsection{Dragon Fruit}
@@ -1814,14 +1811,9 @@ Small Custom CNN & 99.70 & 0.9969 & 0.9970 \\
     \label{fig:dragon-correct}
 \end{figure}
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.85\textwidth]{Output/dragonfruit/fruit_quality_outputs_dragonfruit/plots/efficientnet_b0_wrong_predictions.png}
-    \caption{Dragon Fruit: EfficientNet-B0 -- Misclassified quality predictions analysis (flawless 100\% test set accuracy)}
-    \label{fig:dragon-wrong}
-\end{figure}
+\noindent\textbf{Misclassification Analysis:}\quad EfficientNet-B0 achieved \textbf{100.00\% test accuracy} (334/334 samples correctly classified) across all three quality tiers (\texttt{good}, \texttt{medium}, \texttt{bad}), yielding \textbf{zero misclassifications}. Consequently, no failure-case diagnostic plot is applicable.
 
-Dragon fruit quality classification represents the most separable intra-class benchmark, achieving \textbf{100.00\% accuracy across all four transfer-learning models} (MobileNetV3-Large, YOLO26n-cls, EfficientNet-B0, ResNet-50) and 99.70\% on the Custom CNN baseline. Vibrant magenta skin and erect green bracts contrast sharply with brown, dried, and necrotic decayed tissue, enabling effortless class boundaries. Figure~\ref{fig:dragon-correct} and Figure~\ref{fig:dragon-wrong} illustrate prediction confidence and the complete absence of misclassifications.
+Dragon fruit quality classification represents the most separable intra-class benchmark, achieving \textbf{100.00\% accuracy across all four transfer-learning models} (MobileNetV3-Large, YOLO26n-cls, EfficientNet-B0, ResNet-50) and 99.70\% on the Custom CNN baseline. Vibrant magenta skin and erect green bracts contrast sharply with brown, dried, and necrotic decayed tissue, enabling effortless class boundaries. Figure~\ref{fig:dragon-correct} illustrates prediction confidence and the complete absence of misclassifications.
 
 % ---------- PINEAPPLE ----------
 \subsection{Pineapple}
@@ -1880,8 +1872,8 @@ ResNet-50 & 96.00 & 0.9598 & 0.9598 \\
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/pineapple/fruit_quality_outputs_pineapple/plots/efficientnet_b0_wrong_predictions.png}
-    \caption{Pineapple: EfficientNet-B0 -- Sample misclassifications and failure case analysis}
+    \includegraphics[width=0.85\textwidth]{figures/pineapple_wrong_cropped.png}
+    \caption{Pineapple: EfficientNet-B0 -- Misclassified samples for Bad and Good grades (Medium grade achieved 100.00\% accuracy with zero misclassifications).}
     \label{fig:pineapple-wrong}
 \end{figure}
 
@@ -1942,14 +1934,9 @@ ResNet-50 & 99.65 & 0.9964 & 0.9965 \\
     \label{fig:sapodilla-correct}
 \end{figure}
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.85\textwidth]{Output/sapodilia/fruit_quality_outputs_sapodilla/plots/efficientnet_b0_wrong_predictions.png}
-    \caption{Sapodilla: EfficientNet-B0 -- Misclassified quality predictions analysis (flawless 100\% test set accuracy)}
-    \label{fig:sapodilla-wrong}
-\end{figure}
+\noindent\textbf{Misclassification Analysis:}\quad EfficientNet-B0 achieved \textbf{100.00\% test accuracy} (289/289 samples correctly classified) across all three quality tiers (\texttt{good}, \texttt{medium}, \texttt{bad}), yielding \textbf{zero misclassifications}. Consequently, no failure-case diagnostic plot is applicable.
 
-Sapodilla (sofeda) quality classification achieves \textbf{perfect 100.00\% accuracy} with \textbf{EfficientNet-B0} and \textbf{YOLO26n-cls} (1.0000 macro and weighted F1), with ResNet-50 reaching 99.65\% and MobileNetV3-Large reaching 98.96\%. The Custom CNN baseline attains 89.62\%. The transition from smooth, uniform sandy-brown skin to darkened fungal decay and soft blemishes is recognized with high fidelity by transfer architectures. Figure~\ref{fig:sapodilla-correct} and Figure~\ref{fig:sapodilla-wrong} illustrate sample predictions and error-free test verification.
+Sapodilla (sofeda) quality classification achieves \textbf{perfect 100.00\% accuracy} with \textbf{EfficientNet-B0} and \textbf{YOLO26n-cls} (1.0000 macro and weighted F1), with ResNet-50 reaching 99.65\% and MobileNetV3-Large reaching 98.96\%. The Custom CNN baseline attains 89.62\%. The transition from smooth, uniform sandy-brown skin to darkened fungal decay and soft blemishes is recognized with high fidelity by transfer architectures. Figure~\ref{fig:sapodilla-correct} illustrates sample predictions and error-free test verification.
 
 % ---------- CUSTARD APPLE ----------
 \subsection{Custard Apple}
@@ -2008,8 +1995,8 @@ EfficientNet-B0 & 99.08 & 0.9910 & 0.9908 \\
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/custard_apple/fruit_quality_outputs_custard_apple/plots/mobilenetv3_large_wrong_predictions.png}
-    \caption{Custard Apple: MobileNetV3-Large -- Sample misclassifications and failure case analysis}
+    \includegraphics[width=0.85\textwidth]{figures/custard_apple_wrong_cropped.png}
+    \caption{Custard Apple: MobileNetV3-Large -- Single misclassified sample for Bad quality (Good and Medium grades achieved 100.00\% accuracy with zero misclassifications).}
     \label{fig:custard-wrong}
 \end{figure}
 
@@ -2119,7 +2106,7 @@ train_loader = DataLoader(
 While the dataset represents 20,823 curated images across 13 fruits, several limitations should be noted:
 \begin{itemize}
     \item \textbf{Nuanced Grading Boundaries:} For fruits like Papaya and Star Fruit, the visual boundary between \texttt{good} and \texttt{medium} is continuous rather than discrete, leading to occasional subjective disagreement on borderline samples.
-    \item \textbf{Illumination and Background Variance:} Sourcing data from both local open-air markets and online archives introduces background diversity, which improves robustness but also adds non-uniform lighting conditions.
+    \item \textbf{Illumination and Background Variance:} Sourcing images across diverse open scientific repositories introduces natural environmental variability (shadows, background foliage, varying lighting), which enhances model generalization but requires robust invariant feature learning.
     \item \textbf{Single-View Inspection:} In real packhouses, fruits may have defects on the hidden reverse side. Since these images capture a single camera angle, internal or occluded rot cannot be detected.
 \end{itemize}
 
@@ -2490,11 +2477,11 @@ Table~\ref{tab:fair-checklist} provides the completed FAIR (Findable, Accessible
 \midrule
 \textbf{Reusable} & Clear open license; documentation, provenance, and limitations provided. & $\boxtimes$ Yes & CC BY 4.0 license; full usage guide and limitations. \\
 \midrule
-\textbf{Raw + Processed} & Original observations preserved separately from cleaned/standardized files. & $\boxtimes$ Yes & \texttt{raw/} and \texttt{fruit\_dataset/} strictly segregated. \\
+\textbf{Raw + Processed} & Original observations preserved separately from cleaned/standardized files. & $\boxtimes$ Yes & Raw source repository archives and structured \texttt{fruit\_dataset/} maintained. \\
 \midrule
 \textbf{Versioning} & Dataset version and release change history recorded. & $\boxtimes$ Yes & Version v1.0 tagged with Git commit hash. \\
 \midrule
-\textbf{Integrity} & Deduplication, corruption, and blur checks performed; checksums included. & $\boxtimes$ Yes & pHash deduplication \& SHA-256 manifest. \\
+\textbf{Integrity} & Deduplication, corruption, and blur checks performed; checksums included. & $\boxtimes$ Yes & pHash deduplication, decode checks, and format verification. \\
 \midrule
 \textbf{Leakage Safety} & Related samples and augmentations do not cross ML data partitions. & $\boxtimes$ Yes & Stratified splitting prior to train-only augmentation. \\
 \midrule
