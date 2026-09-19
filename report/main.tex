@@ -113,8 +113,8 @@ Arka Braja Prasad Nath (2107055)
 \begin{figure}[H]
 \centering
 \begin{tikzpicture}[
-    box/.style={rectangle, draw=blue!80!black, fill=blue!5, rounded corners=3pt, thick, text width=2.6cm, minimum height=1.5cm, align=center, font=\scriptsize},
-    arrow/.style={-{Stealth[scale=1.0]}, thick, color=blue!70!black}
+    box/.style={rectangle, draw=black, fill=white, rounded corners=3pt, thick, text width=2.6cm, minimum height=1.5cm, align=center, font=\scriptsize},
+    arrow/.style={-{Stealth[scale=1.0]}, thick, color=black}
 ]
 \node[box] (b1) {\textbf{Domain Problem}\\Manual grading subjectivity \& post-harvest fruit waste};
 \node[box, right=0.55cm of b1] (b2) {\textbf{Data Acquisition}\\20,823 images of 13 fruits from online repositories};
@@ -135,8 +135,8 @@ Arka Braja Prasad Nath (2107055)
 \begin{figure}[H]
 \centering
 \begin{tikzpicture}[
-    box/.style={rectangle, draw=teal!80!black, fill=teal!5, rounded corners=3pt, thick, text width=3.35cm, minimum height=1.35cm, align=center, font=\scriptsize},
-    arrow/.style={-{Stealth[scale=1.0]}, thick, color=teal!70!black}
+    box/.style={rectangle, draw=black, fill=white, rounded corners=3pt, thick, text width=3.35cm, minimum height=1.35cm, align=center, font=\scriptsize},
+    arrow/.style={-{Stealth[scale=1.0]}, thick, color=black}
 ]
 % Row 1
 \node[box] (p1) {\textbf{Raw RGB Images}\\20,823 multi-fruit images};
@@ -743,16 +743,16 @@ All images are resized to a fixed input resolution of $224 \times 224$ pixels so
 
 \begin{figure}[H]
     \centering
-    \begin{subfigure}[b]{0.35\textwidth}
+    \begin{subfigure}[b]{0.22\textwidth}
         \centering
         \includegraphics[width=\textwidth]{augment/original.jpg}
-        \caption{Original input image}
+        \caption{Original input \\ image}
     \end{subfigure}
-    \hspace{1cm}
-    \begin{subfigure}[b]{0.35\textwidth}
+    \hspace{1.2cm}
+    \begin{subfigure}[b]{0.22\textwidth}
         \centering
         \includegraphics[width=\textwidth]{augment/resized_224x224.jpg}
-        \caption{Resized image ($224\times224$)}
+        \caption{Resized image \\ ($224\times224$)}
     \end{subfigure}
     \caption{Example of image resizing and scaling}
     \label{fig:resize-example}
@@ -772,16 +772,16 @@ Contrast Limited Adaptive Histogram Equalization (CLAHE) is applied to enhance l
 
 \begin{figure}[H]
     \centering
-    \begin{subfigure}[b]{0.38\textwidth}
+    \begin{subfigure}[b]{0.22\textwidth}
         \centering
         \includegraphics[width=\textwidth]{augment/original.jpg}
-        \caption{Original image}
+        \caption{Original input \\ image}
     \end{subfigure}
-    \hspace{1cm}
-    \begin{subfigure}[b]{0.38\textwidth}
+    \hspace{1.2cm}
+    \begin{subfigure}[b]{0.22\textwidth}
         \centering
         \includegraphics[width=\textwidth]{augment/clahe_enhanced.jpg}
-        \caption{CLAHE contrast enhanced}
+        \caption{CLAHE contrast\\ enhanced}
     \end{subfigure}
     \caption{Example of CLAHE contrast enhancement}
     \label{fig:contrast-example}
@@ -1150,15 +1150,41 @@ EfficientNet-B0 & 99.88 & 0.9988 & 0.9988 \\
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/13-fruits/fruit_classification_outputs/plots/resnet_50_confusion_matrix_and_roc.png}
-    \caption{All 13 Fruits: ResNet-50 (top model, 99.93\% accuracy) -- Confusion matrix and One-vs-Rest ROC curves across 13 classes}
+    \includegraphics[width=0.75\textwidth]{figures/13_fruits_resnet50_confusion_matrix.png}
+    \caption{All 13 Fruits: ResNet-50 (top model, 99.93\% accuracy) -- Normalized confusion matrix across 13 classes}
     \label{fig:13fruits-cm}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/13-fruits/fruit_classification_outputs/plots/resnet_50_learning_curves.png}
-    \caption{All 13 Fruits: ResNet-50 -- Training and validation loss and accuracy curves}
+    \includegraphics[width=0.75\textwidth]{figures/13_fruits_resnet50_roc_curves.png}
+    \caption{All 13 Fruits: ResNet-50 -- One-vs-Rest ROC curves across all 13 fruit species (Macro-average AUC = 1.000)}
+    \label{fig:13fruits-roc}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/13_fruits_resnet50_learning_loss.png}
+        \caption{Loss vs Epochs}
+        \label{fig:13fruits-lc-loss}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/13_fruits_resnet50_learning_accuracy.png}
+        \caption{Accuracy vs Epochs}
+        \label{fig:13fruits-lc-acc}
+    \end{subfigure}
+    \\[0.35cm]
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/13_fruits_resnet50_learning_macro_f1.png}
+        \caption{Macro F1 vs Epochs}
+        \label{fig:13fruits-lc-f1}
+    \end{subfigure}
+    \caption{All 13 Fruits: ResNet-50 -- Training and validation performance curves across epochs}
     \label{fig:13fruits-lc}
 \end{figure}
 
@@ -1240,14 +1266,11 @@ ResNet-50 & 85.29 & 0.8570 & 0.8527 \\
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/papaya/fruit_quality_outputs_papaya/plots/mobilenetv3_large_correct_predictions.png}
+    \includegraphics[width=0.77\textwidth]{Output/papaya/fruit_quality_outputs_papaya/plots/mobilenetv3_large_correct_predictions.png}
     \caption{Papaya: MobileNetV3-Large -- Representative correct quality predictions with confidence scores}
     \label{fig:papaya-correct}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.85\textwidth]{figures/papaya_wrong_predictions.png}
+    \vspace{0.15cm}
+    \includegraphics[width=0.77\textwidth]{figures/papaya_wrong_predictions.png}
     \caption{Papaya: MobileNetV3-Large -- Sample misclassifications and failure case analysis across Bad, Good, and Medium quality tiers.}
     \label{fig:papaya-wrong}
 \end{figure}
@@ -1304,14 +1327,11 @@ EfficientNet-B0 & 95.95 & 0.9586 & 0.9596 \\
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/lemon/fruit_quality_outputs_lemon (1)/plots/resnet_50_correct_predictions.png}
+    \includegraphics[width=0.77\textwidth]{Output/lemon/fruit_quality_outputs_lemon (1)/plots/resnet_50_correct_predictions.png}
     \caption{Lemon: ResNet-50 -- Representative correct quality predictions with confidence scores}
     \label{fig:lemon-correct}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.85\textwidth]{figures/lemon_wrong_cropped.png}
+    \vspace{0.15cm}
+    \includegraphics[width=0.77\textwidth]{figures/lemon_wrong_cropped.png}
     \caption{Lemon: ResNet-50 -- Misclassified samples for Bad and Medium grades (Good quality achieved 100.00\% accuracy with zero misclassifications).}
     \label{fig:lemon-wrong}
 \end{figure}
@@ -1368,7 +1388,7 @@ Small Custom CNN & 99.06 & 0.9907 & 0.9906 \\
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/lychee/fruit_quality_outputs_lychee/plots/efficientnet_b0_correct_predictions.png}
+    \includegraphics[width=0.77\textwidth]{Output/lychee/fruit_quality_outputs_lychee/plots/efficientnet_b0_correct_predictions.png}
     \caption{Lychee: EfficientNet-B0 -- Representative correct quality predictions with confidence scores}
     \label{fig:lychee-correct}
 \end{figure}
@@ -1427,14 +1447,11 @@ ResNet-50 & 99.34 & 0.9934 & 0.9934 \\
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/jackfruit/fruit_quality_outputs_jackfruit/plots/mobilenetv3_large_correct_predictions.png}
+    \includegraphics[width=0.77\textwidth]{Output/jackfruit/fruit_quality_outputs_jackfruit/plots/mobilenetv3_large_correct_predictions.png}
     \caption{Jackfruit: MobileNetV3-Large -- Representative correct quality predictions with confidence scores}
     \label{fig:jackfruit-correct}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.85\textwidth]{figures/jackfruit_wrong_cropped.png}
+    \vspace{0.15cm}
+    \includegraphics[width=0.77\textwidth]{figures/jackfruit_wrong_cropped.png}
     \caption{Jackfruit: MobileNetV3-Large -- Single misclassified sample for Good quality (Bad and Medium grades achieved 100.00\% accuracy with zero misclassifications).}
     \label{fig:jackfruit-wrong}
 \end{figure}
@@ -1491,14 +1508,11 @@ ResNet-50 & 92.50 & 0.9245 & 0.9251 \\
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/mango/fruit_quality_outputs_mango/plots/mobilenetv3_large_correct_predictions.png}
+    \includegraphics[width=0.77\textwidth]{Output/mango/fruit_quality_outputs_mango/plots/mobilenetv3_large_correct_predictions.png}
     \caption{Mango: MobileNetV3-Large -- Representative correct quality predictions with confidence scores}
     \label{fig:mango-correct}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.85\textwidth]{figures/mango_wrong_predictions.png}
+    \vspace{0.15cm}
+    \includegraphics[width=0.77\textwidth]{figures/mango_wrong_predictions.png}
     \caption{Mango: MobileNetV3-Large -- Sample misclassifications across Bad, Good, and Medium quality grades.}
     \label{fig:mango-wrong}
 \end{figure}
@@ -1555,14 +1569,11 @@ ResNet-50 & 90.00 & 0.8964 & 0.8981 \\
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/starfruit/fruit_quality_outputs_star_fruit/plots/mobilenetv3_large_correct_predictions.png}
+    \includegraphics[width=0.77\textwidth]{Output/starfruit/fruit_quality_outputs_star_fruit/plots/mobilenetv3_large_correct_predictions.png}
     \caption{Star Fruit: MobileNetV3-Large -- Representative correct quality predictions with confidence scores}
     \label{fig:star-correct}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.85\textwidth]{figures/starfruit_wrong_predictions.png}
+    \vspace{0.15cm}
+    \includegraphics[width=0.77\textwidth]{figures/starfruit_wrong_predictions.png}
     \caption{Star Fruit: MobileNetV3-Large -- Sample misclassifications across Bad, Good, and Medium quality grades.}
     \label{fig:star-wrong}
 \end{figure}
@@ -1619,14 +1630,11 @@ ResNet-50 & 99.07 & 0.9905 & 0.9907 \\
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/guava/fruit_quality_outputs_guava/plots/efficientnet_b0_correct_predictions.png}
+    \includegraphics[width=0.77\textwidth]{Output/guava/fruit_quality_outputs_guava/plots/efficientnet_b0_correct_predictions.png}
     \caption{Guava: EfficientNet-B0 -- Representative correct quality predictions with confidence scores}
     \label{fig:guava-correct}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.85\textwidth]{figures/guava_wrong_cropped.png}
+    \vspace{0.15cm}
+    \includegraphics[width=0.77\textwidth]{figures/guava_wrong_cropped.png}
     \caption{Guava: EfficientNet-B0 -- Misclassified samples for Medium grade (Bad and Good grades achieved 100.00\% accuracy with zero misclassifications).}
     \label{fig:guava-wrong}
 \end{figure}
@@ -1683,14 +1691,11 @@ ResNet-50 & 97.63 & 0.9769 & 0.9763 \\
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/jujube/fruit_quality_outputs_jujube/plots/mobilenetv3_large_correct_predictions.png}
+    \includegraphics[width=0.77\textwidth]{Output/jujube/fruit_quality_outputs_jujube/plots/mobilenetv3_large_correct_predictions.png}
     \caption{Jujube: MobileNetV3-Large -- Representative correct quality predictions with confidence scores}
     \label{fig:jujube-correct}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.85\textwidth]{figures/jujube_wrong_cropped.png}
+    \vspace{0.15cm}
+    \includegraphics[width=0.77\textwidth]{figures/jujube_wrong_cropped.png}
     \caption{Jujube: MobileNetV3-Large -- Misclassified samples for Good and Medium grades (Bad grade achieved 100.00\% accuracy with zero misclassifications).}
     \label{fig:jujube-wrong}
 \end{figure}
@@ -1747,7 +1752,7 @@ ResNet-50 & 99.68 & 0.9967 & 0.9968 \\
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/banana/fruit_quality_outputs_banana/plots/efficientnet_b0_correct_predictions.png}
+    \includegraphics[width=0.77\textwidth]{Output/banana/fruit_quality_outputs_banana/plots/efficientnet_b0_correct_predictions.png}
     \caption{Banana: EfficientNet-B0 -- Representative correct quality predictions with confidence scores}
     \label{fig:banana-correct}
 \end{figure}
@@ -1806,7 +1811,7 @@ Small Custom CNN & 99.70 & 0.9969 & 0.9970 \\
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/dragonfruit/fruit_quality_outputs_dragonfruit/plots/efficientnet_b0_correct_predictions.png}
+    \includegraphics[width=0.77\textwidth]{Output/dragonfruit/fruit_quality_outputs_dragonfruit/plots/efficientnet_b0_correct_predictions.png}
     \caption{Dragon Fruit: EfficientNet-B0 -- Representative correct quality predictions with confidence scores}
     \label{fig:dragon-correct}
 \end{figure}
@@ -1865,14 +1870,11 @@ ResNet-50 & 96.00 & 0.9598 & 0.9598 \\
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/pineapple/fruit_quality_outputs_pineapple/plots/efficientnet_b0_correct_predictions.png}
+    \includegraphics[width=0.77\textwidth]{Output/pineapple/fruit_quality_outputs_pineapple/plots/efficientnet_b0_correct_predictions.png}
     \caption{Pineapple: EfficientNet-B0 -- Representative correct quality predictions with confidence scores}
     \label{fig:pineapple-correct}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.85\textwidth]{figures/pineapple_wrong_cropped.png}
+    \vspace{0.15cm}
+    \includegraphics[width=0.77\textwidth]{figures/pineapple_wrong_cropped.png}
     \caption{Pineapple: EfficientNet-B0 -- Misclassified samples for Bad and Good grades (Medium grade achieved 100.00\% accuracy with zero misclassifications).}
     \label{fig:pineapple-wrong}
 \end{figure}
@@ -1929,7 +1931,7 @@ ResNet-50 & 99.65 & 0.9964 & 0.9965 \\
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/sapodilia/fruit_quality_outputs_sapodilla/plots/efficientnet_b0_correct_predictions.png}
+    \includegraphics[width=0.77\textwidth]{Output/sapodilia/fruit_quality_outputs_sapodilla/plots/efficientnet_b0_correct_predictions.png}
     \caption{Sapodilla: EfficientNet-B0 -- Representative correct quality predictions with confidence scores}
     \label{fig:sapodilla-correct}
 \end{figure}
@@ -1988,14 +1990,11 @@ EfficientNet-B0 & 99.08 & 0.9910 & 0.9908 \\
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/custard_apple/fruit_quality_outputs_custard_apple/plots/mobilenetv3_large_correct_predictions.png}
+    \includegraphics[width=0.77\textwidth]{Output/custard_apple/fruit_quality_outputs_custard_apple/plots/mobilenetv3_large_correct_predictions.png}
     \caption{Custard Apple: MobileNetV3-Large -- Representative correct quality predictions with confidence scores}
     \label{fig:custard-correct}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.85\textwidth]{figures/custard_apple_wrong_cropped.png}
+    \vspace{0.15cm}
+    \includegraphics[width=0.77\textwidth]{figures/custard_apple_wrong_cropped.png}
     \caption{Custard Apple: MobileNetV3-Large -- Single misclassified sample for Bad quality (Good and Medium grades achieved 100.00\% accuracy with zero misclassifications).}
     \label{fig:custard-wrong}
 \end{figure}
