@@ -1,19 +1,15 @@
 __pycache__/
 
-fruit_dataset.tar
-small_dataset.tar
 /fruit_dataset
 /fruit_dataset_processed
-/original_dataset
-/data
-/data_quality
-/outputs
-/outputs_quality
-/runs_benchmark
+
 *.zip
 *.aux
 *.out
 *.log
 *.pdf
 
+
+# temp
+fruit_dataset.tar
 /report/Output
