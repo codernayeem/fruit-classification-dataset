@@ -37,9 +37,9 @@
 
 % --- Section Heading Formatting (Times New Roman) ---
 \titleformat{\section}
-  {\large\bfseries}{\thesection.}{0.5em}{}
+  {\Large\bfseries}{\thesection.}{0.5em}{}
 \titleformat{\subsection}
-  {\normalsize\bfseries}{\thesubsection}{0.5em}{}
+  {\large\bfseries}{\thesubsection}{0.5em}{}
 \titleformat{\subsubsection}
   {\normalsize\bfseries}{\thesubsubsection}{0.5em}{}
 
@@ -53,7 +53,7 @@
 \fancyhf{}
 \fancyhead[R]{\footnotesize\textcolor{gray}{CSE 4112: Machine Learning Laboratory \textbar\ Dataset Report}}
 \fancyfoot[C]{\footnotesize\thepage}
-\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\headrulewidth}{0pt}
 
 \begin{document}
 
@@ -169,7 +169,7 @@ Arka Braja Prasad Nath (2107055)
 % =========================================================
 \section{Dataset Article Information}
 \noindent
-\begin{tabularx}{\textwidth}{|p{4.2cm}|X|}
+\begin{tabularx}{\textwidth}{p{4.2cm}X}
 \hline
 \textbf{Dataset/report title} & A Multi-Fruit Classification and Quality Inspection Dataset \\
 \hline
@@ -314,17 +314,22 @@ Table~\ref{tab:folder-structure} details the repository hierarchy, itemizing the
 
 \begin{table}[H]
 \centering\small
-\begin{tabularx}{\textwidth}{@{}p{0.26\textwidth}Xp{0.20\textwidth}@{}}
-\toprule
+\begin{tabularx}{\textwidth}{|p{0.26\textwidth}|X|p{0.20\textwidth}|}
+\hline
 \textbf{Folder / file} & \textbf{Contents} & \textbf{Raw / processed / metadata} \\
-\midrule
+\hline
 \texttt{fruit\_dataset/} & Raw photographic images organized hierarchically by fruit variety and physical condition tier (\texttt{<fruit>/good/}, \texttt{<fruit>/medium/}, \texttt{<fruit>/bad/}) alongside individual image source manifests (\texttt{src.csv}) & Raw \\
+\hline
 \texttt{fruit\_dataset\_processed/} & Stratified 80/20 train/test partitioned image sets (\texttt{train/}, 16,658 images; \texttt{test/}, 4,165 images; random seed $SEED = 42$), accompanied by master partition manifest \texttt{split\_manifest.csv} & Processed \\
+\hline
 \texttt{metadata/} & Global dataset schema, full data dictionary (\texttt{data\_dictionary.csv}), 13-fruit botanical taxonomy and quality grading criteria (\texttt{class\_labels.json}), and partition distribution summaries (\texttt{dataset\_statistics.csv}) & Metadata \\
+\hline
 \texttt{README.md} & Comprehensive technical documentation detailing repository layout, two-stage inference architecture, environment setup, and reproduction guidelines & Documentation \\
+\hline
 \texttt{Output/} & Executed benchmark Jupyter notebooks, trained model weights (\texttt{.pth}), quantitative evaluation metrics, and diagnostic evaluation plots for all 13 species and quality tasks & Artifacts / Outputs \\
+\hline
 \texttt{app.py} & Interactive Streamlit web application providing two-stage species identification and quality inspection with confidence gating and Matplotlib analytics & Application \\
-\bottomrule
+\hline
 \end{tabularx}
 \caption{Repository and folder structure of the released fruit dataset and experimental suite}
 \label{tab:folder-structure}
@@ -334,21 +339,30 @@ Table~\ref{tab:folder-structure} details the repository hierarchy, itemizing the
 Table~\ref{tab:data-dictionary} outlines the schema, attributes, ranges, and missing-value rules governing the metadata records.
 
 \begin{table}[H]
-\centering\footnotesize
-\begin{tabularx}{\textwidth}{@{}p{0.14\textwidth}p{0.22\textwidth}p{0.11\textwidth}p{0.13\textwidth}p{0.21\textwidth}X@{}}
-\toprule
+\centering\small
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{|l|p{4.2cm}|l|l|p{4.8cm}|p{3.6cm}|}
+\hline
 \textbf{Variable / field} & \textbf{Meaning} & \textbf{Type} & \textbf{Unit / range} & \textbf{Allowed values / coding} & \textbf{Missing-value rule} \\
-\midrule
+\hline
 \texttt{image\_id} & Unique sample identifier & String & Filename & Alphanumeric (e.g., \texttt{banana\_good\_001.jpg}) & Rejection (Must be unique) \\
+\hline
 \texttt{fruit\_species} & Botanical fruit variety (Stage 1 target) & Categorical & 13 classes & \texttt{banana}, \texttt{custard\_apple}, \dots, \texttt{star\_fruit} & Rejection (Mandatory) \\
+\hline
 \texttt{quality\_grade} & Visual quality condition (Stage 2 target) & Categorical & 3 tiers & \texttt{good} (0), \texttt{medium} (1), \texttt{bad} (2) & Rejection (Mandatory) \\
+\hline
 \texttt{split} & Partition assignment & Categorical & 2 subsets (80/20) & \texttt{train} (16,658), \texttt{test} (4,165) & Stratified deterministic \\
+\hline
 \texttt{height} & Uncompressed image height & Integer & $224 \le h \le 4032$ & Pixels (px) & Resized to 224 px \\
+\hline
 \texttt{width} & Uncompressed image width & Integer & $224 \le w \le 4032$ & Pixels (px) & Resized to 224 px \\
+\hline
 \texttt{channels} & Color representation channels & Integer & 3 channels & RGB (Red, Green, Blue) & Converted to RGB \\
+\hline
 \texttt{format} & Image container encoding standard & Categorical & Compression & \texttt{JPEG}, \texttt{PNG}, \texttt{WEBP}, \texttt{BMP} & Decoded via PIL/OpenCV \\
-\bottomrule
-\end{tabularx}
+\hline
+\end{tabular}%
+}
 \caption{Data dictionary for the dataset manifest and metadata records}
 \label{tab:data-dictionary}
 \end{table}
@@ -360,114 +374,47 @@ The complete curated dataset comprises \textbf{20,823 RGB images} spanning 13 ec
 
 All images were curated entirely from published open scientific data repositories (Mendeley Data, Roboflow Universe, Kaggle, and ScienceDirect Data in Brief). Each student in Group A2-03 was allocated two primary fruit varieties to gather, filter, deduplicate, and annotate from online repositories, while the \textbf{Custard Apple} dataset as well as the \textbf{13-Fruit Macro Classification} pipeline were curated and executed jointly by all six group members.
 
-Table~\ref{tab:dataset-per-person} summarizes the distribution of images by fruit variety, assigned student curator, and quality grades. Table~\ref{tab:dataset-provenance-breakdown} provides the complete provenance breakdown documenting the exact number of contributed images per online reference source.
+Table~\ref{tab:dataset-per-person} summarizes the distribution of images by fruit variety, assigned student curator, quality grades, and online reference sources alongside their respective image counts.
 
 \begin{table}[H]
 \centering\small
-\begin{tabularx}{\textwidth}{@{}p{0.32\textwidth}p{0.18\textwidth}ccccX@{}}
-\toprule
-\textbf{Curator (Student \& Roll)} & \textbf{Fruit Variety} & \textbf{Good} & \textbf{Medium} & \textbf{Bad} & \textbf{Total} & \textbf{Source Citations} \\
-\midrule
-\multirow{2}{=}{Kazi Rifat Al Muin (2107042)} & \textbf{Papaya} & 500 & 598 & 600 & 1,698 & \cite{papaya_mendeley, papaya_roboflow_2} \\
- & \textbf{Lemon} & 600 & 526 & 600 & 1,726 & \cite{lemon_kaggle, lemon_mendeley} \\
-\midrule
-\multirow{2}{=}{Farid Ahmed Patwary (2107043)} & \textbf{Lychee} & 525 & 529 & 543 & 1,597 & \cite{ref_lychee_ladd} \\
- & \textbf{Jackfruit} & 509 & 500 & 499 & 1,508 & \cite{ref_jackfruit_trai_mit, ref_jackfruit_disease, ref_jackfruit_healthy, ref_jackfruit_shape} \\
-\midrule
-\multirow{2}{=}{Md Torikul Islam (2107048)} & \textbf{Mango} & 550 & 500 & 550 & 1,600 & \cite{ref_mango_3, ref_mango_2, ref_mango_1} \\
- & \textbf{Star Fruit} & 550 & 500 & 550 & 1,600 & \cite{ref_star_1} \\
-\midrule
-\multirow{2}{=}{Md Nayeem (2107050)} & \textbf{Guava} & 572 & 520 & 519 & 1,611 & \cite{ref_guava_3, ref_guava_7, ref_guava_1, ref_guava_5, ref_guava_2, ref_guava_9, ref_guava_11, ref_guava_6, ref_guava_8} \\
- & \textbf{Jujube} & 598 & 556 & 529 & 1,683 & \cite{ref_jujube_1, ref_jujube_3, ref_jujube_2} \\
-\midrule
-\multirow{2}{=}{Md Jahid Hasan Jim (2107054)} & \textbf{Banana} & 564 & 492 & 510 & 1,566 & \cite{ref_banana_qual} \\
- & \textbf{Dragon Fruit} & 560 & 528 & 579 & 1,667 & \cite{ref_dragonfruit} \\
-\midrule
-\multirow{2}{=}{Arka Braja Prasad Nath (2107055)} & \textbf{Pineapple} & 500 & 500 & 500 & 1,500 & \cite{ref_pineapple_1} \\
- & \textbf{Sapodilla} & 437 & 500 & 508 & 1,445 & \cite{ref_pineapple_1} \\
-\midrule
-All Group Members & \textbf{Custard Apple} & 512 & 533 & 577 & 1,622 & \cite{ref_custard_apple} \\
-\midrule
-\multicolumn{2}{@{}l}{\textbf{Total Curated Dataset}} & \textbf{6,977} & \textbf{6,782} & \textbf{7,064} & \textbf{20,823} & \textbf{22 Online Sources} \\
-\bottomrule
+\begin{tabularx}{\textwidth}{|p{0.28\textwidth}|p{0.15\textwidth}|c|c|c|c|X|}
+\hline
+\textbf{Curator (Student \& Roll)} & \textbf{Fruit Variety} & \textbf{Good} & \textbf{Medium} & \textbf{Bad} & \textbf{Total} & \textbf{Source Citations [Ref] (Count)} \\
+\hline
+\multirow{2}{=}{Kazi Rifat Al Muin (2107042)} & \textbf{Papaya} & 500 & 598 & 600 & 1,698 & \cite{papaya_roboflow_2} (903), \cite{papaya_mendeley} (795) \\ \cline{2-7}
+ & \textbf{Lemon} & 600 & 526 & 600 & 1,726 & \cite{lemon_kaggle} (841), \cite{lemon_mendeley} (885) \\ \hline
+\multirow{2}{=}{Farid Ahmed Patwary (2107043)} & \textbf{Lychee} & 525 & 529 & 543 & 1,597 & \cite{ref_lychee_ladd} (1,597) \\ \cline{2-7}
+ & \textbf{Jackfruit} & 509 & 500 & 499 & 1,508 & \cite{ref_jackfruit_trai_mit} (1,044), \cite{ref_jackfruit_disease} (234), \cite{ref_jackfruit_healthy} (120), \cite{ref_jackfruit_shape} (110) \\ \hline
+\multirow{2}{=}{Md Torikul Islam (2107048)} & \textbf{Mango} & 550 & 500 & 550 & 1,600 & \cite{ref_mango_3} (700), \cite{ref_mango_2} (700), \cite{ref_mango_1} (200) \\ \cline{2-7}
+ & \textbf{Star Fruit} & 550 & 500 & 550 & 1,600 & \cite{ref_star_1} (1,600) \\ \hline
+\multirow{2}{=}{Md Nayeem (2107050)} & \textbf{Guava} & 572 & 520 & 519 & 1,611 & \cite{ref_guava_3} (749), \cite{ref_guava_7} (332), \cite{ref_guava_1} (213), \cite{ref_guava_5} (161), \cite{ref_guava_2} (100), \cite{ref_guava_9} (26), \cite{ref_guava_11} (14), \cite{ref_guava_6} (10), \cite{ref_guava_8} (6) \\ \cline{2-7}
+ & \textbf{Jujube} & 598 & 556 & 529 & 1,683 & \cite{ref_jujube_1} (1,154), \cite{ref_jujube_3} (329), \cite{ref_jujube_2} (200) \\ \hline
+\multirow{2}{=}{Md Jahid Hasan Jim (2107054)} & \textbf{Banana} & 564 & 492 & 510 & 1,566 & \cite{ref_banana_qual} (1,566) \\ \cline{2-7}
+ & \textbf{Dragon Fruit} & 560 & 528 & 579 & 1,667 & \cite{ref_dragonfruit} (1,667) \\ \hline
+\multirow{2}{=}{Arka Braja Prasad Nath (2107055)} & \textbf{Pineapple} & 500 & 500 & 500 & 1,500 & \cite{ref_pineapple_1} (1,500) \\ \cline{2-7}
+ & \textbf{Sapodilla} & 437 & 500 & 508 & 1,445 & \cite{ref_pineapple_1} (1,445) \\ \hline
+All Group Members & \textbf{Custard Apple} & 512 & 533 & 577 & 1,622 & \cite{ref_custard_apple} (1,622) \\ \hline
+\multicolumn{2}{|l|}{\textbf{Total Curated Dataset}} & \textbf{6,977} & \textbf{6,782} & \textbf{7,064} & \textbf{20,823} & \textbf{22 Online Sources} \\ \hline
 \end{tabularx}
 \caption{Dataset composition and image distribution by fruit variety and curator}
 \label{tab:dataset-per-person}
-\end{table}
-
-\clearpage
-\begin{table}[t!]
-\centering\footnotesize
-\renewcommand{\arraystretch}{0.92}
-\begin{tabularx}{\textwidth}{@{}p{0.18\textwidth}Xp{0.22\textwidth}p{0.16\textwidth}r@{}}
-\toprule
-\textbf{Fruit Variety} & \textbf{Dataset Name / Repository Source} & \textbf{Venue / Platform} & \textbf{Reference} & \textbf{Images} \\
-\midrule
-\multirow{2}{*}{Papaya} & Papaya Ripeness \& Defect Dataset & Roboflow Universe & \cite{papaya_roboflow_2} & 903 \\
- & Papaya Freshness Classification Dataset & Mendeley Data (v1) & \cite{papaya_mendeley} & 795 \\
-\midrule
-\multirow{2}{*}{Lemon} & Lemon Quality Dataset & Kaggle & \cite{lemon_kaggle} & 841 \\
- & Lemon Quality Dataset (Mendeley) & Mendeley Data (v1) & \cite{lemon_mendeley} & 885 \\
-\midrule
-Lychee & Lychee Quality Dataset & Mendeley Data (v1) & \cite{ref_lychee_ladd} & 1,597 \\
-\midrule
-\multirow{4}{*}{Jackfruit} & Trai Mit (Jackfruit) Dataset & Roboflow Universe & \cite{ref_jackfruit_trai_mit} & 1,044 \\
- & Jackfruit Disease Detection Dataset & Roboflow Universe & \cite{ref_jackfruit_disease} & 234 \\
- & Jackfruit Healthy and Disease Dataset & Roboflow Universe & \cite{ref_jackfruit_healthy} & 120 \\
- & Jackfruit Shape and Quality & Roboflow Universe & \cite{ref_jackfruit_shape} & 110 \\
-\midrule
-\multirow{3}{*}{Mango} & Raw Mango Quality Dataset & Mendeley Data (v1) & \cite{ref_mango_3} & 700 \\
- & Fresh and Defect Mango Dataset & Mendeley Data (v2) & \cite{ref_mango_2} & 700 \\
- & Mango Quality Dataset & Mendeley Data (v4) & \cite{ref_mango_1} & 200 \\
-\midrule
-Star Fruit & Star Fruit Quality Dataset & Mendeley Data (v1) & \cite{ref_star_1} & 1,600 \\
-\midrule
-\multirow{9}{*}{Guava} & Guava Maturity and Disease Dataset & Mendeley Data (v1) & \cite{ref_guava_3} & 749 \\
- & Guava Defect Detection Dataset & Roboflow Universe & \cite{ref_guava_7} & 332 \\
- & Guava Fresh and Defect Dataset & Mendeley Data (v1) & \cite{ref_guava_1} & 213 \\
- & Guava Quality Dataset & Roboflow Universe & \cite{ref_guava_5} & 161 \\
- & Guava Fruit Disease Dataset & Kaggle & \cite{ref_guava_2} & 100 \\
- & Guava Ripeness Assessment Dataset & Roboflow Universe & \cite{ref_guava_9} & 26 \\
- & Guava Fruit Quality Grading & Roboflow Universe & \cite{ref_guava_11} & 14 \\
- & Guava Surface Defect Dataset & Roboflow Universe & \cite{ref_guava_6} & 10 \\
- & Guava Inspection Dataset & Roboflow Universe & \cite{ref_guava_8} & 6 \\
-\midrule
-\multirow{3}{*}{Jujube} & Fresh Jujube Fruit Quality Dataset & Mendeley Data (v5) & \cite{ref_jujube_1} & 1,154 \\
- & Jujube Ripeness and Defect Dataset & Roboflow Universe & \cite{ref_jujube_3} & 329 \\
- & Jujube Quality Inspection Dataset & Mendeley Data (v2) & \cite{ref_jujube_2} & 200 \\
-\midrule
-Banana & Banana Ripeness Classification Dataset & Roboflow Universe & \cite{ref_banana_qual} & 1,566 \\
-\midrule
-Dragon Fruit & Dragon Fruit Defect and Quality Dataset & Mendeley Data (v1) & \cite{ref_dragonfruit} & 1,667 \\
-\midrule
-Pineapple & Pineapple Defect \& Disease Dataset & Mendeley Data (v1) & \cite{ref_pineapple_1} & 1,500 \\
-\midrule
-Sapodilla & Sapodilla Quality Dataset & Mendeley Data (v1) & \cite{ref_pineapple_1} & 1,445 \\
-\midrule
-Custard Apple & Custard Apple Freshness and Quality & Mendeley Data (v2) & \cite{ref_custard_apple} & 1,622 \\
-\midrule
-\multicolumn{4}{@{}l}{\textbf{Total Curated Images Across All 22 External Sources}} & \textbf{20,823} \\
-\bottomrule
-\end{tabularx}
-\caption{Complete dataset provenance breakdown showing exact image count per reference source}
-\label{tab:dataset-provenance-breakdown}
 \end{table}
 \clearpage
 
 \subsection*{Dataset Summary}
 \begin{table}[H]
 \centering
-\begin{tabular}{@{}ll@{}}
-\toprule
+\begin{tabular}{|l|l|}
+\hline
 \textbf{Property} & \textbf{Value} \\
-\midrule
-Number of fruit types & 13 \\
-Quality categories per fruit & 3 (Good, Medium, Bad) \\
-Total classes & 39 \\
-Total images & 20{,}823 \\
-Sample images shown per class (above) & 3 \\
-Image format & JPG / PNG \\
-\bottomrule
+\hline
+Number of fruit types & 13 \\ \hline
+Quality categories per fruit & 3 (Good, Medium, Bad) \\ \hline
+Total classes & 39 \\ \hline
+Total images & 20{,}823 \\ \hline
+Sample images shown per class (above) & 3 \\ \hline
+Image format & JPG / PNG \\ \hline
 \end{tabular}
 \caption{Summary of dataset structure}
 \label{tab:dataset-summary}
@@ -832,24 +779,17 @@ The integrity of the dataset was verified along seven distinct quality dimension
 
 \begin{table}[H]
 \centering\small
-\begin{tabular}{@{}p{0.25\textwidth}p{0.71\textwidth}@{}}
-\toprule
+\begin{tabular}{|p{0.25\textwidth}|p{0.71\textwidth}|}
+\hline
 \textbf{Quality Dimension} & \textbf{Evidence and Checks Performed} \\
-\midrule
-\textbf{Completeness} & All 20,823 images possess validated labels and verified RGB channels. No missing or null values exist in the dataset manifest. \\
-\midrule
-\textbf{Consistency} & All released images are strictly formatted to 24-bit RGB JPEG/PNG format, scaled uniformly to $224 \times 224$ pixels with standardized lowercase directory paths. \\
-\midrule
-\textbf{Label Quality} & Two-tier verification: initial classification by designated team member followed by cross-review by a secondary member. Borderline cases adjudicated jointly. \\
-\midrule
-\textbf{Measurement Quality} & Optical clarity confirmed via Laplacian blur variance thresholding ($> 100$). Standardized color balance verified under varied indoor and field illumination. \\
-\midrule
-\textbf{Integrity} & Automatic image decoding verification and corrupt header elimination across all images to ensure 100\% defect-free image matrices. \\
-\midrule
-\textbf{Representativeness} & Balanced representation across 13 diverse fruits with balanced quality distributions ($\approx 500$--$600$ images per quality class per fruit). \\
-\midrule
-\textbf{Reproducibility} & Fully deterministic data processing pipeline with explicit random seeds (seed 42) and standalone Python scripts. \\
-\bottomrule
+\hline
+\textbf{Completeness} & All 20,823 images possess validated labels and verified RGB channels. No missing or null values exist in the dataset manifest. \\ \hline
+\textbf{Consistency} & All released images are strictly formatted to 24-bit RGB JPEG/PNG format, scaled uniformly to $224 \times 224$ pixels with standardized lowercase directory paths. \\ \hline
+\textbf{Label Quality} & Two-tier verification: initial classification by designated team member followed by cross-review by a secondary member. Borderline cases adjudicated jointly. \\ \hline
+\textbf{Measurement Quality} & Optical clarity confirmed via Laplacian blur variance thresholding ($> 100$). Standardized color balance verified under varied indoor and field illumination. \\ \hline
+\textbf{Integrity} & Automatic image decoding verification and corrupt header elimination across all images to ensure 100\% defect-free image matrices. \\ \hline
+\textbf{Representativeness} & Balanced representation across 13 diverse fruits with balanced quality distributions ($\approx 500$--$600$ images per quality class per fruit). \\ \hline
+\textbf{Reproducibility} & Fully deterministic data processing pipeline with explicit random seeds (seed 42) and standalone Python scripts. \\ \hline
 \end{tabular}
 \caption{Data quality validation dimensions and verification evidence}
 \label{tab:data-quality-checks}
@@ -860,15 +800,14 @@ Table~\ref{tab:comparison-existing-datasets} contrasts the proposed dataset agai
 
 \begin{table}[H]
 \centering\small
-\begin{tabularx}{\textwidth}{@{}p{0.20\textwidth}cccp{0.16\textwidth}X@{}}
-\toprule
+\begin{tabularx}{\textwidth}{|p{0.20\textwidth}|c|c|c|p{0.16\textwidth}|X|}
+\hline
 \textbf{Dataset} & \textbf{Total Images} & \textbf{Fruits} & \textbf{Quality Grades} & \textbf{Background} & \textbf{Key Distinctions} \\
-\midrule
-Fruit-360 \cite{fruit360} & 90,483 & 131 & None (Only Type) & White / Studio & Studio rotary setup; no defect or quality grading. \\
-FruitNet (Indian) \cite{fruitnet} & 14,700 & 6 & 2 (Good / Bad) & Complex & Binary condition only; limited to 6 fruit types. \\
-Fresh/Rotten \cite{khalil_fresh_rotten} & 13,599 & 3 & 2 (Fresh / Rotten) & Mixed & Only 3 fruits (Apple, Banana, Orange); binary only. \\
-\textbf{Our Dataset} & \textbf{20,823} & \textbf{13} & \textbf{3 (Good/Med/Bad)} & \textbf{Real-World} & \textbf{13 fruits, 3-tier grading (with Medium), multi-source.} \\
-\bottomrule
+\hline
+Fruit-360 \cite{fruit360} & 90,483 & 131 & None (Only Type) & White / Studio & Studio rotary setup; no defect or quality grading. \\ \hline
+FruitNet (Indian) \cite{fruitnet} & 14,700 & 6 & 2 (Good / Bad) & Complex & Binary condition only; limited to 6 fruit types. \\ \hline
+Fresh/Rotten \cite{khalil_fresh_rotten} & 13,599 & 3 & 2 (Fresh / Rotten) & Mixed & Only 3 fruits (Apple, Banana, Orange); binary only. \\ \hline
+\textbf{Our Dataset} & \textbf{20,823} & \textbf{13} & \textbf{3 (Good/Med/Bad)} & \textbf{Real-World} & \textbf{13 fruits, 3-tier grading (with Medium), multi-source.} \\ \hline
 \end{tabularx}
 \caption{Comparison with existing public fruit classification datasets}
 \label{tab:comparison-existing-datasets}
@@ -928,33 +867,30 @@ Two dedicated from-scratch convolutional neural network baselines were developed
 
 \begin{table}[H]
 \centering\small
-\begin{tabularx}{\textwidth}{@{}l l l X@{}}
-\toprule
+\begin{tabularx}{\textwidth}{|l|l|l|X|}
+\hline
 \textbf{Layer / Stage} & \textbf{Output Shape} & \textbf{Kernel / Config} & \textbf{Operations and Hyperparameters} \\
-\midrule
+\hline
 Input Layer & $224 \times 224 \times 3$ & -- & Standardized RGB photographic input \\
-\midrule
-\multicolumn{4}{@{}l}{\textbf{Feature Extraction Backbone (4 Convolutional Blocks)}} \\
-\midrule
-Conv Block 1 & $112 \times 112 \times 32$ & $3 \times 3$, pad 1 & Conv2D (32 filters) $\to$ BatchNorm2d $\to$ LeakyReLU($\alpha=0.1$) $\to$ MaxPool2d($2\times2$) \\
-Conv Block 2 & $56 \times 56 \times 64$ & $3 \times 3$, pad 1 & Conv2D (64 filters) $\to$ BatchNorm2d $\to$ LeakyReLU($\alpha=0.1$) $\to$ MaxPool2d($2\times2$) \\
-Conv Block 3 & $28 \times 28 \times 128$ & $3 \times 3$, pad 1 & Conv2D (128 filters) $\to$ BatchNorm2d $\to$ LeakyReLU($\alpha=0.1$) $\to$ MaxPool2d($2\times2$) \\
-Conv Block 4 & $14 \times 14 \times 256$ & $3 \times 3$, pad 1 & Conv2D (256 filters) $\to$ BatchNorm2d $\to$ LeakyReLU($\alpha=0.1$) $\to$ MaxPool2d($2\times2$) \\
-\midrule
-Global Pooling & $1 \times 1 \times 256$ & -- & AdaptiveAvgPool2d($1 \times 1$) spatial reduction \\
-\midrule
-\multicolumn{4}{@{}l}{\textbf{Sequential Classification Head ($256 \to 128 \to 64 \to 13$)}} \\
-\midrule
-Flatten & 256 & -- & Flatten 3D spatial tensor into 1D feature vector \\
-Dropout 1 & 256 & $p = 0.3$ & Regularization to prevent neuron co-adaptation \\
-Dense Layer 1 & 128 & Linear($256 \to 128$) & Fully-connected feature projection \\
-Activation 1 & 128 & LeakyReLU($\alpha=0.1$) & Non-linear activation preventing dying gradients \\
-Dropout 2 & 128 & $p = 0.3$ & Intermediate dense layer dropout \\
-Dense Layer 2 & 64 & Linear($128 \to 64$) & Bottleneck dense representation \\
-Activation 2 & 64 & LeakyReLU($\alpha=0.1$) & Non-linear activation \\
-Dropout 3 & 64 & $p = 0.3$ & Pre-output dropout regularization \\
-Output Layer & 13 & Linear($64 \to 13$) & Final unnormalized class logits for 13 fruit species \\
-\bottomrule
+\hline
+\multicolumn{4}{|l|}{\textbf{Feature Extraction Backbone (4 Convolutional Blocks)}} \\
+\hline
+Conv Block 1 & $112 \times 112 \times 32$ & $3 \times 3$, pad 1 & Conv2D (32 filters) $\to$ BatchNorm2d $\to$ LeakyReLU($\alpha=0.1$) $\to$ MaxPool2d($2\times2$) \\ \hline
+Conv Block 2 & $56 \times 56 \times 64$ & $3 \times 3$, pad 1 & Conv2D (64 filters) $\to$ BatchNorm2d $\to$ LeakyReLU($\alpha=0.1$) $\to$ MaxPool2d($2\times2$) \\ \hline
+Conv Block 3 & $28 \times 28 \times 128$ & $3 \times 3$, pad 1 & Conv2D (128 filters) $\to$ BatchNorm2d $\to$ LeakyReLU($\alpha=0.1$) $\to$ MaxPool2d($2\times2$) \\ \hline
+Conv Block 4 & $14 \times 14 \times 256$ & $3 \times 3$, pad 1 & Conv2D (256 filters) $\to$ BatchNorm2d $\to$ LeakyReLU($\alpha=0.1$) $\to$ MaxPool2d($2\times2$) \\ \hline
+Global Pooling & $1 \times 1 \times 256$ & -- & AdaptiveAvgPool2d($1 \times 1$) spatial reduction \\ \hline
+\multicolumn{4}{|l|}{\textbf{Sequential Classification Head ($256 \to 128 \to 64 \to 13$)}} \\
+\hline
+Flatten & 256 & -- & Flatten 3D spatial tensor into 1D feature vector \\ \hline
+Dropout 1 & 256 & $p = 0.3$ & Regularization to prevent neuron co-adaptation \\ \hline
+Dense Layer 1 & 128 & Linear($256 \to 128$) & Fully-connected feature projection \\ \hline
+Activation 1 & 128 & LeakyReLU($\alpha=0.1$) & Non-linear activation preventing dying gradients \\ \hline
+Dropout 2 & 128 & $p = 0.3$ & Intermediate dense layer dropout \\ \hline
+Dense Layer 2 & 64 & Linear($128 \to 64$) & Bottleneck dense representation \\ \hline
+Activation 2 & 64 & LeakyReLU($\alpha=0.1$) & Non-linear activation \\ \hline
+Dropout 3 & 64 & $p = 0.3$ & Pre-output dropout regularization \\ \hline
+Output Layer & 13 & Linear($64 \to 13$) & Final unnormalized class logits for 13 fruit species \\ \hline
 \end{tabularx}
 \caption{Custom CNN architecture specification for Task 1: 13-Class Multi-Fruit Species Classification}
 \label{tab:custom-cnn-13class}
@@ -962,29 +898,26 @@ Output Layer & 13 & Linear($64 \to 13$) & Final unnormalized class logits for 13
 
 \begin{table}[H]
 \centering\small
-\begin{tabularx}{\textwidth}{@{}l l l X@{}}
-\toprule
+\begin{tabularx}{\textwidth}{|l|l|l|X|}
+\hline
 \textbf{Layer / Stage} & \textbf{Output Shape} & \textbf{Kernel / Config} & \textbf{Operations and Hyperparameters} \\
-\midrule
+\hline
 Input Layer & $224 \times 224 \times 3$ & -- & Standardized RGB photographic input \\
-\midrule
-\multicolumn{4}{@{}l}{\textbf{Feature Extraction Backbone (3 Convolutional Blocks)}} \\
-\midrule
-Conv Block 1 & $112 \times 112 \times 32$ & $3 \times 3$, pad 1 & Conv2D (32 filters) $\to$ BatchNorm2d $\to$ LeakyReLU($\alpha=0.1$) $\to$ MaxPool2d($2\times2$) \\
-Conv Block 2 & $56 \times 56 \times 64$ & $3 \times 3$, pad 1 & Conv2D (64 filters) $\to$ BatchNorm2d $\to$ LeakyReLU($\alpha=0.1$) $\to$ MaxPool2d($2\times2$) \\
-Conv Block 3 & $28 \times 28 \times 128$ & $3 \times 3$, pad 1 & Conv2D (128 filters) $\to$ BatchNorm2d $\to$ LeakyReLU($\alpha=0.1$) $\to$ MaxPool2d($2\times2$) \\
-\midrule
-Global Pooling & $1 \times 1 \times 128$ & -- & AdaptiveAvgPool2d($1 \times 1$) spatial reduction \\
-\midrule
-\multicolumn{4}{@{}l}{\textbf{Sequential Classification Head ($128 \to 64 \to 3$)}} \\
-\midrule
-Flatten & 128 & -- & Flatten 3D spatial tensor into 1D feature vector \\
-Dropout 1 & 128 & $p = 0.3$ & Regularization to prevent neuron co-adaptation \\
-Dense Layer 1 & 64 & Linear($128 \to 64$) & Fully-connected feature projection \\
-Activation 1 & 64 & LeakyReLU($\alpha=0.1$) & Non-linear activation \\
-Dropout 2 & 64 & $p = 0.3$ & Pre-output dropout regularization \\
-Output Layer & 3 & Linear($64 \to 3$) & Final unnormalized class logits for 3 quality grades \\
-\bottomrule
+\hline
+\multicolumn{4}{|l|}{\textbf{Feature Extraction Backbone (3 Convolutional Blocks)}} \\
+\hline
+Conv Block 1 & $112 \times 112 \times 32$ & $3 \times 3$, pad 1 & Conv2D (32 filters) $\to$ BatchNorm2d $\to$ LeakyReLU($\alpha=0.1$) $\to$ MaxPool2d($2\times2$) \\ \hline
+Conv Block 2 & $56 \times 56 \times 64$ & $3 \times 3$, pad 1 & Conv2D (64 filters) $\to$ BatchNorm2d $\to$ LeakyReLU($\alpha=0.1$) $\to$ MaxPool2d($2\times2$) \\ \hline
+Conv Block 3 & $28 \times 28 \times 128$ & $3 \times 3$, pad 1 & Conv2D (128 filters) $\to$ BatchNorm2d $\to$ LeakyReLU($\alpha=0.1$) $\to$ MaxPool2d($2\times2$) \\ \hline
+Global Pooling & $1 \times 1 \times 128$ & -- & AdaptiveAvgPool2d($1 \times 1$) spatial reduction \\ \hline
+\multicolumn{4}{|l|}{\textbf{Sequential Classification Head ($128 \to 64 \to 3$)}} \\
+\hline
+Flatten & 128 & -- & Flatten 3D spatial tensor into 1D feature vector \\ \hline
+Dropout 1 & 128 & $p = 0.3$ & Regularization to prevent neuron co-adaptation \\ \hline
+Dense Layer 1 & 64 & Linear($128 \to 64$) & Fully-connected feature projection \\ \hline
+Activation 1 & 64 & LeakyReLU($\alpha=0.1$) & Non-linear activation \\ \hline
+Dropout 2 & 64 & $p = 0.3$ & Pre-output dropout regularization \\ \hline
+Output Layer & 3 & Linear($64 \to 3$) & Final unnormalized class logits for 3 quality grades \\ \hline
 \end{tabularx}
 \caption{Custom CNN architecture specification for Task 2: 3-Class Intra-Fruit Quality Inspection}
 \label{tab:custom-cnn-quality}
@@ -995,18 +928,14 @@ Table~\ref{tab:transfer-models} summarizes the pre-trained deep learning archite
 
 \begin{table}[H]
 \centering\small
-\begin{tabular}{@{}llccp{0.34\textwidth}@{}}
-\toprule
+\begin{tabular}{|l|l|c|c|p{0.34\textwidth}|}
+\hline
 \textbf{Model} & \textbf{Pre-trained Source} & \textbf{Parameters} & \textbf{Input Resolution} & \textbf{Architectural Feature} \\
-\midrule
-MobileNetV3-Large & ImageNet-1k & 5.4M & $224 \times 224$ & Depthwise separable convs, Squeeze-and-Excitation, hard-swish non-linearities. \\
-\midrule
-YOLO26n-cls & ImageNet-1k & 3.1M & $224 \times 224$ & Ultralytics state-of-the-art real-time classifier with multi-scale attention heads. \\
-\midrule
-EfficientNet-B0 & ImageNet-1k & 5.3M & $224 \times 224$ & Principled compound scaling balancing network depth, width, and resolution. \\
-\midrule
-ResNet-50 & ImageNet-1k & 25.6M & $224 \times 224$ & 50-layer deep residual network with bottleneck blocks and identity skip shortcuts. \\
-\bottomrule
+\hline
+MobileNetV3-Large & ImageNet-1k & 5.4M & $224 \times 224$ & Depthwise separable convs, Squeeze-and-Excitation, hard-swish non-linearities. \\ \hline
+YOLO26n-cls & ImageNet-1k & 3.1M & $224 \times 224$ & Ultralytics state-of-the-art real-time classifier with multi-scale attention heads. \\ \hline
+EfficientNet-B0 & ImageNet-1k & 5.3M & $224 \times 224$ & Principled compound scaling balancing network depth, width, and resolution. \\ \hline
+ResNet-50 & ImageNet-1k & 25.6M & $224 \times 224$ & 50-layer deep residual network with bottleneck blocks and identity skip shortcuts. \\ \hline
 \end{tabular}
 \caption{Transfer-learning candidate models benchmarked}
 \label{tab:transfer-models}
@@ -1017,22 +946,21 @@ Table~\ref{tab:training-config} summarizes the standardized training hyperparame
 
 \begin{table}[H]
 \centering\small
-\begin{tabular}{@{}llp{0.52\textwidth}@{}}
-\toprule
+\begin{tabular}{|l|l|p{0.52\textwidth}|}
+\hline
 \textbf{Hyperparameter} & \textbf{Benchmark Setting} & \textbf{Implementation Details} \\
-\midrule
-Input Resolution & $224 \times 224$ pixels & Center-cropped and standardized RGB channels \\
-Batch Size & 64 (Quality) / 128 (13-Fruits) & Mini-batch optimization with GPU tensor pinning \\
-Maximum Epochs & 25 epochs & Early stopping with patience = 5 epochs on test macro F1 \\
-Optimizer & AdamW ($\beta_1=0.9, \beta_2=0.999$) & Weight decay $= 1 \times 10^{-4}$ for PyTorch models; Auto for YOLO26 \\
-Learning Rate & $1 \times 10^{-3}$ (Custom CNN) & $2 \times 10^{-4}$ (MobileNetV3, EfficientNet), $1 \times 10^{-4}$ (ResNet-50) \\
-LR Scheduler & CosineAnnealingLR & $T_{\max} = 25$, smoothly decaying learning rate to minimum \\
-Loss Function & Cross-Entropy Loss & $\mathcal{L}_{\text{CE}} = -\sum_{c=1}^C y_c \log(\hat{y}_c)$ \\
-Regularization & Dropout ($p=0.3$) & Weight decay ($10^{-4}$) and train-only spatial augmentation \\
-Precision & Mixed Precision (FP16/AMP) & PyTorch \texttt{torch.amp.autocast('cuda')} with \texttt{GradScaler} \\
-Random Seed & 42 & Deterministic cuDNN backends (\texttt{cudnn.deterministic = True}) \\
-Data Partitioning & Stratified 80\% / 20\% & Class-balanced splitting preserving quality and species ratios \\
-\bottomrule
+\hline
+Input Resolution & $224 \times 224$ pixels & Center-cropped and standardized RGB channels \\ \hline
+Batch Size & 64 (Quality) / 128 (13-Fruits) & Mini-batch optimization with GPU tensor pinning \\ \hline
+Maximum Epochs & 25 epochs & Early stopping with patience = 5 epochs on test macro F1 \\ \hline
+Optimizer & AdamW ($\beta_1=0.9, \beta_2=0.999$) & Weight decay $= 1 \times 10^{-4}$ for PyTorch models; Auto for YOLO26 \\ \hline
+Learning Rate & $1 \times 10^{-3}$ (Custom CNN) & $2 \times 10^{-4}$ (MobileNetV3, EfficientNet), $1 \times 10^{-4}$ (ResNet-50) \\ \hline
+LR Scheduler & CosineAnnealingLR & $T_{\max} = 25$, smoothly decaying learning rate to minimum \\ \hline
+Loss Function & Cross-Entropy Loss & $\mathcal{L}_{\text{CE}} = -\sum_{c=1}^C y_c \log(\hat{y}_c)$ \\ \hline
+Regularization & Dropout ($p=0.3$) & Weight decay ($10^{-4}$) and train-only spatial augmentation \\ \hline
+Precision & Mixed Precision (FP16/AMP) & PyTorch \texttt{torch.amp.autocast('cuda')} with \texttt{GradScaler} \\ \hline
+Random Seed & 42 & Deterministic cuDNN backends (\texttt{cudnn.deterministic = True}) \\ \hline
+Data Partitioning & Stratified 80\% / 20\% & Class-balanced splitting preserving quality and species ratios \\ \hline
 \end{tabular}
 \caption{Training hyperparameters and optimization configuration across all models}
 \label{tab:training-config}
@@ -1068,17 +996,16 @@ Table~\ref{tab:metrics-summary} summarizes the purpose and role of each evaluati
 
 \begin{table}[H]
 \centering
-\begin{tabular}{@{}ll@{}}
-\toprule
+\begin{tabular}{|l|p{0.68\textwidth}|}
+\hline
 \textbf{Evaluation Metric} & \textbf{Purpose} \\
-\midrule
-Accuracy & Overall correctness across all samples \\
-Precision & Reliability of positive predictions per class \\
-Recall & Sensitivity / coverage of actual positive instances \\
-F1-Score (Macro / Weighted) & Balance between precision and recall across classes \\
-Confusion Matrix & Detailed class-wise error and misclassification analysis \\
-ROC-AUC & Discrimination capability across classification thresholds \\
-\bottomrule
+\hline
+Accuracy & Overall correctness across all samples \\ \hline
+Precision & Reliability of positive predictions per class \\ \hline
+Recall & Sensitivity / coverage of actual positive instances \\ \hline
+F1-Score (Macro / Weighted) & Balance between precision and recall across classes \\ \hline
+Confusion Matrix & Detailed class-wise error and misclassification analysis \\ \hline
+ROC-AUC & Discrimination capability across classification thresholds \\ \hline
 \end{tabular}
 \caption{Summary of evaluation metrics used}
 \label{tab:metrics-summary}
@@ -1093,15 +1020,14 @@ Table~\ref{tab:baseline-summary-compact} presents a compact summary of baseline 
 
 \begin{table}[H]
 \centering\small
-\begin{tabularx}{\textwidth}{@{}p{0.34\textwidth}cccX@{}}
-\toprule
+\begin{tabularx}{\textwidth}{|p{0.34\textwidth}|c|c|c|X|}
+\hline
 \textbf{Task / Dataset} & \textbf{Custom CNN} & \textbf{MobileNetV3} & \textbf{ResNet-50} & \textbf{Top Architecture} \\
-\midrule
-Overall 13-Fruit Recognition & 96.37\% & 99.86\% & \textbf{99.93\%} & ResNet-50 / YOLO26n (99.93\%) \\
-Mean Quality Classification (13 Fruits) & 87.62\% & \textbf{96.99\%} & 96.59\% & MobileNetV3-Large (96.99\%) \\
-Best-case Quality (Lychee, Dragon Fruit) & 99.06\% & 100.00\% & 100.00\% & All Transfer Models (100.00\%) \\
-Challenging Quality (Papaya) & 76.18\% & \textbf{85.59\%} & 85.29\% & MobileNetV3-Large (85.59\%) \\
-\bottomrule
+\hline
+Overall 13-Fruit Recognition & 96.37\% & 99.86\% & \textbf{99.93\%} & ResNet-50 / YOLO26n (99.93\%) \\ \hline
+Mean Quality Classification (13 Fruits) & 87.62\% & \textbf{96.99\%} & 96.59\% & MobileNetV3-Large (96.99\%) \\ \hline
+Best-case Quality (Lychee, Dragon Fruit) & 99.06\% & 100.00\% & 100.00\% & All Transfer Models (100.00\%) \\ \hline
+Challenging Quality (Papaya) & 76.18\% & \textbf{85.59\%} & 85.29\% & MobileNetV3-Large (85.59\%) \\ \hline
 \end{tabularx}
 \caption{Compact summary of baseline model performance across tasks}
 \label{tab:baseline-summary-compact}
@@ -1112,16 +1038,20 @@ Before diving into the per-fruit quality classification, a unified 13-class frui
 
 \begin{table}[H]
 \centering\small
-\begin{tabular}{@{}lccc@{}}
-\toprule
-\textbf{Model} & \textbf{Accuracy (\%)} & \textbf{Macro F1} & \textbf{Weighted F1} \\
-\midrule
-Custom CNN & 96.37 & 0.9632 & 0.9636 \\
-MobileNetV3-Large & 99.86 & 0.9986 & 0.9986 \\
-\textbf{YOLO26n-cls} & \textbf{99.93} & \textbf{0.9993} & \textbf{0.9993} \\
-EfficientNet-B0 & 99.88 & 0.9988 & 0.9988 \\
-\textbf{ResNet-50} & \textbf{99.93} & \textbf{0.9993} & \textbf{0.9993} \\
-\bottomrule
+\begin{tabular}{|l|c|c|c|l|}
+\hline
+\textbf{Model} & \textbf{Accuracy (\%)} & \textbf{Macro F1} & \textbf{Weighted F1} & \textbf{Note} \\
+\hline
+Custom CNN & 96.37 & 0.9632 & 0.9636 & Scratch CNN baseline \\
+\hline
+MobileNetV3-Large & 99.86 & 0.9986 & 0.9986 & High-efficiency mobile baseline \\
+\hline
+\textbf{YOLO26n-cls} & \textbf{99.93} & \textbf{0.9993} & \textbf{0.9993} & Top performer (tied, 99.93\%) \\
+\hline
+EfficientNet-B0 & 99.88 & 0.9988 & 0.9988 & Pre-trained compound scaling \\
+\hline
+\textbf{ResNet-50} & \textbf{99.93} & \textbf{0.9993} & \textbf{0.9993} & Top performer (tied, 99.93\%) \\
+\hline
 \end{tabular}
 \caption{Fruit-type recognition (13 classes) benchmark}
 \label{tab:13fruits-benchmark}
@@ -1155,31 +1085,7 @@ EfficientNet-B0 & 99.88 & 0.9988 & 0.9988 \\
     \label{fig:13fruits-roc}
 \end{figure}
 
-\begin{figure}[H]
-    \centering
-    \begin{subfigure}[b]{0.48\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{figures/13_fruits_resnet50_learning_loss.png}
-        \caption{Loss vs Epochs}
-        \label{fig:13fruits-lc-loss}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.48\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{figures/13_fruits_resnet50_learning_accuracy.png}
-        \caption{Accuracy vs Epochs}
-        \label{fig:13fruits-lc-acc}
-    \end{subfigure}
-    \\[0.35cm]
-    \begin{subfigure}[b]{0.48\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{figures/13_fruits_resnet50_learning_macro_f1.png}
-        \caption{Macro F1 vs Epochs}
-        \label{fig:13fruits-lc-f1}
-    \end{subfigure}
-    \caption{All 13 Fruits: ResNet-50 -- Training and validation performance curves across epochs}
-    \label{fig:13fruits-lc}
-\end{figure}
+
 
 \begin{figure}[H]
     \centering
@@ -1214,16 +1120,20 @@ This section presents the 3-class quality classification results across all 13 f
 
 \begin{table}[H]
 \centering\small
-\begin{tabular}{@{}lccc@{}}
-\toprule
-\textbf{Model} & \textbf{Accuracy (\%)} & \textbf{Macro F1} & \textbf{Weighted F1} \\
-\midrule
-Small Custom CNN & 76.18 & 0.7685 & 0.7645 \\
-\textbf{MobileNetV3-Large} & \textbf{85.59} & \textbf{0.8575} & \textbf{0.8546} \\
-YOLO26n-cls & 83.82 & 0.8417 & 0.8397 \\
-EfficientNet-B0 & 84.41 & 0.8492 & 0.8448 \\
-ResNet-50 & 85.29 & 0.8570 & 0.8527 \\
-\bottomrule
+\begin{tabular}{|l|c|c|c|l|}
+\hline
+\textbf{Model} & \textbf{Accuracy (\%)} & \textbf{Macro F1} & \textbf{Weighted F1} & \textbf{Note} \\
+\hline
+Small Custom CNN & 76.18 & 0.7685 & 0.7645 & Scratch CNN baseline \\
+\hline
+\textbf{MobileNetV3-Large} & \textbf{85.59} & \textbf{0.8575} & \textbf{0.8546} & Top performer (85.59\%) \\
+\hline
+YOLO26n-cls & 83.82 & 0.8417 & 0.8397 & Real-time classifier \\
+\hline
+EfficientNet-B0 & 84.41 & 0.8492 & 0.8448 & Pre-trained baseline \\
+\hline
+ResNet-50 & 85.29 & 0.8570 & 0.8527 & Deep residual network \\
+\hline
 \end{tabular}
 \caption{Papaya quality classification benchmark}
 \label{tab:papaya-benchmark}
@@ -1250,12 +1160,7 @@ ResNet-50 & 85.29 & 0.8570 & 0.8527 \\
     \label{fig:papaya-cm}
 \end{figure}
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.85\textwidth]{Output/papaya/fruit_quality_outputs_papaya/plots/mobilenetv3_large_learning_curves.png}
-    \caption{Papaya: MobileNetV3-Large -- Training and validation curves}
-    \label{fig:papaya-lc}
-\end{figure}
+
 
 \begin{figure}[H]
     \centering
@@ -1275,16 +1180,20 @@ Papaya remains the \textbf{most challenging} fruit for quality classification ac
 
 \begin{table}[H]
 \centering\small
-\begin{tabular}{@{}lccc@{}}
-\toprule
-\textbf{Model} & \textbf{Accuracy (\%)} & \textbf{Macro F1} & \textbf{Weighted F1} \\
-\midrule
-Small Custom CNN & 84.10 & 0.8364 & 0.8402 \\
-MobileNetV3-Large & 96.53 & 0.9644 & 0.9653 \\
-YOLO26n-cls & 96.24 & 0.9616 & 0.9623 \\
-EfficientNet-B0 & 95.95 & 0.9586 & 0.9596 \\
-\textbf{ResNet-50} & \textbf{96.82} & \textbf{0.9675} & \textbf{0.9682} \\
-\bottomrule
+\begin{tabular}{|l|c|c|c|l|}
+\hline
+\textbf{Model} & \textbf{Accuracy (\%)} & \textbf{Macro F1} & \textbf{Weighted F1} & \textbf{Note} \\
+\hline
+Small Custom CNN & 84.10 & 0.8364 & 0.8402 & Scratch CNN baseline \\
+\hline
+MobileNetV3-Large & 96.53 & 0.9644 & 0.9653 & High accuracy mobile model \\
+\hline
+YOLO26n-cls & 96.24 & 0.9616 & 0.9623 & Real-time classifier \\
+\hline
+EfficientNet-B0 & 95.95 & 0.9586 & 0.9596 & Pre-trained baseline \\
+\hline
+\textbf{ResNet-50} & \textbf{96.82} & \textbf{0.9675} & \textbf{0.9682} & Top performer (96.82\%) \\
+\hline
 \end{tabular}
 \caption{Lemon quality classification benchmark}
 \label{tab:lemon-benchmark}
@@ -1311,12 +1220,7 @@ EfficientNet-B0 & 95.95 & 0.9586 & 0.9596 \\
     \label{fig:lemon-cm}
 \end{figure}
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.85\textwidth]{Output/lemon/fruit_quality_outputs_lemon (1)/plots/resnet_50_learning_curves.png}
-    \caption{Lemon: ResNet-50 -- Training and validation curves}
-    \label{fig:lemon-lc}
-\end{figure}
+
 
 \begin{figure}[H]
     \centering
@@ -1336,16 +1240,20 @@ Lemon quality classification achieves strong performance across transfer archite
 
 \begin{table}[H]
 \centering\small
-\begin{tabular}{@{}lccc@{}}
-\toprule
-\textbf{Model} & \textbf{Accuracy (\%)} & \textbf{Macro F1} & \textbf{Weighted F1} \\
-\midrule
-Small Custom CNN & 99.06 & 0.9907 & 0.9906 \\
-\textbf{MobileNetV3-Large} & \textbf{100.00} & \textbf{1.0000} & \textbf{1.0000} \\
-\textbf{YOLO26n-cls} & \textbf{100.00} & \textbf{1.0000} & \textbf{1.0000} \\
-\textbf{EfficientNet-B0} & \textbf{100.00} & \textbf{1.0000} & \textbf{1.0000} \\
-\textbf{ResNet-50} & \textbf{100.00} & \textbf{1.0000} & \textbf{1.0000} \\
-\bottomrule
+\begin{tabular}{|l|c|c|c|l|}
+\hline
+\textbf{Model} & \textbf{Accuracy (\%)} & \textbf{Macro F1} & \textbf{Weighted F1} & \textbf{Note} \\
+\hline
+Small Custom CNN & 99.06 & 0.9907 & 0.9906 & Scratch CNN baseline \\
+\hline
+\textbf{MobileNetV3-Large} & \textbf{100.00} & \textbf{1.0000} & \textbf{1.0000} & Top performer (tied, 100\%) \\
+\hline
+\textbf{YOLO26n-cls} & \textbf{100.00} & \textbf{1.0000} & \textbf{1.0000} & Top performer (tied, 100\%) \\
+\hline
+\textbf{EfficientNet-B0} & \textbf{100.00} & \textbf{1.0000} & \textbf{1.0000} & Top performer (tied, 100\%) \\
+\hline
+\textbf{ResNet-50} & \textbf{100.00} & \textbf{1.0000} & \textbf{1.0000} & Top performer (tied, 100\%) \\
+\hline
 \end{tabular}
 \caption{Lychee quality classification benchmark}
 \label{tab:lychee-benchmark}
@@ -1372,12 +1280,7 @@ Small Custom CNN & 99.06 & 0.9907 & 0.9906 \\
     \label{fig:lychee-cm}
 \end{figure}
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.85\textwidth]{Output/lychee/fruit_quality_outputs_lychee/plots/efficientnet_b0_learning_curves.png}
-    \caption{Lychee: EfficientNet-B0 -- Training and validation curves}
-    \label{fig:lychee-lc}
-\end{figure}
+
 
 \begin{figure}[H]
     \centering
@@ -1395,16 +1298,20 @@ Lychee quality classification achieves \textbf{flawless 100.00\% accuracy} acros
 
 \begin{table}[H]
 \centering\small
-\begin{tabular}{@{}lccc@{}}
-\toprule
-\textbf{Model} & \textbf{Accuracy (\%)} & \textbf{Macro F1} & \textbf{Weighted F1} \\
-\midrule
-Small Custom CNN & 76.49 & 0.7658 & 0.7661 \\
-\textbf{MobileNetV3-Large} & \textbf{99.67} & \textbf{0.9967} & \textbf{0.9967} \\
-YOLO26n-cls & 97.68 & 0.9768 & 0.9768 \\
-\textbf{EfficientNet-B0} & \textbf{99.67} & \textbf{0.9967} & \textbf{0.9967} \\
-ResNet-50 & 99.34 & 0.9934 & 0.9934 \\
-\bottomrule
+\begin{tabular}{|l|c|c|c|l|}
+\hline
+\textbf{Model} & \textbf{Accuracy (\%)} & \textbf{Macro F1} & \textbf{Weighted F1} & \textbf{Note} \\
+\hline
+Small Custom CNN & 76.49 & 0.7658 & 0.7661 & Scratch CNN baseline \\
+\hline
+\textbf{MobileNetV3-Large} & \textbf{99.67} & \textbf{0.9967} & \textbf{0.9967} & Top performer (tied, 99.67\%) \\
+\hline
+YOLO26n-cls & 97.68 & 0.9768 & 0.9768 & Real-time classifier \\
+\hline
+\textbf{EfficientNet-B0} & \textbf{99.67} & \textbf{0.9967} & \textbf{0.9967} & Top performer (tied, 99.67\%) \\
+\hline
+ResNet-50 & 99.34 & 0.9934 & 0.9934 & Deep residual network \\
+\hline
 \end{tabular}
 \caption{Jackfruit quality classification benchmark}
 \label{tab:jackfruit-benchmark}
@@ -1431,12 +1338,7 @@ ResNet-50 & 99.34 & 0.9934 & 0.9934 \\
     \label{fig:jackfruit-cm}
 \end{figure}
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.85\textwidth]{Output/jackfruit/fruit_quality_outputs_jackfruit/plots/mobilenetv3_large_learning_curves.png}
-    \caption{Jackfruit: MobileNetV3-Large -- Training and validation curves}
-    \label{fig:jackfruit-lc}
-\end{figure}
+
 
 \begin{figure}[H]
     \centering
@@ -1456,16 +1358,20 @@ Jackfruit quality classification demonstrates outstanding accuracy, with both \t
 
 \begin{table}[H]
 \centering\small
-\begin{tabular}{@{}lccc@{}}
-\toprule
-\textbf{Model} & \textbf{Accuracy (\%)} & \textbf{Macro F1} & \textbf{Weighted F1} \\
-\midrule
-Small Custom CNN & 85.31 & 0.8533 & 0.8541 \\
-\textbf{MobileNetV3-Large} & \textbf{94.38} & \textbf{0.9425} & \textbf{0.9433} \\
-\textbf{YOLO26n-cls} & \textbf{94.38} & \textbf{0.9431} & \textbf{0.9437} \\
-EfficientNet-B0 & 92.81 & 0.9271 & 0.9280 \\
-ResNet-50 & 92.50 & 0.9245 & 0.9251 \\
-\bottomrule
+\begin{tabular}{|l|c|c|c|l|}
+\hline
+\textbf{Model} & \textbf{Accuracy (\%)} & \textbf{Macro F1} & \textbf{Weighted F1} & \textbf{Note} \\
+\hline
+Small Custom CNN & 85.31 & 0.8533 & 0.8541 & Scratch CNN baseline \\
+\hline
+\textbf{MobileNetV3-Large} & \textbf{94.38} & \textbf{0.9425} & \textbf{0.9433} & Top performer (tied, 94.38\%) \\
+\hline
+\textbf{YOLO26n-cls} & \textbf{94.38} & \textbf{0.9431} & \textbf{0.9437} & Top performer (tied, 94.38\%) \\
+\hline
+EfficientNet-B0 & 92.81 & 0.9271 & 0.9280 & Pre-trained baseline \\
+\hline
+ResNet-50 & 92.50 & 0.9245 & 0.9251 & Deep residual network \\
+\hline
 \end{tabular}
 \caption{Mango quality classification benchmark}
 \label{tab:mango-benchmark}
@@ -1492,12 +1398,7 @@ ResNet-50 & 92.50 & 0.9245 & 0.9251 \\
     \label{fig:mango-cm}
 \end{figure}
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.85\textwidth]{Output/mango/fruit_quality_outputs_mango/plots/mobilenetv3_large_learning_curves.png}
-    \caption{Mango: MobileNetV3-Large -- Training and validation curves}
-    \label{fig:mango-lc}
-\end{figure}
+
 
 \begin{figure}[H]
     \centering
@@ -1517,16 +1418,20 @@ For mango quality classification, \textbf{MobileNetV3-Large} and \textbf{YOLO26n
 
 \begin{table}[H]
 \centering\small
-\begin{tabular}{@{}lccc@{}}
-\toprule
-\textbf{Model} & \textbf{Accuracy (\%)} & \textbf{Macro F1} & \textbf{Weighted F1} \\
-\midrule
-Small Custom CNN & 80.00 & 0.7909 & 0.7939 \\
-\textbf{MobileNetV3-Large} & \textbf{92.19} & \textbf{0.9184} & \textbf{0.9200} \\
-YOLO26n-cls & 89.06 & 0.8881 & 0.8899 \\
-EfficientNet-B0 & 90.00 & 0.8970 & 0.8988 \\
-ResNet-50 & 90.00 & 0.8964 & 0.8981 \\
-\bottomrule
+\begin{tabular}{|l|c|c|c|l|}
+\hline
+\textbf{Model} & \textbf{Accuracy (\%)} & \textbf{Macro F1} & \textbf{Weighted F1} & \textbf{Note} \\
+\hline
+Small Custom CNN & 80.00 & 0.7909 & 0.7939 & Scratch CNN baseline \\
+\hline
+\textbf{MobileNetV3-Large} & \textbf{92.19} & \textbf{0.9184} & \textbf{0.9200} & Top performer (92.19\%) \\
+\hline
+YOLO26n-cls & 89.06 & 0.8881 & 0.8899 & Real-time classifier \\
+\hline
+EfficientNet-B0 & 90.00 & 0.8970 & 0.8988 & Pre-trained baseline \\
+\hline
+ResNet-50 & 90.00 & 0.8964 & 0.8981 & Deep residual network \\
+\hline
 \end{tabular}
 \caption{Star Fruit quality classification benchmark}
 \label{tab:star-benchmark}
@@ -1553,12 +1458,7 @@ ResNet-50 & 90.00 & 0.8964 & 0.8981 \\
     \label{fig:star-cm}
 \end{figure}
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.85\textwidth]{Output/starfruit/fruit_quality_outputs_star_fruit/plots/mobilenetv3_large_learning_curves.png}
-    \caption{Star Fruit: MobileNetV3-Large -- Training and validation curves}
-    \label{fig:star-lc}
-\end{figure}
+
 
 \begin{figure}[H]
     \centering
@@ -1578,16 +1478,20 @@ Star fruit quality inspection reaches its highest accuracy of 92.19\% (0.9184 ma
 
 \begin{table}[H]
 \centering\small
-\begin{tabular}{@{}lccc@{}}
-\toprule
-\textbf{Model} & \textbf{Accuracy (\%)} & \textbf{Macro F1} & \textbf{Weighted F1} \\
-\midrule
-Small Custom CNN & 97.21 & 0.9725 & 0.9721 \\
-MobileNetV3-Large & 99.07 & 0.9905 & 0.9907 \\
-\textbf{YOLO26n-cls} & \textbf{99.38} & \textbf{0.9936} & \textbf{0.9938} \\
-\textbf{EfficientNet-B0} & \textbf{99.38} & \textbf{0.9936} & \textbf{0.9938} \\
-ResNet-50 & 99.07 & 0.9905 & 0.9907 \\
-\bottomrule
+\begin{tabular}{|l|c|c|c|l|}
+\hline
+\textbf{Model} & \textbf{Accuracy (\%)} & \textbf{Macro F1} & \textbf{Weighted F1} & \textbf{Note} \\
+\hline
+Small Custom CNN & 97.21 & 0.9725 & 0.9721 & Scratch CNN baseline \\
+\hline
+MobileNetV3-Large & 99.07 & 0.9905 & 0.9907 & High accuracy mobile model \\
+\hline
+\textbf{YOLO26n-cls} & \textbf{99.38} & \textbf{0.9936} & \textbf{0.9938} & Top performer (tied, 99.38\%) \\
+\hline
+\textbf{EfficientNet-B0} & \textbf{99.38} & \textbf{0.9936} & \textbf{0.9938} & Top performer (tied, 99.38\%) \\
+\hline
+ResNet-50 & 99.07 & 0.9905 & 0.9907 & Deep residual network \\
+\hline
 \end{tabular}
 \caption{Guava quality classification benchmark}
 \label{tab:guava-benchmark}
@@ -1614,12 +1518,7 @@ ResNet-50 & 99.07 & 0.9905 & 0.9907 \\
     \label{fig:guava-cm}
 \end{figure}
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.85\textwidth]{Output/guava/fruit_quality_outputs_guava/plots/efficientnet_b0_learning_curves.png}
-    \caption{Guava: EfficientNet-B0 -- Training and validation curves}
-    \label{fig:guava-lc}
-\end{figure}
+
 
 \begin{figure}[H]
     \centering
@@ -1639,16 +1538,20 @@ Guava quality classification achieves exceptional discrimination, with both \tex
 
 \begin{table}[H]
 \centering\small
-\begin{tabular}{@{}lccc@{}}
-\toprule
-\textbf{Model} & \textbf{Accuracy (\%)} & \textbf{Macro F1} & \textbf{Weighted F1} \\
-\midrule
-Small Custom CNN & 89.32 & 0.8951 & 0.8925 \\
-\textbf{MobileNetV3-Large} & \textbf{98.81} & \textbf{0.9884} & \textbf{0.9881} \\
-YOLO26n-cls & 97.63 & 0.9768 & 0.9762 \\
-\textbf{EfficientNet-B0} & \textbf{98.81} & \textbf{0.9884} & \textbf{0.9881} \\
-ResNet-50 & 97.63 & 0.9769 & 0.9763 \\
-\bottomrule
+\begin{tabular}{|l|c|c|c|l|}
+\hline
+\textbf{Model} & \textbf{Accuracy (\%)} & \textbf{Macro F1} & \textbf{Weighted F1} & \textbf{Note} \\
+\hline
+Small Custom CNN & 89.32 & 0.8951 & 0.8925 & Scratch CNN baseline \\
+\hline
+\textbf{MobileNetV3-Large} & \textbf{98.81} & \textbf{0.9884} & \textbf{0.9881} & Top performer (tied, 98.81\%) \\
+\hline
+YOLO26n-cls & 97.63 & 0.9768 & 0.9762 & Real-time classifier \\
+\hline
+\textbf{EfficientNet-B0} & \textbf{98.81} & \textbf{0.9884} & \textbf{0.9881} & Top performer (tied, 98.81\%) \\
+\hline
+ResNet-50 & 97.63 & 0.9769 & 0.9763 & Deep residual network \\
+\hline
 \end{tabular}
 \caption{Jujube quality classification benchmark}
 \label{tab:jujube-benchmark}
@@ -1675,12 +1578,7 @@ ResNet-50 & 97.63 & 0.9769 & 0.9763 \\
     \label{fig:jujube-cm}
 \end{figure}
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.85\textwidth]{Output/jujube/fruit_quality_outputs_jujube/plots/mobilenetv3_large_learning_curves.png}
-    \caption{Jujube: MobileNetV3-Large -- Training and validation curves}
-    \label{fig:jujube-lc}
-\end{figure}
+
 
 \begin{figure}[H]
     \centering
@@ -1700,16 +1598,20 @@ For jujube quality grading, \textbf{MobileNetV3-Large} and \textbf{EfficientNet-
 
 \begin{table}[H]
 \centering\small
-\begin{tabular}{@{}lccc@{}}
-\toprule
-\textbf{Model} & \textbf{Accuracy (\%)} & \textbf{Macro F1} & \textbf{Weighted F1} \\
-\midrule
-Small Custom CNN & 97.45 & 0.9744 & 0.9746 \\
-MobileNetV3-Large & 99.68 & 0.9967 & 0.9968 \\
-\textbf{YOLO26n-cls} & \textbf{100.00} & \textbf{1.0000} & \textbf{1.0000} \\
-\textbf{EfficientNet-B0} & \textbf{100.00} & \textbf{1.0000} & \textbf{1.0000} \\
-ResNet-50 & 99.68 & 0.9967 & 0.9968 \\
-\bottomrule
+\begin{tabular}{|l|c|c|c|l|}
+\hline
+\textbf{Model} & \textbf{Accuracy (\%)} & \textbf{Macro F1} & \textbf{Weighted F1} & \textbf{Note} \\
+\hline
+Small Custom CNN & 97.45 & 0.9744 & 0.9746 & Scratch CNN baseline \\
+\hline
+MobileNetV3-Large & 99.68 & 0.9967 & 0.9968 & High accuracy mobile model \\
+\hline
+\textbf{YOLO26n-cls} & \textbf{100.00} & \textbf{1.0000} & \textbf{1.0000} & Top performer (tied, 100\%) \\
+\hline
+\textbf{EfficientNet-B0} & \textbf{100.00} & \textbf{1.0000} & \textbf{1.0000} & Top performer (tied, 100\%) \\
+\hline
+ResNet-50 & 99.68 & 0.9967 & 0.9968 & High accuracy model \\
+\hline
 \end{tabular}
 \caption{Banana quality classification benchmark}
 \label{tab:banana-benchmark}
@@ -1736,12 +1638,7 @@ ResNet-50 & 99.68 & 0.9967 & 0.9968 \\
     \label{fig:banana-cm}
 \end{figure}
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.85\textwidth]{Output/banana/fruit_quality_outputs_banana/plots/efficientnet_b0_learning_curves.png}
-    \caption{Banana: EfficientNet-B0 -- Training and validation curves}
-    \label{fig:banana-lc}
-\end{figure}
+
 
 \begin{figure}[H]
     \centering
@@ -1759,16 +1656,20 @@ Banana quality grading yields \textbf{perfect 100.00\% accuracy} with \textbf{Ef
 
 \begin{table}[H]
 \centering\small
-\begin{tabular}{@{}lccc@{}}
-\toprule
-\textbf{Model} & \textbf{Accuracy (\%)} & \textbf{Macro F1} & \textbf{Weighted F1} \\
-\midrule
-Small Custom CNN & 99.70 & 0.9969 & 0.9970 \\
-\textbf{MobileNetV3-Large} & \textbf{100.00} & \textbf{1.0000} & \textbf{1.0000} \\
-\textbf{YOLO26n-cls} & \textbf{100.00} & \textbf{1.0000} & \textbf{1.0000} \\
-\textbf{EfficientNet-B0} & \textbf{100.00} & \textbf{1.0000} & \textbf{1.0000} \\
-\textbf{ResNet-50} & \textbf{100.00} & \textbf{1.0000} & \textbf{1.0000} \\
-\bottomrule
+\begin{tabular}{|l|c|c|c|l|}
+\hline
+\textbf{Model} & \textbf{Accuracy (\%)} & \textbf{Macro F1} & \textbf{Weighted F1} & \textbf{Note} \\
+\hline
+Small Custom CNN & 99.70 & 0.9969 & 0.9970 & Scratch CNN baseline \\
+\hline
+\textbf{MobileNetV3-Large} & \textbf{100.00} & \textbf{1.0000} & \textbf{1.0000} & Top performer (tied, 100\%) \\
+\hline
+\textbf{YOLO26n-cls} & \textbf{100.00} & \textbf{1.0000} & \textbf{1.0000} & Top performer (tied, 100\%) \\
+\hline
+\textbf{EfficientNet-B0} & \textbf{100.00} & \textbf{1.0000} & \textbf{1.0000} & Top performer (tied, 100\%) \\
+\hline
+\textbf{ResNet-50} & \textbf{100.00} & \textbf{1.0000} & \textbf{1.0000} & Top performer (tied, 100\%) \\
+\hline
 \end{tabular}
 \caption{Dragon Fruit quality classification benchmark}
 \label{tab:dragon-benchmark}
@@ -1795,12 +1696,7 @@ Small Custom CNN & 99.70 & 0.9969 & 0.9970 \\
     \label{fig:dragon-cm}
 \end{figure}
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.85\textwidth]{Output/dragonfruit/fruit_quality_outputs_dragonfruit/plots/efficientnet_b0_learning_curves.png}
-    \caption{Dragon Fruit: EfficientNet-B0 -- Training and validation curves}
-    \label{fig:dragon-lc}
-\end{figure}
+
 
 \begin{figure}[H]
     \centering
@@ -1818,16 +1714,20 @@ Dragon fruit quality classification represents the most separable intra-class be
 
 \begin{table}[H]
 \centering\small
-\begin{tabular}{@{}lccc@{}}
-\toprule
-\textbf{Model} & \textbf{Accuracy (\%)} & \textbf{Macro F1} & \textbf{Weighted F1} \\
-\midrule
-Small Custom CNN & 92.67 & 0.9264 & 0.9264 \\
-MobileNetV3-Large & 96.33 & 0.9632 & 0.9632 \\
-YOLO26n-cls & 96.33 & 0.9633 & 0.9633 \\
-\textbf{EfficientNet-B0} & \textbf{97.00} & \textbf{0.9699} & \textbf{0.9699} \\
-ResNet-50 & 96.00 & 0.9598 & 0.9598 \\
-\bottomrule
+\begin{tabular}{|l|c|c|c|l|}
+\hline
+\textbf{Model} & \textbf{Accuracy (\%)} & \textbf{Macro F1} & \textbf{Weighted F1} & \textbf{Note} \\
+\hline
+Small Custom CNN & 92.67 & 0.9264 & 0.9264 & Scratch CNN baseline \\
+\hline
+MobileNetV3-Large & 96.33 & 0.9632 & 0.9632 & High accuracy mobile model \\
+\hline
+YOLO26n-cls & 96.33 & 0.9633 & 0.9633 & Real-time classifier \\
+\hline
+\textbf{EfficientNet-B0} & \textbf{97.00} & \textbf{0.9699} & \textbf{0.9699} & Top performer (97.00\%) \\
+\hline
+ResNet-50 & 96.00 & 0.9598 & 0.9598 & Deep residual network \\
+\hline
 \end{tabular}
 \caption{Pineapple quality classification benchmark}
 \label{tab:pineapple-benchmark}
@@ -1854,12 +1754,7 @@ ResNet-50 & 96.00 & 0.9598 & 0.9598 \\
     \label{fig:pineapple-cm}
 \end{figure}
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.85\textwidth]{Output/pineapple/fruit_quality_outputs_pineapple/plots/efficientnet_b0_learning_curves.png}
-    \caption{Pineapple: EfficientNet-B0 -- Training and validation curves}
-    \label{fig:pineapple-lc}
-\end{figure}
+
 
 \begin{figure}[H]
     \centering
@@ -1879,16 +1774,20 @@ Pineapple quality classification is led by \textbf{EfficientNet-B0} with 97.00\%
 
 \begin{table}[H]
 \centering\small
-\begin{tabular}{@{}lccc@{}}
-\toprule
-\textbf{Model} & \textbf{Accuracy (\%)} & \textbf{Macro F1} & \textbf{Weighted F1} \\
-\midrule
-Small Custom CNN & 89.62 & 0.8941 & 0.8952 \\
-MobileNetV3-Large & 98.96 & 0.9893 & 0.9896 \\
-\textbf{YOLO26n-cls} & \textbf{100.00} & \textbf{1.0000} & \textbf{1.0000} \\
-\textbf{EfficientNet-B0} & \textbf{100.00} & \textbf{1.0000} & \textbf{1.0000} \\
-ResNet-50 & 99.65 & 0.9964 & 0.9965 \\
-\bottomrule
+\begin{tabular}{|l|c|c|c|l|}
+\hline
+\textbf{Model} & \textbf{Accuracy (\%)} & \textbf{Macro F1} & \textbf{Weighted F1} & \textbf{Note} \\
+\hline
+Small Custom CNN & 89.62 & 0.8941 & 0.8952 & Scratch CNN baseline \\
+\hline
+MobileNetV3-Large & 98.96 & 0.9893 & 0.9896 & High accuracy mobile model \\
+\hline
+\textbf{YOLO26n-cls} & \textbf{100.00} & \textbf{1.0000} & \textbf{1.0000} & Top performer (tied, 100\%) \\
+\hline
+\textbf{EfficientNet-B0} & \textbf{100.00} & \textbf{1.0000} & \textbf{1.0000} & Top performer (tied, 100\%) \\
+\hline
+ResNet-50 & 99.65 & 0.9964 & 0.9965 & High accuracy model \\
+\hline
 \end{tabular}
 \caption{Sapodilla quality classification benchmark}
 \label{tab:sapodilla-benchmark}
@@ -1915,12 +1814,7 @@ ResNet-50 & 99.65 & 0.9964 & 0.9965 \\
     \label{fig:sapodilla-cm}
 \end{figure}
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.85\textwidth]{Output/sapodilia/fruit_quality_outputs_sapodilla/plots/efficientnet_b0_learning_curves.png}
-    \caption{Sapodilla: EfficientNet-B0 -- Training and validation curves}
-    \label{fig:sapodilla-lc}
-\end{figure}
+
 
 \begin{figure}[H]
     \centering
@@ -1938,16 +1832,20 @@ Sapodilla (sofeda) quality classification achieves \textbf{perfect 100.00\% accu
 
 \begin{table}[H]
 \centering\small
-\begin{tabular}{@{}lccc@{}}
-\toprule
-\textbf{Model} & \textbf{Accuracy (\%)} & \textbf{Macro F1} & \textbf{Weighted F1} \\
-\midrule
-Small Custom CNN & 72.00 & 0.7224 & 0.7236 \\
-\textbf{MobileNetV3-Large} & \textbf{99.69} & \textbf{0.9969} & \textbf{0.9969} \\
-\textbf{YOLO26n-cls} & \textbf{99.69} & \textbf{0.9970} & \textbf{0.9969} \\
-EfficientNet-B0 & 99.08 & 0.9910 & 0.9908 \\
-\textbf{ResNet-50} & \textbf{99.69} & \textbf{0.9968} & \textbf{0.9969} \\
-\bottomrule
+\begin{tabular}{|l|c|c|c|l|}
+\hline
+\textbf{Model} & \textbf{Accuracy (\%)} & \textbf{Macro F1} & \textbf{Weighted F1} & \textbf{Note} \\
+\hline
+Small Custom CNN & 72.00 & 0.7224 & 0.7236 & Scratch CNN baseline \\
+\hline
+\textbf{MobileNetV3-Large} & \textbf{99.69} & \textbf{0.9969} & \textbf{0.9969} & Top performer (tied, 99.69\%) \\
+\hline
+\textbf{YOLO26n-cls} & \textbf{99.69} & \textbf{0.9970} & \textbf{0.9969} & Top performer (tied, 99.69\%) \\
+\hline
+EfficientNet-B0 & 99.08 & 0.9910 & 0.9908 & Pre-trained baseline \\
+\hline
+\textbf{ResNet-50} & \textbf{99.69} & \textbf{0.9968} & \textbf{0.9969} & Top performer (tied, 99.69\%) \\
+\hline
 \end{tabular}
 \caption{Custard Apple quality classification benchmark}
 \label{tab:custard-benchmark}
@@ -1974,12 +1872,7 @@ EfficientNet-B0 & 99.08 & 0.9910 & 0.9908 \\
     \label{fig:custard-cm}
 \end{figure}
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.85\textwidth]{Output/custard_apple/fruit_quality_outputs_custard_apple/plots/mobilenetv3_large_learning_curves.png}
-    \caption{Custard Apple: MobileNetV3-Large -- Training and validation curves}
-    \label{fig:custard-lc}
-\end{figure}
+
 
 \begin{figure}[H]
     \centering
@@ -2003,26 +1896,24 @@ Table~\ref{tab:master-comparison} presents a comprehensive benchmark comparison 
 \caption{Test accuracy (\%) of all models across all 13 evaluated fruit quality datasets}
 \label{tab:master-comparison}
 \resizebox{\textwidth}{!}{%
-\begin{tabular}{@{}lcccccl@{}}
-\toprule
+\begin{tabular}{|l|c|c|c|c|c|l|}
+\hline
 \textbf{Fruit} & \textbf{Custom CNN} & \textbf{MobileNetV3} & \textbf{YOLO26n} & \textbf{EfficientNet} & \textbf{ResNet-50} & \textbf{Top Architecture(s)} \\
-\midrule
-Papaya        & 76.18 & \textbf{85.59} & 83.82 & 84.41 & 85.29 & MobileNetV3-Large \\
-Lemon         & 84.10 & 96.53 & 96.24 & 95.95 & \textbf{96.82} & ResNet-50 \\
-Lychee        & 99.06 & \textbf{100.00} & \textbf{100.00} & \textbf{100.00} & \textbf{100.00} & EfficientNet-B0 \\
-Jackfruit     & 76.49 & \textbf{99.67} & 97.68 & \textbf{99.67} & 99.34 & MobileNetV3-Large \\
-Mango         & 85.31 & \textbf{94.38} & \textbf{94.38} & 92.81 & 92.50 & MobileNetV3-Large \\
-Star Fruit    & 80.00 & \textbf{92.19} & 89.06 & 90.00 & 90.00 & MobileNetV3-Large \\
-Guava         & 97.21 & 99.07 & \textbf{99.38} & \textbf{99.38} & 99.07 & EfficientNet-B0 \\
-Jujube        & 89.32 & \textbf{98.81} & 97.63 & \textbf{98.81} & 97.63 & MobileNetV3-Large \\
-Banana        & 97.45 & 99.68 & \textbf{100.00} & \textbf{100.00} & 99.68 & EfficientNet-B0 \\
-Dragon Fruit  & 99.70 & \textbf{100.00} & \textbf{100.00} & \textbf{100.00} & \textbf{100.00} & EfficientNet-B0 \\
-Pineapple     & 92.67 & 96.33 & 96.33 & \textbf{97.00} & 96.00 & EfficientNet-B0 \\
-Sapodilla     & 89.62 & 98.96 & \textbf{100.00} & \textbf{100.00} & 99.65 & EfficientNet-B0 \\
-Custard Apple & 72.00 & \textbf{99.69} & \textbf{99.69} & 99.08 & \textbf{99.69} & MobileNetV3-Large \\
-\midrule
-\textbf{Average} & \textbf{87.62} & \textbf{96.99} & \textbf{96.48} & \textbf{96.70} & \textbf{96.59} & \textbf{MobileNetV3-Large (96.99\%)} \\
-\bottomrule
+\hline
+Papaya        & 76.18 & \textbf{85.59} & 83.82 & 84.41 & 85.29 & MobileNetV3-Large \\ \hline
+Lemon         & 84.10 & 96.53 & 96.24 & 95.95 & \textbf{96.82} & ResNet-50 \\ \hline
+Lychee        & 99.06 & \textbf{100.00} & \textbf{100.00} & \textbf{100.00} & \textbf{100.00} & EfficientNet-B0 \\ \hline
+Jackfruit     & 76.49 & \textbf{99.67} & 97.68 & \textbf{99.67} & 99.34 & MobileNetV3-Large \\ \hline
+Mango         & 85.31 & \textbf{94.38} & \textbf{94.38} & 92.81 & 92.50 & MobileNetV3-Large \\ \hline
+Star Fruit    & 80.00 & \textbf{92.19} & 89.06 & 90.00 & 90.00 & MobileNetV3-Large \\ \hline
+Guava         & 97.21 & 99.07 & \textbf{99.38} & \textbf{99.38} & 99.07 & EfficientNet-B0 \\ \hline
+Jujube        & 89.32 & \textbf{98.81} & 97.63 & \textbf{98.81} & 97.63 & MobileNetV3-Large \\ \hline
+Banana        & 97.45 & 99.68 & \textbf{100.00} & \textbf{100.00} & 99.68 & EfficientNet-B0 \\ \hline
+Dragon Fruit  & 99.70 & \textbf{100.00} & \textbf{100.00} & \textbf{100.00} & \textbf{100.00} & EfficientNet-B0 \\ \hline
+Pineapple     & 92.67 & 96.33 & 96.33 & \textbf{97.00} & 96.00 & EfficientNet-B0 \\ \hline
+Sapodilla     & 89.62 & 98.96 & \textbf{100.00} & \textbf{100.00} & 99.65 & EfficientNet-B0 \\ \hline
+Custard Apple & 72.00 & \textbf{99.69} & \textbf{99.69} & 99.08 & \textbf{99.69} & MobileNetV3-Large \\ \hline
+\textbf{Average} & \textbf{87.62} & \textbf{96.99} & \textbf{96.48} & \textbf{96.70} & \textbf{96.59} & \textbf{MobileNetV3-Large (96.99\%)} \\ \hline
 \end{tabular}%
 }
 \end{table}
@@ -2109,20 +2000,15 @@ While the dataset represents 20,823 curated images across 13 fruits, several lim
 
 \begin{table}[H]
 \centering\small
-\begin{tabular}{@{}p{0.32\textwidth}p{0.64\textwidth}@{}}
-\toprule
+\begin{tabular}{|p{0.32\textwidth}|p{0.64\textwidth}|}
+\hline
 \textbf{Ethics Dimension} & \textbf{Compliance Details} \\
-\midrule
-\textbf{Human participants / consent} & Not applicable. The dataset consists exclusively of botanical fruit imagery. No human subjects, physiological data, or personal records were involved. \\
-\midrule
-\textbf{Privacy / de-identification} & All photographs were manually screened to ensure no human faces, biometric identifiers, vehicle license plates, or personally identifiable information (PII) appear. \\
-\midrule
-\textbf{Web / social-media data} & Secondary images were compiled strictly from open-access academic and CC-licensed repositories adhering to platform redistribution terms. \\
-\midrule
-\textbf{Copyright / third-party data} & All third-party sources are cited and redistributed in accordance with Creative Commons (CC BY 4.0, CC0) licensing. \\
-\midrule
-\textbf{AI-generated / synthetic data} & \textbf{0\% Generative AI.} All 20,823 images are authentic optical photographic captures. No GAN, diffusion, or synthetic images were used. \\
-\bottomrule
+\hline
+\textbf{Human participants / consent} & Not applicable. The dataset consists exclusively of botanical fruit imagery. No human subjects, physiological data, or personal records were involved. \\ \hline
+\textbf{Privacy / de-identification} & All photographs were manually screened to ensure no human faces, biometric identifiers, vehicle license plates, or personally identifiable information (PII) appear. \\ \hline
+\textbf{Web / social-media data} & Secondary images were compiled strictly from open-access academic and CC-licensed repositories adhering to platform redistribution terms. \\ \hline
+\textbf{Copyright / third-party data} & All third-party sources are cited and redistributed in accordance with Creative Commons (CC BY 4.0, CC0) licensing. \\ \hline
+\textbf{AI-generated / synthetic data} & \textbf{0\% Generative AI.} All 20,823 images are authentic optical photographic captures. No GAN, diffusion, or synthetic images were used. \\ \hline
 \end{tabular}
 \caption{Ethical, privacy, and responsible use disclosures}
 \label{tab:ethics-disclosure}
@@ -2135,19 +2021,18 @@ While the dataset represents 20,823 curated images across 13 fruits, several lim
 
 \begin{table}[H]
 \centering\small
-\begin{tabular}{@{}p{0.32\textwidth}p{0.64\textwidth}@{}}
-\toprule
+\begin{tabular}{|p{0.32\textwidth}|p{0.64\textwidth}|}
+\hline
 \textbf{Item} & \textbf{Details} \\
-\midrule
-\textbf{Repository name} & GitHub / Zenodo Open Archive \\
-\textbf{Dataset DOI / persistent ID} & N/A \\
-\textbf{Direct dataset URL} & \url{https://github.com/codernayeem/fruit-classification-dataset} \\
-\textbf{Access instructions} & Publicly accessible without registration; downloadable as archived zip bundles \\
-\textbf{Dataset license} & Creative Commons Attribution 4.0 International (CC BY 4.0) \\
-\textbf{Code / notebook URL} & \url{https://github.com/codernayeem/fruit-classification-dataset} \\
-\textbf{Code version / commit} & Release tag \texttt{v1.0-release} (Git commit \texttt{7a9df2b}) \\
-\textbf{README \& environment} & \texttt{README.md}, \texttt{requirements.txt}, Conda \texttt{environment.yml} \\
-\bottomrule
+\hline
+\textbf{Repository name} & GitHub / Zenodo Open Archive \\ \hline
+\textbf{Dataset DOI / persistent ID} & N/A \\ \hline
+\textbf{Direct dataset URL} & \url{https://github.com/codernayeem/fruit-classification-dataset} \\ \hline
+\textbf{Access instructions} & Publicly accessible without registration; downloadable as archived zip bundles \\ \hline
+\textbf{Dataset license} & Creative Commons Attribution 4.0 International (CC BY 4.0) \\ \hline
+\textbf{Code / notebook URL} & \url{https://github.com/codernayeem/fruit-classification-dataset} \\ \hline
+\textbf{Code version / commit} & Release tag \texttt{v1.0-release} (Git commit \texttt{7a9df2b}) \\ \hline
+\textbf{README \& environment} & \texttt{README.md}, \texttt{requirements.txt}, Conda \texttt{environment.yml} \\ \hline
 \end{tabular}
 \caption{Data and code availability parameters}
 \label{tab:data-availability}
@@ -2165,22 +2050,16 @@ Each student had primary ownership of acquiring and preparing their two allotted
 
 \begin{table}[H]
 \centering\small
-\begin{tabularx}{\textwidth}{@{}l p{3.4cm} c p{3.6cm} X@{}}
-\toprule
+\begin{tabularx}{\textwidth}{|l|p{3.4cm}|c|p{3.6cm}|X|}
+\hline
 \textbf{Roll} & \textbf{Student Name} & \textbf{Share} & \textbf{Main Contributions (CRediT)} & \textbf{Evidence / Tasks Owned} \\
-\midrule
-2107042 & Kazi Rifat Al Muin & 16.67\% & Data Curation, Software, Investigation, Formal Analysis & Online curation \& quality models for \textbf{Papaya} \& \textbf{Lemon}; YOLO baseline pipeline; Joint \textbf{Custard Apple} \& 13-Fruit evaluation. \\
-\midrule
-2107043 & Farid Ahmed Patwary & 16.67\% & Data Curation, Validation, Visualization, Writing & Online curation \& quality models for \textbf{Lychee} \& \textbf{Jackfruit}; Confusion matrix and ROC visualization; Joint \textbf{Custard Apple} \& 13-Fruit evaluation. \\
-\midrule
-2107048 & Md Torikul Islam & 16.67\% & Conceptualization, Methodology, Project Administration, Software & Online curation \& quality models for \textbf{Mango} \& \textbf{Star Fruit}; Repository structuring and data manifests; Joint \textbf{Custard Apple} \& 13-Fruit evaluation. \\
-\midrule
-2107050 & Md Nayeem & 16.67\% & Data Curation, Software, Investigation, Validation & Online curation \& quality models for \textbf{Guava} \& \textbf{Jujube}; On-the-fly PyTorch DataLoader pipeline \& GPU optimization; Joint \textbf{Custard Apple} \& 13-Fruit evaluation. \\
-\midrule
-2107054 & Md Jahid Hasan Jim & 16.67\% & Data Curation, Investigation, Formal Analysis, Writing & Online curation \& quality models for \textbf{Banana} \& \textbf{Dragon Fruit}; Training loss \& accuracy curve analysis; Joint \textbf{Custard Apple} \& 13-Fruit evaluation. \\
-\midrule
-2107055 & Arka Braja Prasad Nath & 16.67\% & Data Curation, Software, Validation, Data Dictionary & Online curation \& quality models for \textbf{Pineapple} \& \textbf{Sapodilla}; Metadata dictionary generation \& verification; Joint \textbf{Custard Apple} \& 13-Fruit evaluation. \\
-\bottomrule
+\hline
+2107042 & Kazi Rifat Al Muin & 16.67\% & Data Curation, Software, Investigation, Formal Analysis & Online curation \& quality models for \textbf{Papaya} \& \textbf{Lemon}; YOLO baseline pipeline; Joint \textbf{Custard Apple} \& 13-Fruit evaluation. \\ \hline
+2107043 & Farid Ahmed Patwary & 16.67\% & Data Curation, Validation, Visualization, Writing & Online curation \& quality models for \textbf{Lychee} \& \textbf{Jackfruit}; Confusion matrix and ROC visualization; Joint \textbf{Custard Apple} \& 13-Fruit evaluation. \\ \hline
+2107048 & Md Torikul Islam & 16.67\% & Conceptualization, Methodology, Project Administration, Software & Online curation \& quality models for \textbf{Mango} \& \textbf{Star Fruit}; Repository structuring and data manifests; Joint \textbf{Custard Apple} \& 13-Fruit evaluation. \\ \hline
+2107050 & Md Nayeem & 16.67\% & Data Curation, Software, Investigation, Validation & Online curation \& quality models for \textbf{Guava} \& \textbf{Jujube}; On-the-fly PyTorch DataLoader pipeline \& GPU optimization; Joint \textbf{Custard Apple} \& 13-Fruit evaluation. \\ \hline
+2107054 & Md Jahid Hasan Jim & 16.67\% & Data Curation, Investigation, Formal Analysis, Writing & Online curation \& quality models for \textbf{Banana} \& \textbf{Dragon Fruit}; Training loss \& accuracy curve analysis; Joint \textbf{Custard Apple} \& 13-Fruit evaluation. \\ \hline
+2107055 & Arka Braja Prasad Nath & 16.67\% & Data Curation, Software, Validation, Data Dictionary & Online curation \& quality models for \textbf{Pineapple} \& \textbf{Sapodilla}; Metadata dictionary generation \& verification; Joint \textbf{Custard Apple} \& 13-Fruit evaluation. \\ \hline
 \end{tabularx}
 \caption{Student contributions matrix following CRediT taxonomy across dataset curation and ML modeling}
 \label{tab:student-contributions}
@@ -2457,34 +2336,22 @@ Table~\ref{tab:fair-checklist} provides the completed FAIR (Findable, Accessible
 \begin{table}[H]
 \centering\small
 \resizebox{\textwidth}{!}{%
-\begin{tabular}{@{}p{0.22\textwidth}p{0.50\textwidth}cp{0.20\textwidth}@{}}
-\toprule
+\begin{tabular}{|p{0.22\textwidth}|p{0.50\textwidth}|c|p{0.20\textwidth}|}
+\hline
 \textbf{Checklist Item} & \textbf{Criterion} & \textbf{Status} & \textbf{Evidence / Note} \\
-\midrule
-\textbf{Findable} & Repository and persistent identifier/URL provided; metadata searchable. & $\boxtimes$ Yes & GitHub repository \& Zenodo DOI included. \\
-\midrule
-\textbf{Accessible} & Access instructions work; files downloadable by intended users. & $\boxtimes$ Yes & Open public repository with direct download links. \\
-\midrule
-\textbf{Interoperable} & Standard open formats (JPEG, PNG, CSV) with documented schema. & $\boxtimes$ Yes & Standard image formats; complete data dictionary. \\
-\midrule
-\textbf{Reusable} & Clear open license; documentation, provenance, and limitations provided. & $\boxtimes$ Yes & CC BY 4.0 license; full usage guide and limitations. \\
-\midrule
-\textbf{Raw + Processed} & Original observations preserved separately from cleaned/standardized files. & $\boxtimes$ Yes & Raw source archives in \texttt{fruit\_dataset/} preserved separately from standardized stratified splits in \texttt{fruit\_dataset\_processed/}. \\
-\midrule
-\textbf{Versioning} & Dataset version and release change history recorded. & $\boxtimes$ Yes & Version v1.0 tagged with Git commit hash. \\
-\midrule
-\textbf{Integrity} & Deduplication, corruption, and blur checks performed; checksums included. & $\boxtimes$ Yes & pHash deduplication, decode checks, and format verification. \\
-\midrule
-\textbf{Leakage Safety} & Related samples and augmentations do not cross ML data partitions. & $\boxtimes$ Yes & Stratified splitting prior to train-only augmentation. \\
-\midrule
-\textbf{Reproducible Pipeline} & Code/notebooks reproduce processed data and baseline benchmarks. & $\boxtimes$ Yes & Complete PyTorch and Ultralytics training scripts. \\
-\midrule
-\textbf{Ethics / Privacy} & Anonymization and copyright requirements satisfied; 0\% GenAI. & $\boxtimes$ Yes & Verified free of PII; 100\% natural optical captures. \\
-\midrule
-\textbf{Documentation} & README explains files, variables, environment, and reproduction commands. & $\boxtimes$ Yes & Comprehensive markdown documentation in repo. \\
-\midrule
-\textbf{Team Accountability} & All six students' contributions recorded in CRediT taxonomy. & $\boxtimes$ Yes & Table~\ref{tab:student-contributions} documents 6 members' roles. \\
-\bottomrule
+\hline
+\textbf{Findable} & Repository and persistent identifier/URL provided; metadata searchable. & $\boxtimes$ Yes & GitHub repository \& Zenodo DOI included. \\ \hline
+\textbf{Accessible} & Access instructions work; files downloadable by intended users. & $\boxtimes$ Yes & Open public repository with direct download links. \\ \hline
+\textbf{Interoperable} & Standard open formats (JPEG, PNG, CSV) with documented schema. & $\boxtimes$ Yes & Standard image formats; complete data dictionary. \\ \hline
+\textbf{Reusable} & Clear open license; documentation, provenance, and limitations provided. & $\boxtimes$ Yes & CC BY 4.0 license; full usage guide and limitations. \\ \hline
+\textbf{Raw + Processed} & Original observations preserved separately from cleaned/standardized files. & $\boxtimes$ Yes & Raw source archives in \texttt{fruit\_dataset/} preserved separately from standardized stratified splits in \texttt{fruit\_dataset \_processed/}. \\ \hline
+\textbf{Versioning} & Dataset version and release change history recorded. & $\boxtimes$ Yes & Version v1.0 tagged with Git commit hash. \\ \hline
+\textbf{Integrity} & Deduplication, corruption, and blur checks performed; checksums included. & $\boxtimes$ Yes & pHash deduplication, decode checks, and format verification. \\ \hline
+\textbf{Leakage Safety} & Related samples and augmentations do not cross ML data partitions. & $\boxtimes$ Yes & Stratified splitting prior to train-only augmentation. \\ \hline
+\textbf{Reproducible Pipeline} & Code/notebooks reproduce processed data and baseline benchmarks. & $\boxtimes$ Yes & Complete PyTorch and Ultralytics training scripts. \\ \hline
+\textbf{Ethics / Privacy} & Anonymization and copyright requirements satisfied; 0\% GenAI. & $\boxtimes$ Yes & Verified free of PII; 100\% natural optical captures. \\ \hline
+\textbf{Documentation} & README explains files, variables, environment, and reproduction commands. & $\boxtimes$ Yes & Comprehensive markdown documentation in repo. \\ \hline
+\textbf{Team Accountability} & All six students' contributions recorded in CRediT taxonomy. & $\boxtimes$ Yes & Table~\ref{tab:student-contributions} documents 6 members' roles. \\ \hline
 \end{tabular}%
 }
 \caption{Dataset release and FAIR-readiness compliance checklist}
