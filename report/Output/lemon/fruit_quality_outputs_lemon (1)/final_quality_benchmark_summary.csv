@@ -1,0 +1,6 @@
+Model Architecture,Fruit Evaluated,Accuracy (%),Macro F1,Weighted F1
+Custom CNN,lemon,84.10%,0.8364,0.8402
+MobileNetV3-Large,lemon,96.53%,0.9644,0.9653
+YOLO26n-cls,lemon,96.24%,0.9616,0.9623
+EfficientNet-B0,lemon,95.95%,0.9586,0.9596
+ResNet-50,lemon,96.82%,0.9675,0.9682

@@ -4,7 +4,7 @@ import torch
 import torch.nn as nn
 from torchvision import models
 
-BASE_OUTPUT_DIR = Path("d:/ML Lab/report/Output")
+BASE_OUTPUT_DIR = Path("d:/ML Lab/Output")
 
 FRUITS_13 = [
     'banana', 'custard_apple', 'dragonfruit', 'guava', 'jackfruit',

@@ -1,0 +1,115 @@
+{
+  "stage1_fruit_species": [
+    {
+      "id": 0,
+      "class": "banana",
+      "display": "Banana",
+      "local_name": "Kola",
+      "scientific_name": "Musa acuminata"
+    },
+    {
+      "id": 1,
+      "class": "custard_apple",
+      "display": "Custard Apple",
+      "local_name": "Ata / Sharifa",
+      "scientific_name": "Annona squamosa"
+    },
+    {
+      "id": 2,
+      "class": "dragonfruit",
+      "display": "Dragonfruit",
+      "local_name": "Dragon Fruit",
+      "scientific_name": "Selenicereus undatus"
+    },
+    {
+      "id": 3,
+      "class": "guava",
+      "display": "Guava",
+      "local_name": "Peyara",
+      "scientific_name": "Psidium guajava"
+    },
+    {
+      "id": 4,
+      "class": "jackfruit",
+      "display": "Jackfruit",
+      "local_name": "Kathal",
+      "scientific_name": "Artocarpus heterophyllus"
+    },
+    {
+      "id": 5,
+      "class": "jujube",
+      "display": "Jujube",
+      "local_name": "Boroi / Kul",
+      "scientific_name": "Ziziphus mauritiana"
+    },
+    {
+      "id": 6,
+      "class": "lemon",
+      "display": "Lemon",
+      "local_name": "Lebu",
+      "scientific_name": "Citrus limon"
+    },
+    {
+      "id": 7,
+      "class": "lychee",
+      "display": "Lychee",
+      "local_name": "Lichu",
+      "scientific_name": "Litchi chinensis"
+    },
+    {
+      "id": 8,
+      "class": "mango",
+      "display": "Mango",
+      "local_name": "Aam",
+      "scientific_name": "Mangifera indica"
+    },
+    {
+      "id": 9,
+      "class": "papaya",
+      "display": "Papaya",
+      "local_name": "Pepe",
+      "scientific_name": "Carica papaya"
+    },
+    {
+      "id": 10,
+      "class": "pineapple",
+      "display": "Pineapple",
+      "local_name": "Anaros",
+      "scientific_name": "Ananas comosus"
+    },
+    {
+      "id": 11,
+      "class": "sapodilla",
+      "display": "Sapodilla",
+      "local_name": "Sofeda",
+      "scientific_name": "Manilkara zapota"
+    },
+    {
+      "id": 12,
+      "class": "star_fruit",
+      "display": "Star Fruit",
+      "local_name": "Kamranga",
+      "scientific_name": "Averrhoa carambola"
+    }
+  ],
+  "stage2_quality_grades": [
+    {
+      "id": 0,
+      "grade": "bad",
+      "badge": "Bad Grade",
+      "criteria": "Severe fungal lesion, deep rot, mechanical puncture, or advanced microbial decay. Unfit for consumption."
+    },
+    {
+      "id": 1,
+      "grade": "good",
+      "badge": "Good Grade",
+      "criteria": "Optimal visual firmness, clean skin, free of disease or severe scarring. Premium commercial table grade."
+    },
+    {
+      "id": 2,
+      "grade": "medium",
+      "badge": "Medium Grade",
+      "criteria": "Early stage decay, minor surface blemish, cosmetic scarring, or uneven ripeness. Suitable for processing."
+    }
+  ]
+}

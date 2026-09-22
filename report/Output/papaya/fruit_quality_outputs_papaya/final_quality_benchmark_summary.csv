@@ -1,0 +1,6 @@
+Model Architecture,Fruit Evaluated,Accuracy (%),Macro F1,Weighted F1
+Custom CNN,papaya,76.18%,0.7685,0.7645
+MobileNetV3-Large,papaya,85.59%,0.8575,0.8546
+YOLO26n-cls,papaya,83.82%,0.8417,0.8397
+EfficientNet-B0,papaya,84.41%,0.8492,0.8448
+ResNet-50,papaya,85.29%,0.8570,0.8527

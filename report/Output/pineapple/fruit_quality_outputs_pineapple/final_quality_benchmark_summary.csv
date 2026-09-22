@@ -1,0 +1,6 @@
+Model Architecture,Fruit Evaluated,Accuracy (%),Macro F1,Weighted F1
+Custom CNN,pineapple,92.67%,0.9264,0.9264
+MobileNetV3-Large,pineapple,96.33%,0.9632,0.9632
+YOLO26n-cls,pineapple,96.33%,0.9633,0.9633
+EfficientNet-B0,pineapple,97.00%,0.9699,0.9699
+ResNet-50,pineapple,96.00%,0.9598,0.9598

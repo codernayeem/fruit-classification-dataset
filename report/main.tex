@@ -317,54 +317,53 @@ Raw images are maintained in structured directory trees (\texttt{fruit\_dataset/
 % 7. DATA DESCRIPTION / DATA RECORDS
 % =========================================================
 \section{Data Description / Data Records}
-The dataset is structured so that researchers can immediately navigate and ingest samples without ambiguous file handling.
+This section explains exactly what users and researchers will find within the released dataset repository. The folder and file hierarchy is organized to enable seamless exploration, automated batch ingestion, and direct reproduction of the experimental pipeline without requiring users to inspect individual files. Both raw and processed components are partitioned and documented separately.
 
 \subsection{Repository and Folder Structure}
-Table~\ref{tab:folder-structure} details the repository hierarchy.
+Table~\ref{tab:folder-structure} details the repository hierarchy, itemizing the raw imagery, processed partitions, metadata records, executable notebooks, and pre-trained model artifacts.
 
 \begin{table}[H]
 \centering\small
-\begin{tabularx}{\textwidth}{@{}p{0.32\textwidth}Xp{0.18\textwidth}@{}}
+\begin{tabularx}{\textwidth}{@{}p{0.26\textwidth}Xp{0.20\textwidth}@{}}
 \toprule
-\textbf{Folder / File} & \textbf{Contents and Organization} & \textbf{Component} \\
+\textbf{Folder / file} & \textbf{Contents} & \textbf{Raw / processed / metadata} \\
 \midrule
-\texttt{fruit\_dataset/} & Raw photographic images organized by fruit variety and quality tier (\texttt{<fruit>/good/}, \texttt{<fruit>/medium/}, \texttt{<fruit>/bad/}) & Dataset Repository \\
-\texttt{fruit\_dataset/*/src.csv} & Per-fruit image provenance manifests containing original filenames, source links, and class tags & Provenance \\
-\texttt{metadata/} & Global CSV manifests, aggregated class statistics, and partition index mappings & Metadata \\
-\texttt{Fruit\_classification.ipynb} & Executable training, validation, and benchmarking notebook for 13-class macro species recognition & Execution \\
-\texttt{Fruit\_quality\_classification.ipynb} & Executable training and benchmarking notebook for 3-tier intra-fruit quality inspection & Execution \\
-\texttt{models/} & Pre-trained and fine-tuned model checkpoint weights & Models \\
-\texttt{outputs/} & Benchmark logs, evaluation metrics, confusion matrices, ROC and learning curves & Artifacts \\
-\texttt{README.md} & Dataset documentation, data dictionary summary, setup and reproduction instructions & Documentation \\
-\texttt{requirements.txt} & Exact Python package dependencies & Environment \\
+\texttt{fruit\_dataset/} & Raw photographic images organized hierarchically by fruit variety and physical condition tier (\texttt{<fruit>/good/}, \texttt{<fruit>/medium/}, \texttt{<fruit>/bad/}) alongside individual image source manifests (\texttt{src.csv}) & Raw \\
+\texttt{fruit\_dataset\_processed/} & Stratified 80/20 train/test partitioned image sets (\texttt{train/}, 16,658 images; \texttt{test/}, 4,165 images; random seed $SEED = 42$), accompanied by master partition manifest \texttt{split\_manifest.csv} & Processed \\
+\texttt{metadata/} & Global dataset schema, full data dictionary (\texttt{data\_dictionary.csv}), 13-fruit botanical taxonomy and quality grading criteria (\texttt{class\_labels.json}), and partition distribution summaries (\texttt{dataset\_statistics.csv}) & Metadata \\
+\texttt{README.md} & Comprehensive technical documentation detailing repository layout, two-stage inference architecture, environment setup, and reproduction guidelines & Documentation \\
+\texttt{Output/} & Executed benchmark Jupyter notebooks, trained model weights (\texttt{.pth}), quantitative evaluation metrics, and diagnostic evaluation plots for all 13 species and quality tasks & Artifacts / Outputs \\
+\texttt{app.py} & Interactive Streamlit web application providing two-stage species identification and quality inspection with confidence gating and Matplotlib analytics & Application \\
 \bottomrule
 \end{tabularx}
-\caption{Repository and folder structure (with dynamic on-the-fly preprocessing pipeline)}
+\caption{Repository and folder structure of the released fruit dataset and experimental suite}
 \label{tab:folder-structure}
 \end{table}
 
 \subsection{Data Dictionary}
-Table~\ref{tab:data-dictionary} outlines the schema and attribute definitions for the metadata manifest.
+Table~\ref{tab:data-dictionary} outlines the schema, attributes, ranges, and missing-value rules governing the metadata records.
 
 \begin{table}[H]
-\centering\small
-\begin{tabular}{@{}p{0.20\textwidth}p{0.32\textwidth}p{0.12\textwidth}p{0.16\textwidth}p{0.14\textwidth}@{}}
+\centering\footnotesize
+\begin{tabularx}{\textwidth}{@{}p{0.14\textwidth}p{0.22\textwidth}p{0.11\textwidth}p{0.13\textwidth}p{0.21\textwidth}X@{}}
 \toprule
-\textbf{Variable} & \textbf{Meaning} & \textbf{Type} & \textbf{Allowed Values} & \textbf{Missing Rule} \\
+\textbf{Variable / field} & \textbf{Meaning} & \textbf{Type} & \textbf{Unit / range} & \textbf{Allowed values / coding} & \textbf{Missing-value rule} \\
 \midrule
-\texttt{image\_id} & Unique file identifier & String & Alphanumeric hash & Rejection \\
-\texttt{fruit\_type} & Fruit species identifier & Categorical & 13 fruit names & Rejection \\
-\texttt{quality\_grade} & Physical condition rating & Categorical & \texttt{good}, \texttt{medium}, \texttt{bad} & Rejection \\
-\texttt{height} & Original image height & Integer & $224 \le h \le 4032$ (px) & Impute 224 \\
-\texttt{width} & Original image width & Integer & $224 \le w \le 4032$ (px) & Impute 224 \\
-\texttt{channels} & Color depth channels & Integer & 3 (RGB) & Convert \\
-\texttt{split} & Data partitioning set & Categorical & \texttt{train}, \texttt{test} & Stratified \\
-\texttt{source\_type} & Capture source & Categorical & \texttt{primary}, \texttt{secondary} & Required \\
+\texttt{image\_id} & Unique sample identifier & String & Filename & Alphanumeric (e.g., \texttt{banana\_good\_001.jpg}) & Rejection (Must be unique) \\
+\texttt{fruit\_species} & Botanical fruit variety (Stage 1 target) & Categorical & 13 classes & \texttt{banana}, \texttt{custard\_apple}, \dots, \texttt{star\_fruit} & Rejection (Mandatory) \\
+\texttt{quality\_grade} & Visual quality condition (Stage 2 target) & Categorical & 3 tiers & \texttt{good} (0), \texttt{medium} (1), \texttt{bad} (2) & Rejection (Mandatory) \\
+\texttt{split} & Partition assignment & Categorical & 2 subsets (80/20) & \texttt{train} (16,658), \texttt{test} (4,165) & Stratified deterministic \\
+\texttt{height} & Uncompressed image height & Integer & $224 \le h \le 4032$ & Pixels (px) & Resized to 224 px \\
+\texttt{width} & Uncompressed image width & Integer & $224 \le w \le 4032$ & Pixels (px) & Resized to 224 px \\
+\texttt{channels} & Color representation channels & Integer & 3 channels & RGB (Red, Green, Blue) & Converted to RGB \\
+\texttt{format} & Image container encoding standard & Categorical & Compression & \texttt{JPEG}, \texttt{PNG}, \texttt{WEBP}, \texttt{BMP} & Decoded via PIL/OpenCV \\
 \bottomrule
-\end{tabular}
-\caption{Data dictionary for dataset manifest}
+\end{tabularx}
+\caption{Data dictionary for the dataset manifest and metadata records}
 \label{tab:data-dictionary}
 \end{table}
+
+\noindent\textit{Note: Representative schema rows are presented above; the machine-readable data dictionary is preserved in \texttt{metadata/data\_dictionary.csv}.}
 
 \subsection{Dataset Composition and Descriptive Overview}
 The complete curated dataset comprises \textbf{20,823 RGB images} spanning 13 economically and agriculturally significant fruit varieties, annotated across 3 quality tiers (\texttt{good}, \texttt{medium}, \texttt{bad}). 

@@ -1,0 +1,6 @@
+Model Architecture,Fruit Evaluated,Accuracy (%),Macro F1,Weighted F1
+Custom CNN,dragonfruit,99.70%,0.9969,0.9970
+MobileNetV3-Large,dragonfruit,100.00%,1.0000,1.0000
+YOLO26n-cls,dragonfruit,100.00%,1.0000,1.0000
+EfficientNet-B0,dragonfruit,100.00%,1.0000,1.0000
+ResNet-50,dragonfruit,100.00%,1.0000,1.0000

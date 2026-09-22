@@ -1,0 +1,9 @@
+Variable / field,Meaning,Type,Unit / range,Allowed values / coding,Missing-value rule
+image_id,Unique file identifier for image sample,String,Filename string,"Alphanumeric hash/name (e.g., banana_good_001.jpg)",Rejection (Must be unique and valid)
+fruit_species,Botanical fruit species category (Stage 1 target),Categorical,13 discrete classes,"banana, custard_apple, dragonfruit, guava, jackfruit, jujube, lemon, lychee, mango, papaya, pineapple, sapodilla, star_fruit",Rejection (Required label)
+quality_grade,Physical quality condition rating (Stage 2 target),Categorical,3 ordinal tiers,"good (0), medium (1), bad (2)",Rejection (Required label)
+split,Data partitioning subset,Categorical,2 subsets (80/20 ratio),"train (16,658 images, 80%), test (4,165 images, 20%)",Stratified deterministic assignment
+height,Original raw image height,Integer,224 - 4032,Pixels (px),Resized to 224 px for model ingestion
+width,Original raw image width,Integer,224 - 4032,Pixels (px),Resized to 224 px for model ingestion
+channels,Color depth channels,Integer,3 channels,"RGB (Red, Green, Blue)",Converted from Grayscale/RGBA to RGB
+format,Image container encoding standard,Categorical,Lossy/lossless image file types,"JPEG, PNG, WEBP, BMP",Decoded and normalized via PIL/torchvision
