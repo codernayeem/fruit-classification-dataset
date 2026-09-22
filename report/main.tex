@@ -2052,7 +2052,7 @@ Each student had primary ownership of acquiring and preparing their two allotted
 \centering\small
 \begin{tabularx}{\textwidth}{|l|p{3.4cm}|c|p{3.6cm}|X|}
 \hline
-\textbf{Roll} & \textbf{Student Name} & \textbf{Share} & \textbf{Main Contributions (CRediT)} & \textbf{Evidence / Tasks Owned} \\
+\textbf{Roll} & \textbf{Student} & \textbf{Overall Contribution} & \textbf{Main Contributions} & \textbf{Evidence / files Owned} \\
 \hline
 2107042 & Kazi Rifat Al Muin & 16.67\% & Data Curation, Software, Investigation, Formal Analysis & Online curation \& quality models for \textbf{Papaya} \& \textbf{Lemon}; YOLO baseline pipeline; Joint \textbf{Custard Apple} \& 13-Fruit evaluation. \\ \hline
 2107043 & Farid Ahmed Patwary & 16.67\% & Data Curation, Validation, Visualization, Writing & Online curation \& quality models for \textbf{Lychee} \& \textbf{Jackfruit}; Confusion matrix and ROC visualization; Joint \textbf{Custard Apple} \& 13-Fruit evaluation. \\ \hline
@@ -2249,15 +2249,12 @@ K.~Ganesan et~al., ``Sugar Apples / Custard Apples (Annona squamosa) Disease Ima
 \end{thebibliography}
 
 % =========================================================
-% APPENDICES
+% --- APPENDICES ---
 % =========================================================
-\newpage
-\appendix
-
-\section{Complete Data Dictionary and Class Directory Breakdown}
+\section*{Appendix A. Complete Data Dictionary and Class Directory Breakdown}
 Table~\ref{tab:appendix-classes} provides the complete enumeration of all 39 sub-classes across the 13 fruit varieties in the released directory hierarchy.
 
-\begin{longtable}{|>{\centering\arraybackslash}m{0.8cm}|>{\raggedright\arraybackslash}m{2.3cm}|>{\centering\arraybackslash}m{1.8cm}|>{\centering\arraybackslash}m{1.4cm}|>{\raggedright\arraybackslash}m{6.8cm}|}
+\begin{longtable}{|>{\centering\arraybackslash}m{0.8cm}|>{\raggedright\arraybackslash}m{2.3cm}|>{\centering\arraybackslash}m{1.8cm}|>{\centering\arraybackslash}m{1.4cm}|>{\raggedright\arraybackslash}m{8.0cm}|}
 \caption{Complete enumeration of all 39 dataset sub-classes} \label{tab:appendix-classes} \\
 \hline
 \textbf{No.} & \textbf{Fruit Species} & \textbf{Quality Grade} & \textbf{Count} & \textbf{Directory Path} \\
@@ -2314,19 +2311,22 @@ Table~\ref{tab:appendix-classes} provides the complete enumeration of all 39 sub
 \multicolumn{3}{|r|}{\textbf{Total Released Images}} & \textbf{20,823} & -- \\ \hline
 \end{longtable}
 
-\section{Optional Supporting Material}
-\subsection{Computing Environment and Hardware Specifications}
+\vspace{1.5em}
+
+\section*{Appendix B. Optional Supporting Material}
+
+\subsection*{B.1 Computing Environment and Hardware Specifications}
 All baseline model training, hyperparameter tuning, and benchmark evaluations were executed across standardized cloud GPU accelerated environments (Kaggle and Google Colab):
 
-\begin{itemize}
-    \item \textbf{Kaggle GPU Setup:}
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, topsep=2pt]
+    \item \textbf{Kaggle GPU Environment:}
     \begin{itemize}
         \item \textbf{GPU Accelerator:} Dual NVIDIA Tesla T4 GPUs (16 GB GDDR6 VRAM each, 32 GB total) / NVIDIA Tesla P100 (16 GB HBM2).
         \item \textbf{Host Compute:} 4 vCPUs (Intel Xeon @ 2.20 GHz), 30 GB System RAM.
         \item \textbf{Storage:} 73 GB high-speed cloud disk space.
         \item \textbf{Environment:} Ubuntu 20.04 LTS, Python 3.10.12, PyTorch 2.2.1, Torchvision 0.17.1, Ultralytics 8.3.0, CUDA 12.1, cuDNN 8.9.
     \end{itemize}
-    \item \textbf{Google Colab GPU Setup:}
+    \item \textbf{Google Colab GPU Environment:}
     \begin{itemize}
         \item \textbf{GPU Accelerator:} NVIDIA Tesla T4 (15 GB GDDR6 VRAM).
         \item \textbf{Host Compute:} 2 vCPUs (Intel Xeon @ 2.30 GHz), 12.7 GB System RAM.
@@ -2335,35 +2335,31 @@ All baseline model training, hyperparameter tuning, and benchmark evaluations we
     \end{itemize}
 \end{itemize}
 
-\subsection{Benchmark Training Execution Times}
+\subsection*{B.2 Benchmark Training Execution Times}
 On average across the standardized cloud GPU setup, fine-tuning ResNet-50 required approximately 2.1 minutes per individual fruit quality dataset across 25 epochs with early stopping (patience = 5). MobileNetV3-Large converged in approximately 1.4 minutes per fruit, while YOLO26n-cls executed in 1.8 minutes per fruit. Training the unified 13-class overall recognition model on the full 20,823 image dataset required approximately 13.8 minutes for ResNet-50 and 6.8 minutes for MobileNetV3-Large.
 
-\section{Dataset Release and FAIR-Readiness Checklist}
-Table~\ref{tab:fair-checklist} provides the completed FAIR (Findable, Accessible, Interoperable, Reusable) readiness and course submission compliance checklist for the dataset release.
+\vspace{1.5em}
 
-\begin{table}[H]
-\centering\small
-\resizebox{\textwidth}{!}{%
-\begin{tabular}{|p{0.22\textwidth}|p{0.50\textwidth}|c|p{0.20\textwidth}|}
+\section*{Appendix C. Dataset Release and FAIR-Readiness Checklist}
+\noindent
+\small
+\begin{tabularx}{\textwidth}{|p{2.8cm}|X|c|p{3.4cm}|}
 \hline
-\textbf{Checklist Item} & \textbf{Criterion} & \textbf{Status} & \textbf{Evidence / Note} \\
+\textbf{Checklist item} & \textbf{Criterion} & \textbf{Yes/No} & \textbf{Evidence / note} \\
 \hline
-\textbf{Findable} & Repository and persistent identifier/URL provided; metadata searchable. & $\boxtimes$ Yes & GitHub repository \& Zenodo DOI included. \\ \hline
-\textbf{Accessible} & Access instructions work; files downloadable by intended users. & $\boxtimes$ Yes & Open public repository with direct download links. \\ \hline
-\textbf{Interoperable} & Standard open formats (JPEG, PNG, CSV) with documented schema. & $\boxtimes$ Yes & Standard image formats; complete data dictionary. \\ \hline
-\textbf{Reusable} & Clear open license; documentation, provenance, and limitations provided. & $\boxtimes$ Yes & CC BY 4.0 license; full usage guide and limitations. \\ \hline
-\textbf{Raw + Processed} & Original observations preserved separately from cleaned/standardized files. & $\boxtimes$ Yes & Raw source archives in \texttt{fruit\_dataset/} preserved separately from standardized stratified splits in \texttt{fruit\_dataset \_processed/}. \\ \hline
-\textbf{Versioning} & Dataset version and release change history recorded. & $\boxtimes$ Yes & Version v1.0 tagged with Git commit hash. \\ \hline
-\textbf{Integrity} & Deduplication, corruption, and blur checks performed; checksums included. & $\boxtimes$ Yes & pHash deduplication, decode checks, and format verification. \\ \hline
-\textbf{Leakage Safety} & Related samples and augmentations do not cross ML data partitions. & $\boxtimes$ Yes & Stratified splitting prior to train-only augmentation. \\ \hline
-\textbf{Reproducible Pipeline} & Code/notebooks reproduce processed data and baseline benchmarks. & $\boxtimes$ Yes & Complete PyTorch and Ultralytics training scripts. \\ \hline
-\textbf{Ethics / Privacy} & Anonymization and copyright requirements satisfied; 0\% GenAI. & $\boxtimes$ Yes & Verified free of PII; 100\% natural optical captures. \\ \hline
-\textbf{Documentation} & README explains files, variables, environment, and reproduction commands. & $\boxtimes$ Yes & Comprehensive markdown documentation in repo. \\ \hline
-\textbf{Team Accountability} & All six students' contributions recorded in CRediT taxonomy. & $\boxtimes$ Yes & Table~\ref{tab:student-contributions} documents 6 members' roles. \\ \hline
-\end{tabular}%
-}
-\caption{Dataset release and FAIR-readiness compliance checklist}
-\label{tab:fair-checklist}
-\end{table}
+\textbf{Findable} & Repository and persistent identifier/URL are provided; file/folder names are meaningful; metadata are searchable. & $\boxtimes$ Yes & GitHub repository \& Zenodo DOI included. \\ \hline
+\textbf{Accessible} & Access instructions work; restrictions are justified; files can be downloaded by the intended user. & $\boxtimes$ Yes & Open public repository with direct download links. \\ \hline
+\textbf{Interoperable} & Common/open formats and standard units/labels are used where possible; schemas/codings are documented. & $\boxtimes$ Yes & Standard image formats; complete data dictionary. \\ \hline
+\textbf{Reusable} & License is explicit; README, data dictionary, provenance, limitations and citation information are provided. & $\boxtimes$ Yes & CC BY 4.0 license; full usage guide and limitations. \\ \hline
+\textbf{Raw + processed separation} & Original observations are preserved separately from cleaned/derived data. & $\boxtimes$ Yes & Raw images in \texttt{fruit\_dataset/} vs. processed partitions in \path{fruit_dataset_processed/}. \\ \hline
+\textbf{Versioning} & Dataset version/date and change history are recorded. & $\boxtimes$ Yes & Version v1.0 tagged with Git commit hash. \\ \hline
+\textbf{Integrity} & Duplicate/corruption/schema checks are complete; checksums are included where useful. & $\boxtimes$ Yes & pHash deduplication, decode checks, and format verification. \\ \hline
+\textbf{Leakage safety} & Related samples/subjects/augmentations do not cross ML data partitions. & $\boxtimes$ Yes & Stratified splitting prior to train-only augmentation. \\ \hline
+\textbf{Reproducible processing} & Code/notebook can reproduce processed data and baseline pipeline from the released inputs. & $\boxtimes$ Yes & Complete PyTorch and Ultralytics training scripts. \\ \hline
+\textbf{Ethics/privacy} & Consent/approval/licensing/anonymization requirements are satisfied. & $\boxtimes$ Yes & Verified free of PII; 100\% natural optical captures. \\ \hline
+\textbf{Documentation} & README explains files, variables, setup and reuse; captions/tables match the repository contents. & $\boxtimes$ Yes & Comprehensive markdown documentation in repo. \\ \hline
+\textbf{Team accountability} & All six students' contributions are recorded. & $\boxtimes$ Yes & Section 15 CRediT table records all 6 students. \\ \hline
+\end{tabularx}
+\normalsize
 
 \end{document}
