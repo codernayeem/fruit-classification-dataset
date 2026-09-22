@@ -109,7 +109,7 @@ with st.sidebar:
         "Stage 1 Gate Threshold:",
         min_value=0.50,
         max_value=0.95,
-        value=0.70,
+        value=0.85,
         step=0.05
     )
 

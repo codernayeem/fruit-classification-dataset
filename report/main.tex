@@ -168,15 +168,11 @@ Arka Braja Prasad Nath (2107055)
 % 1. DATASET ARTICLE INFORMATION
 % =========================================================
 \section{Dataset Article Information}
-
-\begin{table}[H]
-\centering\small
-\begin{tabular}{@{}p{0.30\textwidth}p{0.66\textwidth}@{}}
-\toprule
-\textbf{Field} & \textbf{Details} \\
-\midrule
-\textbf{Dataset / report title} & A Multi-Fruit Classification and Quality Inspection Dataset \\
-\midrule
+\noindent
+\begin{tabularx}{\textwidth}{|p{4.2cm}|X|}
+\hline
+\textbf{Dataset/report title} & A Multi-Fruit Classification and Quality Inspection Dataset \\
+\hline
 \textbf{Group and students} & Group A2-03 \\
  & Kazi Rifat Al Muin (Roll: 2107042) \\
  & Farid Ahmed Patwary (Roll: 2107043) \\
@@ -184,25 +180,23 @@ Arka Braja Prasad Nath (2107055)
  & Md Nayeem (Roll: 2107050) \\
  & Md Jahid Hasan Jim (Roll: 2107054) \\
  & Arka Braja Prasad Nath (Roll: 2107055) \\
-\midrule
-\textbf{Affiliation} & Department of Computer Science and Engineering, Khulna University of Engineering \& Technology (KUET), Khulna-9203, Bangladesh \\
-\midrule
-\textbf{Corresponding student} & Md Torikul Islam (Roll: 2107048, Email: \texttt{torikul2107048@stud.kuet.ac.bd}) \\
-\midrule
+\hline
+\textbf{Affiliation} & Department of CSE, KUET, Khulna-9203, Bangladesh \\
+\hline
+\textbf{Corresponding student} & Md Nayeem (Roll: 2107050, Email: \texttt{nayeem2107050@stud.kuet.ac.bd}) \\
+\hline
 \textbf{Keywords} & Machine Learning, Fruit Quality Inspection, Computer Vision, Deep Learning, Image Classification, Transfer Learning, Agricultural Automation, Multi-Class Dataset \\
-\midrule
+\hline
 \textbf{Dataset version} & v1.0 (Release Date: September 2026) \\
-\midrule
+\hline
 \textbf{Repository / persistent ID} & \url{https://github.com/codernayeem/fruit-classification-dataset} \\
-\midrule
+\hline
 \textbf{License} & Creative Commons Attribution 4.0 International (CC BY 4.0) \\
-\midrule
+\hline
 \textbf{Related article / source} & CSE 4112: Machine Learning Laboratory Project, Department of CSE, KUET \\
-\bottomrule
-\end{tabular}
-\caption{Dataset article metadata and administrative information}
+\hline
+\end{tabularx}
 \label{tab:dataset-info}
-\end{table}
 
 % =========================================================
 % 2. ABSTRACT
@@ -214,43 +208,39 @@ Automated fruit quality inspection and classification are critical for minimizin
 % 3. DATASET SPECIFICATIONS TABLE
 % =========================================================
 \section{Dataset Specifications Table}
-
-\begin{table}[H]
-\centering\small
-\begin{tabular}{@{}p{0.30\textwidth}p{0.66\textwidth}@{}}
-\toprule
-\textbf{Item} & \textbf{Required Information} \\
-\midrule
-\textbf{Subject / domain} & Machine Learning, Computer Vision, Smart Agriculture, Post-Harvest Quality Assessment \\
-\midrule
-\textbf{Specific subject area} & Multi-Class Fruit Variety Recognition and Multi-Tier Freshness/Defect Grading \\
-\midrule
-\textbf{Type of data} & Visual image dataset (RGB color photographs; raw and standardized processed versions) \\
-\midrule
-\textbf{File formats} & JPEG (.jpg, .jpeg), Portable Network Graphics (.png) \\
-\midrule
+\noindent
+\begin{tabularx}{\textwidth}{|p{4.2cm}|X|}
+\hline
+\textbf{Item} & \textbf{Required information} \\
+\hline
+\textbf{Subject / domain} & Agriculture, Computer Vision, Artificial Intelligence \\
+\hline
+\textbf{Specific subject area} & Multi-Class Fruit Variety Recognition and Post-Harvest Quality Assessment \\
+\hline
+\textbf{Type of data} & Image (RGB color photographs; raw and standardized processed versions) \\
+\hline
+\textbf{File formats} & JPG, PNG (images); CSV, JSON (metadata manifests) \\
+\hline
 \textbf{Unit of observation} & Single photographic capture of an individual fruit specimen or cluster \\
-\midrule
-\textbf{Data collection / source} & Curated open-access scientific repositories (Mendeley Data, Roboflow Universe, Kaggle, ScienceDirect Data in Brief) \\
-\midrule
-\textbf{Instrument / software} & Python 3.10+, PyTorch 2.2, Torchvision 0.17, Ultralytics 8.1, OpenCV 4.9, Scikit-learn 1.4, Albumentations \\
-\midrule
-\textbf{Data source location} & Open global agricultural repositories (Mendeley Data, Roboflow Universe, Kaggle, ScienceDirect) \\
-\midrule
+\hline
+\textbf{Data collection / source} & Secondary compilation from open-access scientific repositories (Mendeley Data, Roboflow Universe, Kaggle, ScienceDirect Data in Brief) \\
+\hline
+\textbf{Instrument / software} & Python 3.10+, PyTorch 2.2.1, Torchvision 0.17.1, Ultralytics 8.1.34, OpenCV 4.9.0, Scikit-learn 1.4.1, Albumentations 1.4.0 \\
+\hline
+\textbf{Data source location} & Open global agricultural data repositories (Mendeley Data, Roboflow Universe, Kaggle, ScienceDirect) \\
+\hline
 \textbf{Collection period} & July 2026 -- September 2026 \\
-\midrule
-\textbf{Dataset size} & 20,823 images; 13 fruit varieties; 3 quality categories per fruit (39 total sub-classes); $\approx$ 2.45 GB uncompressed \\
-\midrule
+\hline
+\textbf{Dataset size} & 20,823 images; 13 fruit varieties; 3 quality categories per fruit (39 total sub-classes); $\approx 1.0$\,GB (archive / uncompressed) \\
+\hline
 \textbf{Target / labels} & Dual targets: (1) 13 Fruit Species labels, (2) 3-Tier Quality Grade (Good, Medium, Bad) per fruit \\
-\midrule
-\textbf{Accessibility} & Public open access via GitHub repository and cloud distribution mirrors \\
-\midrule
+\hline
+\textbf{Accessibility} & Repository: \url{https://github.com/codernayeem/fruit-classification-dataset} \\
+\hline
 \textbf{License / reuse terms} & Creative Commons Attribution 4.0 International (CC BY 4.0) \\
-\bottomrule
-\end{tabular}
-\caption{Dataset Specifications}
+\hline
+\end{tabularx}
 \label{tab:dataset-specs}
-\end{table}
 
 % =========================================================
 % 4. VALUE OF THE DATA
@@ -311,7 +301,7 @@ Images were labeled based on a standardized 3-tier visual grading protocol formu
 All annotations underwent a two-stage peer-review protocol: after individual student assignment, every class was cross-inspected by an independent group member. Borderline cases were reviewed jointly until unanimous consensus was achieved.
 
 \subsection{Provenance, Versioning and Data Integrity}
-Raw images are maintained in structured directory trees (\texttt{fruit\_dataset/}) organized by fruit species and quality condition tiers. Data integrity is enforced through rigorous PIL/OpenCV image decode validation, corrupt header removal, aspect-ratio checks, and perceptual hash (pHash) deduplication. All preprocessing transformations and stratified splits are deterministic, allowing exact re-generation of datasets using release tag \texttt{v1.0}.
+Raw photographic images are maintained in structured directory trees (\texttt{fruit\_dataset/}) organized by fruit species and quality condition tiers. Standardized processed 80/20 train/test stratified partitions are maintained separately in \texttt{fruit\_dataset\_processed/} (\texttt{train/} with 16,658 images and \texttt{test/} with 4,165 images, fixed random seed $SEED = 42$). Data integrity is enforced through rigorous PIL/OpenCV image decode validation, corrupt header removal, aspect-ratio checks, and perceptual hash (pHash) deduplication. All preprocessing transformations and stratified splits are deterministic, allowing exact re-generation of datasets using release tag \texttt{v1.0}.
 
 % =========================================================
 % 7. DATA DESCRIPTION / DATA RECORDS
@@ -405,8 +395,10 @@ All Group Members & \textbf{Custard Apple} & 512 & 533 & 577 & 1,622 & \cite{ref
 \label{tab:dataset-per-person}
 \end{table}
 
-\begin{table}[H]
-\centering\small
+\clearpage
+\begin{table}[t!]
+\centering\footnotesize
+\renewcommand{\arraystretch}{0.92}
 \begin{tabularx}{\textwidth}{@{}p{0.18\textwidth}Xp{0.22\textwidth}p{0.16\textwidth}r@{}}
 \toprule
 \textbf{Fruit Variety} & \textbf{Dataset Name / Repository Source} & \textbf{Venue / Platform} & \textbf{Reference} & \textbf{Images} \\
@@ -460,6 +452,7 @@ Custard Apple & Custard Apple Freshness and Quality & Mendeley Data (v2) & \cite
 \caption{Complete dataset provenance breakdown showing exact image count per reference source}
 \label{tab:dataset-provenance-breakdown}
 \end{table}
+\clearpage
 
 \subsection*{Dataset Summary}
 \begin{table}[H]
@@ -900,6 +893,7 @@ We establish two distinct supervised learning tasks:
     \item \textbf{Task 1 (Macro Fruit-Type Recognition):} Given an RGB image $X \in \mathbb{R}^{224 \times 224 \times 3}$, predict the fruit species label $y \in \{1, 2, \dots, 13\}$ across all 20,823 images.
     \item \textbf{Task 2 (Intra-Class Quality Classification):} For each of the 13 fruit varieties independently, predict the quality condition $y \in \{\text{Good}, \text{Medium}, \text{Bad}\}$ from a single input image.
 \end{itemize}
+For practical deployment and live automated sorting (as implemented in the accompanying interactive application), these two stages are coupled via a \textbf{confidence gating mechanism} parameterized by an operational threshold $\tau = 0.85$ ($85\%$). An input photographic sample is first evaluated by the Stage~1 species classifier. If the top-1 predicted probability meets or exceeds the confidence gate ($P_{\max} \ge 0.85$), the system routes the image to the corresponding fruit-specific Stage~2 model for intra-fruit freshness and defect grading. Conversely, if $P_{\max} < 0.85$, the Stage~2 inspection is safely bypassed to prevent downstream quality misclassifications originating from ambiguous species predictions.
 
 \subsection{Data Partitioning Strategy}
 Each dataset was split into 80\% training and 20\% test sets using stratified random sampling with a fixed random seed (\texttt{seed = 42}). Stratification guarantees identical class proportions across both splits. Augmentation was strictly applied solely during training epochs.
@@ -2049,7 +2043,7 @@ Key comparative findings across the multi-fruit quality classification benchmark
 
 \subsection{Dataset Loading and Ingestion}
 
-The dataset is organized in \texttt{fruit\_dataset/} by fruit variety and quality tier. Images are loaded directly from the raw directory, while image resizing ($224 \times 224$), CLAHE contrast equalization, ImageNet normalization, train/test splitting (80:20), and data augmentations are executed dynamically on-the-fly during training without generating duplicate processed folders on disk. The Python snippet below illustrates the native PyTorch data loading pipeline:
+The dataset is provided in both raw (\texttt{fruit\_dataset/}) and standardized processed (\texttt{fruit\_dataset\_processed/}) formats. In \texttt{fruit\_dataset/}, raw unpartitioned photographic captures are organized hierarchically by fruit variety and quality tier alongside original provenance files. In \texttt{fruit\_dataset\_processed/}, images are partitioned into deterministic 80\% training (\texttt{train/}, 16,658 images) and 20\% testing (\texttt{test/}, 4,165 images) sets (random seed $SEED = 42$), mapped through \texttt{split\_manifest.csv}. Preprocessing operations (resizing to $224 \times 224$, CLAHE contrast equalization, ImageNet normalization) can also be executed dynamically on-the-fly via PyTorch DataLoader transforms. The Python snippet below illustrates the native PyTorch data loading pipeline:
 
 \begin{verbatim}
 import torch
@@ -2475,7 +2469,7 @@ Table~\ref{tab:fair-checklist} provides the completed FAIR (Findable, Accessible
 \midrule
 \textbf{Reusable} & Clear open license; documentation, provenance, and limitations provided. & $\boxtimes$ Yes & CC BY 4.0 license; full usage guide and limitations. \\
 \midrule
-\textbf{Raw + Processed} & Original observations preserved separately from cleaned/standardized files. & $\boxtimes$ Yes & Raw source repository archives and structured \texttt{fruit\_dataset/} maintained. \\
+\textbf{Raw + Processed} & Original observations preserved separately from cleaned/standardized files. & $\boxtimes$ Yes & Raw source archives in \texttt{fruit\_dataset/} preserved separately from standardized stratified splits in \texttt{fruit\_dataset\_processed/}. \\
 \midrule
 \textbf{Versioning} & Dataset version and release change history recorded. & $\boxtimes$ Yes & Version v1.0 tagged with Git commit hash. \\
 \midrule

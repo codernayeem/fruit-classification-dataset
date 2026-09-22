@@ -6,7 +6,7 @@ A deep learning benchmark and two-stage inspection pipeline for 13 agricultural 
 
 ## 1. Dataset Overview
 
-- **Total Images:** 20,823 curated RGB photographs
+- **Total Images:** 20,823 curated RGB photographs (~1.0 GB)
 - **Fruit Varieties (13 classes):** Banana (*Musa acuminata*), Custard Apple (*Annona squamosa*), Dragonfruit (*Selenicereus undatus*), Guava (*Psidium guajava*), Jackfruit (*Artocarpus heterophyllus*), Jujube (*Ziziphus mauritiana*), Lemon (*Citrus limon*), Lychee (*Litchi chinensis*), Mango (*Mangifera indica*), Papaya (*Carica papaya*), Pineapple (*Ananas comosus*), Sapodilla (*Manilkara zapota*), Star Fruit (*Averrhoa carambola*).
 - **Quality Tiers (3 grades):**
   - **Good:** Firm physical structure, clear skin, free of disease or severe mechanical damage.
@@ -70,7 +70,7 @@ d:/ML Lab/
                                         │
                      ┌──────────────────┴──────────────────┐
                      ▼                                     ▼
-             P_max >= 0.70                         P_max < 0.70
+             P_max >= 0.85                         P_max < 0.85
                    │                                       │
                    ▼                                       ▼
     ┌─────────────────────────────┐         ┌─────────────────────────────┐
@@ -83,7 +83,7 @@ d:/ML Lab/
 ```
 
 - **Stage 1 (Fruit Variety):** 13-class classification. ResNet-50 achieves **99.93%** test accuracy; Custom CNN achieves **96.37%** test accuracy.
-- **Confidence Gate:** Default threshold $0.70$ ensures downstream quality models only receive correctly identified fruit varieties.
+- **Confidence Gate:** Default threshold $0.85$ (85%) ensures downstream quality models only receive correctly identified fruit varieties.
 - **Stage 2 (Quality Inspection):** Fruit-specific 3-class classifier. Transfer learning champions (MobileNetV3-Large, EfficientNet-B0, ResNet-50) achieve **96.99%** mean accuracy across all 13 fruits.
 
 ---
