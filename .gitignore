@@ -1,6 +1,9 @@
+__pycache__/
+
 fruit_dataset.tar
 small_dataset.tar
 /fruit_dataset
+/fruit_dataset_processed
 /original_dataset
 /data
 /data_quality
