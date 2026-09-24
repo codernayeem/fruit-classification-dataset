@@ -108,26 +108,12 @@ Arka Braja Prasad Nath (2107055)
 
 \end{tabularx}
 
-\vspace{1.2em}
+\vspace{1.0em}
 \noindent\textbf{(a) Framework illustrating the practical application of the data}
 \begin{figure}[H]
 \centering
-\begin{tikzpicture}[
-    box/.style={rectangle, draw=black, fill=white, rounded corners=3pt, thick, text width=2.6cm, minimum height=1.5cm, align=center, font=\scriptsize},
-    arrow/.style={-{Stealth[scale=1.0]}, thick, color=black}
-]
-\node[box] (b1) {\textbf{Domain Problem}\\Manual grading subjectivity \& post-harvest fruit waste};
-\node[box, right=0.55cm of b1] (b2) {\textbf{Data Acquisition}\\20,823 images of 13 fruits from online repositories};
-\node[box, right=0.55cm of b2] (b3) {\textbf{Curated Dataset}\\3-tier quality annotations (Good, Medium, Bad)};
-\node[box, right=0.55cm of b3] (b4) {\textbf{ML / Analytics}\\Custom CNN \& Transfer Models (ResNet, EfficientNet, MobileNet, YOLO)};
-\node[box, right=0.55cm of b4] (b5) {\textbf{Practical Impact}\\Automated conveyor sorting, quality assurance \& pricing};
-
-\draw[arrow] (b1) -- (b2);
-\draw[arrow] (b2) -- (b3);
-\draw[arrow] (b3) -- (b4);
-\draw[arrow] (b4) -- (b5);
-\end{tikzpicture}
-\caption*{Figure 1(a). Dataset-specific practical application framework illustrating end-to-end impact from post-harvest collection to automated industrial grading.}
+\includegraphics[width=0.98\textwidth]{figures/framework_practical_application.png}
+\caption*{Figure 1(a). Automated sorting application: camera capture, two-stage AI grading, and sorting action.}
 \end{figure}
 
 \vspace{0.15cm}
@@ -142,7 +128,7 @@ Arka Braja Prasad Nath (2107055)
 \node[box] (p1) {\textbf{Raw RGB Images}\\20,823 multi-fruit images};
 \node[box, right=0.6cm of p1] (p2) {\textbf{Quality Checks}\\Deduplication, corruption \& blur filters};
 \node[box, right=0.6cm of p2] (p3) {\textbf{Preprocessing}\\$224\times224$ resizing, CLAHE \& normalization};
-\node[box, right=0.6cm of p3] (p4) {\textbf{Leakage-Safe Split}\\80\% Train / 20\% Test (stratified)};
+\node[box, right=0.6cm of p3] (p4) {\textbf{Data Partitioning}\\80\% Train / 20\% Test (stratified)};
 
 % Row 2
 \node[box, below=0.65cm of p4] (p5) {\textbf{Augmentation}\\Train split only (Rot $\pm30^\circ$, Flips, Zoom, Brightness)};
@@ -158,7 +144,7 @@ Arka Braja Prasad Nath (2107055)
 \draw[arrow] (p6) -- (p7);
 \draw[arrow] (p7) -- (p8);
 \end{tikzpicture}
-\caption*{Figure 1(b). Exact technical pipeline showing leakage-safe partitioning, image transformations, model training, and multi-metric evaluation.}
+\caption*{Figure 1(b). Technical pipeline showing dataset partitioning, image transformations, model training, and multi-metric evaluation.}
 \end{figure}
 
 \vspace{0.2cm}
@@ -1923,7 +1909,7 @@ Key comparative findings across the multi-fruit quality classification benchmark
     \item \textbf{Overall Superiority of Pre-trained Transfer Learning:} All four transfer-learning backbones achieve high mean classification accuracy (96.48\%--96.99\%), outperforming the from-scratch Custom CNN baseline (87.62\%) by nearly 10 percentage points on average.
     \item \textbf{MobileNetV3-Large Delivers the Top Average Performance:} MobileNetV3-Large achieves the highest overall mean accuracy of \textbf{96.99\%} while requiring only 5.4M parameters, making it the ideal candidate for resource-constrained edge devices and real-time conveyor sorting hardware.
     \item \textbf{High Visual Separability on Select Species:} Five fruits (Lychee, Banana, Dragon Fruit, Sapodilla, and Custard Apple) achieve \textbf{100.00\%} or near-100\% (99.69\%) accuracy with transfer models, demonstrating that distinct pericarp discoloration, rotting lesions, and skin darkening provide robust classification signals.
-    \item \textbf{Nuanced Challenges on Textured and Gradient Peels:} Papaya (85.59\%) and Star Fruit (92.19\%) present the most challenging visual boundaries due to continuous color gradients and non-uniform ripening spots between \texttt{good} and \texttt{medium} grades.
+    \item \textbf{Medium Quality Tier as the Primary Source of Ambiguity:} Across all 13 fruit varieties, classification errors are overwhelmingly concentrated along the intermediate \texttt{medium} grade (macro-average F1 of 93.20\% vs.\ 96.05\% for \texttt{good} and 95.34\% for \texttt{bad}). Fruits exhibiting continuous ripening and peel variegation such as Papaya (85.59\% overall accuracy; \texttt{medium} F1 of 78.5\%--80.2\%) and Star Fruit (92.19\% overall accuracy; \texttt{medium} F1 of 86.4\%--88.2\%) demonstrate that borderline samples between slight superficial blemishes/early ripening (\texttt{medium}) and prime freshness (\texttt{good}) or localized rot (\texttt{bad}) form a continuous biological spectrum. Crucially, direct confusion between \texttt{good} and \texttt{bad} is virtually zero across all transfer backbones, confirming that errors reflect genuine biological transition ambiguity rather than random model failure.
     \item \textbf{Pronounced Transfer Advantage on Complex Surfaces:} On morphologically complex surfaces such as Jackfruit (99.67\% vs.\ 76.49\%) and Custard Apple (99.69\% vs.\ 72.00\%), pre-trained features provide an astounding 23\%--28\% accuracy improvement over the Custom CNN, proving that pre-trained ImageNet texture filters are critical for disambiguating surface shadows from true pathological blemishes.
 \end{enumerate}
 
@@ -1988,7 +1974,7 @@ train_loader = DataLoader(
 \section{Limitations and Known Biases}
 While the dataset represents 20,823 curated images across 13 fruits, several limitations should be noted:
 \begin{itemize}
-    \item \textbf{Nuanced Grading Boundaries:} For fruits like Papaya and Star Fruit, the visual boundary between \texttt{good} and \texttt{medium} is continuous rather than discrete, leading to occasional subjective disagreement on borderline samples.
+    \item \textbf{Continuous Quality Boundaries and Intermediate Medium-Class Ambiguity:} Across quality grading, the intermediate \texttt{medium} tier represents a gradual biological transition rather than a hard discrete boundary. For fruits with variegated or gradient skin pigmentation (e.g., Papaya, Star Fruit, Mango), distinguishing early ripening and superficial spots (\texttt{medium}) from pristine freshness (\texttt{good}) or localized decay (\texttt{bad}) presents inherent borderline ambiguity, making \texttt{medium} the primary source of classification errors across all benchmarked models.
     \item \textbf{Illumination and Background Variance:} Sourcing images across diverse open scientific repositories introduces natural environmental variability (shadows, background foliage, varying lighting), which enhances model generalization but requires robust invariant feature learning.
     \item \textbf{Single-View Inspection:} In real packhouses, fruits may have defects on the hidden reverse side. Since these images capture a single camera angle, internal or occluded rot cannot be detected.
 \end{itemize}
