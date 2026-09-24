@@ -32,7 +32,7 @@ A comprehensive deep learning benchmark and two-stage inspection system for 13 c
 ## 2. Directory and Repository Layout
 
 ```text
-d:/ML Lab/
+root
 ├── fruit_dataset/                # Raw unpartitioned photographic collection (<fruit>/<quality>/)
 ├── fruit_dataset_processed/      # Stratified 80/20 train/test image splits (224x224, CLAHE-enhanced)
 │   ├── train/                    # 16,658 training images
