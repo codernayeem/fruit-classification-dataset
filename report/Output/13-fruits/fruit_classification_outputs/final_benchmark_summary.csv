@@ -1,6 +1,0 @@
-Model Architecture,Accuracy (%),Macro F1-Score,Weighted F1-Score
-Custom CNN,96.37%,0.9632,0.9636
-MobileNetV3-Large,99.86%,0.9986,0.9986
-YOLO26n-cls,99.93%,0.9993,0.9993
-EfficientNet-B0,99.88%,0.9988,0.9988
-ResNet-50,99.93%,0.9993,0.9993

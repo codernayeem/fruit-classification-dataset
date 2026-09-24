@@ -1,69 +1,105 @@
-# Multi-Fruit Variety & Quality Inspection System
+# A Multi-Fruit Classification and Quality Inspection Dataset
 
-A deep learning benchmark and two-stage inspection pipeline for 13 agricultural fruit varieties and their 3-tier quality grades (Good, Medium, Bad), featuring confidence gating, transfer learning champions, and lightweight custom CNN architectures.
+A comprehensive deep learning benchmark and two-stage inspection system for 13 commercial and domestic fruit varieties and their 3-tier quality grades (Good, Medium, Bad), featuring confidence-gated routing, state-of-the-art transfer learning architectures, lightweight custom CNN baselines, and an interactive Streamlit application.
 
 ---
 
 ## 1. Dataset Overview
 
-- **Total Images:** 20,823 curated RGB photographs (~1.0 GB)
-- **Fruit Varieties (13 classes):** Banana (*Musa acuminata*), Custard Apple (*Annona squamosa*), Dragonfruit (*Selenicereus undatus*), Guava (*Psidium guajava*), Jackfruit (*Artocarpus heterophyllus*), Jujube (*Ziziphus mauritiana*), Lemon (*Citrus limon*), Lychee (*Litchi chinensis*), Mango (*Mangifera indica*), Papaya (*Carica papaya*), Pineapple (*Ananas comosus*), Sapodilla (*Manilkara zapota*), Star Fruit (*Averrhoa carambola*).
-- **Quality Tiers (3 grades):**
-  - **Good:** Firm physical structure, clear skin, free of disease or severe mechanical damage.
-  - **Medium:** Minor cosmetic blemishes, partial skin discoloration, or early ripeness; suitable for immediate processing.
-  - **Bad:** Severe fungal lesion, deep rot, mechanical rupture, or advanced microbial decay; unmarketable.
-- **Data Partitions:** 80% Training (16,658 images) and 20% Testing (4,165 images), deterministically stratified using random seed `42`.
+- **Total Images:** 20,823 curated, authentic RGB optical captures (~1.0 GB)
+- **Fruit Varieties (13 species):**
+  1. Banana (*Musa acuminata*)
+  2. Custard Apple (*Annona squamosa*)
+  3. Dragon Fruit (*Selenicereus undatus*)
+  4. Guava (*Psidium guajava*)
+  5. Jackfruit (*Artocarpus heterophyllus*)
+  6. Jujube (*Ziziphus mauritiana*)
+  7. Lemon (*Citrus limon*)
+  8. Lychee (*Litchi chinensis*)
+  9. Mango (*Mangifera indica*)
+  10. Papaya (*Carica papaya*)
+  11. Pineapple (*Ananas comosus*)
+  12. Sapodilla / Sofeda (*Manilkara zapota*)
+  13. Star Fruit (*Averrhoa carambola*)
+- **Quality Tiers (3 grades per fruit):**
+  - **Good:** Firm physical structure, clear peel pigmentation, free of pathological blemishes or mechanical bruises.
+  - **Medium:** Minor cosmetic abrasions, partial skin discoloration, or early ripening stage; commercially viable for immediate consumption or processing.
+  - **Bad:** Advanced fungal infection, deep tissue decay, open epidermal lacerations, or microbial breakdown; unmarketable.
+- **Data Partitions:** 80% Training (16,658 images) and 20% Testing (4,165 images), deterministically stratified across both species and quality grades using random seed `42`.
 
 ---
 
-## 2. Repository Structure
+## 2. Directory and Repository Layout
 
-```
+```text
 d:/ML Lab/
-├── fruit_dataset/                # Raw unpartitioned image collection (<fruit>/<quality>/)
-├── fruit_dataset_processed/      # Stratified 80/20 train/test image splits
+├── fruit_dataset/                # Raw unpartitioned photographic collection (<fruit>/<quality>/)
+├── fruit_dataset_processed/      # Stratified 80/20 train/test image splits (224x224, CLAHE-enhanced)
 │   ├── train/                    # 16,658 training images
 │   ├── test/                     # 4,165 testing images
 │   └── split_manifest.csv        # Partition mapping per image
-├── metadata/                     # Machine-readable schemas and manifests
+├── metadata/                     # Machine-readable schemas and dataset manifests
 │   ├── data_dictionary.csv       # Attribute schemas, data types, and constraints
-│   ├── class_labels.json         # Taxonomy, local names, and numeric index mappings
+│   ├── class_labels.json         # Botanical taxonomy, local names, and index mappings
 │   ├── dataset_statistics.csv    # Class-by-class image counts per split
 │   └── split_manifest.csv        # Master split manifest
-├── Output/                       # Model checkpoints, evaluation metrics, and notebooks
-│   ├── 13-fruits/                # Stage 1 macro classification (models, plots, summaries, notebook)
-│   ├── <fruit_name>/             # Stage 2 intra-fruit quality models and benchmark logs
-│   │   └── fruit_quality_outputs_<fruit>/
-│   │       ├── models/           # Checkpoints (.pth): best_custom_cnn, best_resnet_50, etc.
-│   │       ├── plots/            # Confusion matrices, ROC curves, learning curves
-│   │       └── final_quality_benchmark_summary.csv
-│   └── ...
-├── base_notebooks/               # Clean, unexecuted baseline Jupyter notebooks
-│   ├── Fruit_classification.ipynb
-│   └── Fruit_quality_classification.ipynb
-├── report/                       # Academic LaTeX manuscript and cropped publication figures
-│   ├── main.tex                  # Primary LaTeX research paper
-│   ├── figures/                  # Publication-ready figure assets
-│   ├── Output/                   # Cleaned output folder retaining plots & summaries
-│   └── references.bib            # BibTeX bibliography
-├── app.py                        # Streamlit web application (Live 2-stage inspection)
-├── model_loader.py               # PyTorch model definitions (CustomCNN13, CustomCNNQuality)
-├── utils.py                      # Preprocessing, CLAHE equalization, Matplotlib visualizers
-├── split_dataset.py              # Reproducible stratified train/test split script
-└── README.md                     # Documentation and reproduction guide
+├── Codebase/                     # Standalone, reproducible training & evaluation notebooks (.ipynb)
+│   ├── 13-fruits/                # Task 1: 13-Fruit Species Classification
+│   │   └── Fruit_Classification.ipynb
+│   ├── banana/                   # Task 2: Intra-fruit quality notebooks
+│   │   └── Fruit_quality_classification_banana.ipynb
+│   ├── custard_apple/
+│   │   └── Fruit_quality_classification_custard_apple.ipynb
+│   ├── dragonfruit/
+│   │   └── Fruit_quality_classification_dragonfruit.ipynb
+│   ├── guava/
+│   │   └── Fruit_quality_classification_guava.ipynb
+│   ├── jackfruit/
+│   │   └── Fruit_quality_classification_jackfruit.ipynb
+│   ├── jujube/
+│   │   └── Fruit_quality_classification_jujube.ipynb
+│   ├── lemon/
+│   │   └── Fruit_quality_classification_lemon.ipynb
+│   ├── lychee/
+│   │   └── Fruit_quality_classification_lychee.ipynb
+│   ├── mango/
+│   │   └── Fruit_quality_classification_mango.ipynb
+│   ├── papaya/
+│   │   └── Fruit_quality_classification_papaya.ipynb
+│   ├── pineapple/
+│   │   └── Fruit_quality_classification_pineapple.ipynb
+│   ├── sapodilia/
+│   │   └── Fruit_quality_classification_sofeda.ipynb
+│   └── starfruit/
+│       └── Fruit_quality_classification_starfruit.ipynb
+├── Result/                       # Benchmark outputs, trained weights, and evaluation artifacts
+│   ├── 13-fruits/
+│   │   └── fruit_classification_outputs/
+│   │       ├── final_benchmark_summary.csv
+│   │       ├── models/           # Best PyTorch model checkpoints (.pth)
+│   │       ├── plots/            # Confusion matrices, ROC curves, learning curves, prediction grids
+│   │       └── reports/          # Per-class classification reports (.txt)
+│   └── <fruit_name>/
+│       └── fruit_quality_outputs_<fruit>/
+│           ├── final_quality_benchmark_summary.csv
+│           ├── models/           # Checkpoints: best_custom_cnn, best_mobilenetv3, best_resnet50, etc.
+│           ├── plots/            # Diagnostic curves and normalized confusion matrices
+│           └── reports/          # Precision, Recall, Macro-F1 logs
+├── app.py                        # Interactive Streamlit application (Live 2-stage grading)
+└── README.md                     # Project documentation and reproduction guide
 ```
 
 ---
 
 ## 3. Two-Stage Inspection Architecture
 
-```
+```text
                        [ Input Fruit Image (224x224 RGB) ]
                                         │
                                         ▼
                    ┌─────────────────────────────────────────┐
                    │   Stage 1: Fruit Variety Recognition    │
-                   │      (ResNet-50 / Custom CNN 13)        │
+                   │        (ResNet-50 / Custom CNN)         │
                    └─────────────────────────────────────────┘
                                         │
                          Confidence Score (P_max)
@@ -82,52 +118,67 @@ d:/ML Lab/
          [ Good / Medium / Bad ]
 ```
 
-- **Stage 1 (Fruit Variety):** 13-class classification. ResNet-50 achieves **99.93%** test accuracy; Custom CNN achieves **96.37%** test accuracy.
-- **Confidence Gate:** Default threshold $0.85$ (85%) ensures downstream quality models only receive correctly identified fruit varieties.
-- **Stage 2 (Quality Inspection):** Fruit-specific 3-class classifier. Transfer learning champions (MobileNetV3-Large, EfficientNet-B0, ResNet-50) achieve **96.99%** mean accuracy across all 13 fruits.
+- **Stage 1 (Macro Fruit-Type Recognition):** Evaluates all 13 fruit species simultaneously. ResNet-50 and YOLO26n-cls achieve **99.93%** test accuracy (Macro F1 = 0.9993).
+- **Confidence Gate ($\tau = 0.85$):** Samples with species confidence below 85% bypass Stage 2 to prevent cascading classification errors.
+- **Stage 2 (Intra-Fruit Quality Inspection):** Evaluates 3-tier freshness (Good, Medium, Bad). Pre-trained backbones achieve **96.99%** average accuracy across all 13 fruits (MobileNetV3-Large, EfficientNet-B0, ResNet-50).
 
 ---
 
-## 4. Quickstart Guide
+## 4. Benchmark Performance Summary
+
+| Fruit Species | Custom CNN (%) | MobileNetV3-Large (%) | YOLO26n-cls (%) | EfficientNet-B0 (%) | ResNet-50 (%) | Top Architecture |
+| :--- | :---: | :---: | :---: | :---: | :---: | :--- |
+| **Papaya** | 76.18 | **85.59** | 83.82 | 84.41 | 85.29 | MobileNetV3-Large |
+| **Lemon** | 84.10 | 96.53 | 96.24 | 95.95 | **96.82** | ResNet-50 |
+| **Lychee** | 99.06 | **100.00** | **100.00** | **100.00** | **100.00** | EfficientNet-B0 / MobileNetV3 |
+| **Jackfruit** | 76.49 | **99.67** | 97.68 | **99.67** | 99.34 | MobileNetV3-Large |
+| **Mango** | 85.31 | **94.38** | **94.38** | 92.81 | 92.50 | MobileNetV3-Large |
+| **Star Fruit** | 80.00 | **92.19** | 89.06 | 90.00 | 90.00 | MobileNetV3-Large |
+| **Guava** | 97.21 | 99.07 | **99.38** | **99.38** | 99.07 | EfficientNet-B0 |
+| **Jujube** | 89.32 | **98.81** | 97.63 | **98.81** | 97.63 | MobileNetV3-Large |
+| **Banana** | 97.45 | 99.68 | **100.00** | **100.00** | 99.68 | EfficientNet-B0 |
+| **Dragon Fruit**| 99.70 | **100.00** | **100.00** | **100.00** | **100.00** | EfficientNet-B0 |
+| **Pineapple** | 92.67 | 96.33 | 96.33 | **97.00** | 96.00 | EfficientNet-B0 |
+| **Sapodilla** | 89.62 | 98.96 | **100.00** | **100.00** | 99.65 | EfficientNet-B0 |
+| **Custard Apple**| 72.00 | **99.69** | **99.69** | 99.08 | **99.69** | MobileNetV3-Large |
+| **Average** | **87.62** | **96.99** | **96.48** | **96.70** | **96.59** | **MobileNetV3-Large (96.99%)** |
+
+---
+
+## 5. Quickstart & Execution
 
 ### Prerequisites
 - Python 3.10+
-- PyTorch with CUDA support (or CPU)
-- Streamlit, Matplotlib, OpenCV, Pillow, Pandas, Scikit-learn
+- PyTorch >= 2.0.0, Torchvision >= 0.15.0
+- Streamlit, OpenCV-Python, Matplotlib, Seaborn, Pandas, Scikit-learn, Pillow
 
-### Running the Streamlit Application
-Launch the interactive web interface:
+### 1. Launching the Interactive Web Application
 ```bash
 streamlit run app.py
 ```
-Key features:
-- Side-by-side **Image Upload** and **Random Test Image** selector.
-- Real-time Stage 1 & Stage 2 inference with model latency display.
-- High-contrast, publication-grade Matplotlib horizontal probability charts.
-- Confidence gating toggle with adjustable threshold slider.
-- Diagnostic CLAHE contrast-enhancement view.
+**Application Features:**
+- Upload image or pick test samples from any of the 13 fruits and 3 quality tiers.
+- Real-time Stage 1 (Species Recognition) and Stage 2 (Freshness / Quality Grading).
+- Live latency benchmarking, probability distributions, and confidence gating controls.
+- Side-by-side original and CLAHE contrast-enhanced visualizations.
 
-### Reproducing the Train/Test Split
-To regenerate the deterministic 80/20 train/test dataset partition:
-```bash
-python split_dataset.py
+### 2. Loading Pretrained Weights from Result/
+All trained PyTorch checkpoints (`.pth`) reside under `Result/`:
+```python
+import torch
+from torchvision import models
+
+# Load ResNet-50 13-Fruit Species Classifier
+model = models.resnet50()
+model.fc = torch.nn.Linear(model.fc.in_features, 13)
+state_dict = torch.load("Result/13-fruits/fruit_classification_outputs/models/best_resnet_50.pth", map_location="cpu")
+model.load_state_dict(state_dict)
+model.eval()
 ```
 
 ---
 
-## 5. Model Weights & Artifacts
+## 6. Citation and License
 
-Pre-trained PyTorch weights (`.pth`) for all models are located in `Output/`:
-- `Output/13-fruits/fruit_classification_outputs/models/best_resnet_50.pth`
-- `Output/<fruit>/fruit_quality_outputs_<fruit>/models/best_<model_name>.pth`
-
-Models can be loaded programmatically via `model_loader.py`:
-```python
-from model_loader import load_fruit_classifier, load_quality_classifier
-
-# Load Stage 1 classifier
-fruit_model = load_fruit_classifier(mode='best', device='cuda')
-
-# Load Stage 2 classifier for a specific fruit
-quality_model, model_name = load_quality_classifier('sapodilla', mode='best', device='cuda')
-```
+- **Dataset & Code License:** Creative Commons Attribution 4.0 International (CC BY 4.0).
+- Open for academic, research, educational, and commercial applications with proper attribution.

@@ -13,3 +13,4 @@ __pycache__/
 # temp
 fruit_dataset.tar
 /Output
+/Result

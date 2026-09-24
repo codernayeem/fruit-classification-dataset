@@ -1,0 +1,6 @@
+Model Architecture,Fruit Evaluated,Accuracy (%),Macro F1,Weighted F1
+Custom CNN,jujube,89.32%,0.8951,0.8925
+MobileNetV3-Large,jujube,98.81%,0.9884,0.9881
+YOLO26n-cls,jujube,97.63%,0.9768,0.9762
+EfficientNet-B0,jujube,98.81%,0.9884,0.9881
+ResNet-50,jujube,97.63%,0.9769,0.9763

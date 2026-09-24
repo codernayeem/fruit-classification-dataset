@@ -1,0 +1,6 @@
+Model Architecture,Fruit Evaluated,Accuracy (%),Macro F1,Weighted F1
+Custom CNN,guava,97.21%,0.9725,0.9721
+MobileNetV3-Large,guava,99.07%,0.9905,0.9907
+YOLO26n-cls,guava,99.38%,0.9936,0.9938
+EfficientNet-B0,guava,99.38%,0.9936,0.9938
+ResNet-50,guava,99.07%,0.9905,0.9907

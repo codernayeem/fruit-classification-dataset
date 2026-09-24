@@ -1,6 +1,0 @@
-Model Architecture,Fruit Evaluated,Accuracy (%),Macro F1,Weighted F1
-Custom CNN,sapodilla,89.62%,0.8941,0.8952
-MobileNetV3-Large,sapodilla,98.96%,0.9893,0.9896
-YOLO26n-cls,sapodilla,100.00%,1.0000,1.0000
-EfficientNet-B0,sapodilla,100.00%,1.0000,1.0000
-ResNet-50,sapodilla,99.65%,0.9964,0.9965

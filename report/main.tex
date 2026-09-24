@@ -312,7 +312,7 @@ Table~\ref{tab:folder-structure} details the repository hierarchy, itemizing the
 \hline
 \texttt{README.md} & Comprehensive technical documentation detailing repository layout, two-stage inference architecture, environment setup, and reproduction guidelines & Documentation \\
 \hline
-\texttt{Output/} & Executed benchmark Jupyter notebooks, trained model weights (\texttt{.pth}), quantitative evaluation metrics, and diagnostic evaluation plots for all 13 species and quality tasks & Artifacts / Outputs \\
+\texttt{Result/} & Executed benchmark Jupyter notebooks, trained model weights (\texttt{.pth}), quantitative evaluation metrics, and diagnostic evaluation plots for all 13 species and quality tasks & Artifacts / Outputs \\
 \hline
 \texttt{app.py} & Interactive Streamlit web application providing two-stage species identification and quality inspection with confidence gating and Matplotlib analytics & Application \\
 \hline
@@ -400,7 +400,7 @@ Quality categories per fruit & 3 (Good, Medium, Bad) \\ \hline
 Total classes & 39 \\ \hline
 Total images & 20{,}823 \\ \hline
 Sample images shown per class (above) & 3 \\ \hline
-Image format & JPG / PNG \\ \hline
+Image format & JPG (24-bit RGB) \\ \hline
 \end{tabular}
 \caption{Summary of dataset structure}
 \label{tab:dataset-summary}
@@ -409,7 +409,7 @@ Image format & JPG / PNG \\ \hline
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.88\textwidth]{Output/13-fruits/fruit_classification_outputs/plots/eda_fruit_quality_distribution.jpg}
+    \includegraphics[width=0.88\textwidth]{Result/13-fruits/fruit_classification_outputs/plots/eda_fruit_quality_distribution.jpg}
     \caption{Overall dataset class distribution across all 13 fruits and quality grades}
     \label{fig:eda-overall-dist}
 \end{figure}
@@ -1045,14 +1045,14 @@ EfficientNet-B0 & 99.88 & 0.9988 & 0.9988 & Pre-trained compound scaling \\
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/13-fruits/fruit_classification_outputs/plots/eda_fruit_quality_distribution.jpg}
+    \includegraphics[width=0.85\textwidth]{Result/13-fruits/fruit_classification_outputs/plots/eda_fruit_quality_distribution.jpg}
     \caption{All 13 Fruits: Dataset class and quality distribution across 20,823 images}
     \label{fig:13fruits-dist}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/13-fruits/fruit_classification_outputs/plots/final_benchmark_comparison.jpg}
+    \includegraphics[width=0.85\textwidth]{Result/13-fruits/fruit_classification_outputs/plots/final_benchmark_comparison.jpg}
     \caption{All 13 Fruits: Model benchmark comparison across architectures}
     \label{fig:13fruits-benchmark}
 \end{figure}
@@ -1127,21 +1127,21 @@ ResNet-50 & 85.29 & 0.8570 & 0.8527 & Deep residual network \\
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/papaya/fruit_quality_outputs_papaya/plots/papaya_distribution.jpg}
+    \includegraphics[width=0.85\textwidth]{Result/papaya/fruit_quality_outputs_papaya/plots/papaya_distribution.jpg}
     \caption{Papaya: Quality class distribution}
     \label{fig:papaya-dist}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/papaya/fruit_quality_outputs_papaya/plots/final_quality_benchmark_comparison.jpg}
+    \includegraphics[width=0.85\textwidth]{Result/papaya/fruit_quality_outputs_papaya/plots/final_quality_benchmark_comparison.jpg}
     \caption{Papaya: Model benchmark comparison}
     \label{fig:papaya-benchmark}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/papaya/fruit_quality_outputs_papaya/plots/mobilenetv3_large_confusion_matrix_and_roc.jpg}
+    \includegraphics[width=0.85\textwidth]{Result/papaya/fruit_quality_outputs_papaya/plots/mobilenetv3_large_confusion_matrix_and_roc.jpg}
     \caption{Papaya: MobileNetV3-Large (top model, 85.59\% accuracy) -- Confusion matrix and ROC curve}
     \label{fig:papaya-cm}
 \end{figure}
@@ -1150,7 +1150,7 @@ ResNet-50 & 85.29 & 0.8570 & 0.8527 & Deep residual network \\
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.77\textwidth]{Output/papaya/fruit_quality_outputs_papaya/plots/mobilenetv3_large_correct_predictions.jpg}
+    \includegraphics[width=0.77\textwidth]{Result/papaya/fruit_quality_outputs_papaya/plots/mobilenetv3_large_correct_predictions.jpg}
     \caption{Papaya: MobileNetV3-Large -- Representative correct quality predictions with confidence scores}
     \label{fig:papaya-correct}
     \vspace{0.15cm}
@@ -1187,21 +1187,21 @@ EfficientNet-B0 & 95.95 & 0.9586 & 0.9596 & Pre-trained baseline \\
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/lemon/fruit_quality_outputs_lemon (1)/plots/lemon_distribution.jpg}
+    \includegraphics[width=0.85\textwidth]{Result/lemon/fruit_quality_outputs_lemon (1)/plots/lemon_distribution.jpg}
     \caption{Lemon: Quality class distribution}
     \label{fig:lemon-dist}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/lemon/fruit_quality_outputs_lemon (1)/plots/final_quality_benchmark_comparison.jpg}
+    \includegraphics[width=0.85\textwidth]{Result/lemon/fruit_quality_outputs_lemon (1)/plots/final_quality_benchmark_comparison.jpg}
     \caption{Lemon: Model benchmark comparison}
     \label{fig:lemon-benchmark}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/lemon/fruit_quality_outputs_lemon (1)/plots/resnet_50_confusion_matrix_and_roc.jpg}
+    \includegraphics[width=0.85\textwidth]{Result/lemon/fruit_quality_outputs_lemon (1)/plots/resnet_50_confusion_matrix_and_roc.jpg}
     \caption{Lemon: ResNet-50 (top model, 96.82\% accuracy) -- Confusion matrix and ROC curve}
     \label{fig:lemon-cm}
 \end{figure}
@@ -1210,7 +1210,7 @@ EfficientNet-B0 & 95.95 & 0.9586 & 0.9596 & Pre-trained baseline \\
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.77\textwidth]{Output/lemon/fruit_quality_outputs_lemon (1)/plots/resnet_50_correct_predictions.jpg}
+    \includegraphics[width=0.77\textwidth]{Result/lemon/fruit_quality_outputs_lemon (1)/plots/resnet_50_correct_predictions.jpg}
     \caption{Lemon: ResNet-50 -- Representative correct quality predictions with confidence scores}
     \label{fig:lemon-correct}
     \vspace{0.15cm}
@@ -1247,21 +1247,21 @@ Small Custom CNN & 99.06 & 0.9907 & 0.9906 & Scratch CNN baseline \\
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/lychee/fruit_quality_outputs_lychee/plots/lychee_distribution.jpg}
+    \includegraphics[width=0.85\textwidth]{Result/lychee/fruit_quality_outputs_lychee/plots/lychee_distribution.jpg}
     \caption{Lychee: Quality class distribution}
     \label{fig:lychee-dist}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/lychee/fruit_quality_outputs_lychee/plots/final_quality_benchmark_comparison.jpg}
+    \includegraphics[width=0.85\textwidth]{Result/lychee/fruit_quality_outputs_lychee/plots/final_quality_benchmark_comparison.jpg}
     \caption{Lychee: Model benchmark comparison}
     \label{fig:lychee-benchmark}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/lychee/fruit_quality_outputs_lychee/plots/efficientnet_b0_confusion_matrix_and_roc.jpg}
+    \includegraphics[width=0.85\textwidth]{Result/lychee/fruit_quality_outputs_lychee/plots/efficientnet_b0_confusion_matrix_and_roc.jpg}
     \caption{Lychee: EfficientNet-B0 (top model, 100.00\% accuracy) -- Confusion matrix and ROC curve}
     \label{fig:lychee-cm}
 \end{figure}
@@ -1270,7 +1270,7 @@ Small Custom CNN & 99.06 & 0.9907 & 0.9906 & Scratch CNN baseline \\
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.77\textwidth]{Output/lychee/fruit_quality_outputs_lychee/plots/efficientnet_b0_correct_predictions.jpg}
+    \includegraphics[width=0.77\textwidth]{Result/lychee/fruit_quality_outputs_lychee/plots/efficientnet_b0_correct_predictions.jpg}
     \caption{Lychee: EfficientNet-B0 -- Representative correct quality predictions with confidence scores}
     \label{fig:lychee-correct}
 \end{figure}
@@ -1305,21 +1305,21 @@ ResNet-50 & 99.34 & 0.9934 & 0.9934 & Deep residual network \\
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/jackfruit/fruit_quality_outputs_jackfruit/plots/jackfruit_distribution.jpg}
+    \includegraphics[width=0.85\textwidth]{Result/jackfruit/fruit_quality_outputs_jackfruit/plots/jackfruit_distribution.jpg}
     \caption{Jackfruit: Quality class distribution}
     \label{fig:jackfruit-dist}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/jackfruit/fruit_quality_outputs_jackfruit/plots/final_quality_benchmark_comparison.jpg}
+    \includegraphics[width=0.85\textwidth]{Result/jackfruit/fruit_quality_outputs_jackfruit/plots/final_quality_benchmark_comparison.jpg}
     \caption{Jackfruit: Model benchmark comparison}
     \label{fig:jackfruit-benchmark}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/jackfruit/fruit_quality_outputs_jackfruit/plots/mobilenetv3_large_confusion_matrix_and_roc.jpg}
+    \includegraphics[width=0.85\textwidth]{Result/jackfruit/fruit_quality_outputs_jackfruit/plots/mobilenetv3_large_confusion_matrix_and_roc.jpg}
     \caption{Jackfruit: MobileNetV3-Large (top model, 99.67\% accuracy) -- Confusion matrix and ROC curve}
     \label{fig:jackfruit-cm}
 \end{figure}
@@ -1328,7 +1328,7 @@ ResNet-50 & 99.34 & 0.9934 & 0.9934 & Deep residual network \\
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.77\textwidth]{Output/jackfruit/fruit_quality_outputs_jackfruit/plots/mobilenetv3_large_correct_predictions.jpg}
+    \includegraphics[width=0.77\textwidth]{Result/jackfruit/fruit_quality_outputs_jackfruit/plots/mobilenetv3_large_correct_predictions.jpg}
     \caption{Jackfruit: MobileNetV3-Large -- Representative correct quality predictions with confidence scores}
     \label{fig:jackfruit-correct}
     \vspace{0.15cm}
@@ -1365,21 +1365,21 @@ ResNet-50 & 92.50 & 0.9245 & 0.9251 & Deep residual network \\
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/mango/fruit_quality_outputs_mango/plots/mango_distribution.jpg}
+    \includegraphics[width=0.85\textwidth]{Result/mango/fruit_quality_outputs_mango/plots/mango_distribution.jpg}
     \caption{Mango: Quality class distribution}
     \label{fig:mango-dist}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/mango/fruit_quality_outputs_mango/plots/final_quality_benchmark_comparison.jpg}
+    \includegraphics[width=0.85\textwidth]{Result/mango/fruit_quality_outputs_mango/plots/final_quality_benchmark_comparison.jpg}
     \caption{Mango: Model benchmark comparison}
     \label{fig:mango-benchmark}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/mango/fruit_quality_outputs_mango/plots/mobilenetv3_large_confusion_matrix_and_roc.jpg}
+    \includegraphics[width=0.85\textwidth]{Result/mango/fruit_quality_outputs_mango/plots/mobilenetv3_large_confusion_matrix_and_roc.jpg}
     \caption{Mango: MobileNetV3-Large (top model, 94.38\% accuracy) -- Confusion matrix and ROC curve}
     \label{fig:mango-cm}
 \end{figure}
@@ -1388,7 +1388,7 @@ ResNet-50 & 92.50 & 0.9245 & 0.9251 & Deep residual network \\
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.77\textwidth]{Output/mango/fruit_quality_outputs_mango/plots/mobilenetv3_large_correct_predictions.jpg}
+    \includegraphics[width=0.77\textwidth]{Result/mango/fruit_quality_outputs_mango/plots/mobilenetv3_large_correct_predictions.jpg}
     \caption{Mango: MobileNetV3-Large -- Representative correct quality predictions with confidence scores}
     \label{fig:mango-correct}
     \vspace{0.15cm}
@@ -1425,21 +1425,21 @@ ResNet-50 & 90.00 & 0.8964 & 0.8981 & Deep residual network \\
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/starfruit/fruit_quality_outputs_star_fruit/plots/star_fruit_distribution.jpg}
+    \includegraphics[width=0.85\textwidth]{Result/starfruit/fruit_quality_outputs_star_fruit/plots/star_fruit_distribution.jpg}
     \caption{Star Fruit: Quality class distribution}
     \label{fig:star-dist}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/starfruit/fruit_quality_outputs_star_fruit/plots/final_quality_benchmark_comparison.jpg}
+    \includegraphics[width=0.85\textwidth]{Result/starfruit/fruit_quality_outputs_star_fruit/plots/final_quality_benchmark_comparison.jpg}
     \caption{Star Fruit: Model benchmark comparison}
     \label{fig:star-benchmark}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/starfruit/fruit_quality_outputs_star_fruit/plots/mobilenetv3_large_confusion_matrix_and_roc.jpg}
+    \includegraphics[width=0.85\textwidth]{Result/starfruit/fruit_quality_outputs_star_fruit/plots/mobilenetv3_large_confusion_matrix_and_roc.jpg}
     \caption{Star Fruit: MobileNetV3-Large (top model, 92.19\% accuracy) -- Confusion matrix and ROC curve}
     \label{fig:star-cm}
 \end{figure}
@@ -1448,7 +1448,7 @@ ResNet-50 & 90.00 & 0.8964 & 0.8981 & Deep residual network \\
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.77\textwidth]{Output/starfruit/fruit_quality_outputs_star_fruit/plots/mobilenetv3_large_correct_predictions.jpg}
+    \includegraphics[width=0.77\textwidth]{Result/starfruit/fruit_quality_outputs_star_fruit/plots/mobilenetv3_large_correct_predictions.jpg}
     \caption{Star Fruit: MobileNetV3-Large -- Representative correct quality predictions with confidence scores}
     \label{fig:star-correct}
     \vspace{0.15cm}
@@ -1485,21 +1485,21 @@ ResNet-50 & 99.07 & 0.9905 & 0.9907 & Deep residual network \\
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/guava/fruit_quality_outputs_guava/plots/guava_distribution.jpg}
+    \includegraphics[width=0.85\textwidth]{Result/guava/fruit_quality_outputs_guava/plots/guava_distribution.jpg}
     \caption{Guava: Quality class distribution}
     \label{fig:guava-dist}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/guava/fruit_quality_outputs_guava/plots/final_quality_benchmark_comparison.jpg}
+    \includegraphics[width=0.85\textwidth]{Result/guava/fruit_quality_outputs_guava/plots/final_quality_benchmark_comparison.jpg}
     \caption{Guava: Model benchmark comparison}
     \label{fig:guava-benchmark}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/guava/fruit_quality_outputs_guava/plots/efficientnet_b0_confusion_matrix_and_roc.jpg}
+    \includegraphics[width=0.85\textwidth]{Result/guava/fruit_quality_outputs_guava/plots/efficientnet_b0_confusion_matrix_and_roc.jpg}
     \caption{Guava: EfficientNet-B0 (top model, 99.38\% accuracy) -- Confusion matrix and ROC curve}
     \label{fig:guava-cm}
 \end{figure}
@@ -1508,7 +1508,7 @@ ResNet-50 & 99.07 & 0.9905 & 0.9907 & Deep residual network \\
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.77\textwidth]{Output/guava/fruit_quality_outputs_guava/plots/efficientnet_b0_correct_predictions.jpg}
+    \includegraphics[width=0.77\textwidth]{Result/guava/fruit_quality_outputs_guava/plots/efficientnet_b0_correct_predictions.jpg}
     \caption{Guava: EfficientNet-B0 -- Representative correct quality predictions with confidence scores}
     \label{fig:guava-correct}
     \vspace{0.15cm}
@@ -1545,21 +1545,21 @@ ResNet-50 & 97.63 & 0.9769 & 0.9763 & Deep residual network \\
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/jujube/fruit_quality_outputs_jujube/plots/jujube_distribution.jpg}
+    \includegraphics[width=0.85\textwidth]{Result/jujube/fruit_quality_outputs_jujube/plots/jujube_distribution.jpg}
     \caption{Jujube: Quality class distribution}
     \label{fig:jujube-dist}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/jujube/fruit_quality_outputs_jujube/plots/final_quality_benchmark_comparison.jpg}
+    \includegraphics[width=0.85\textwidth]{Result/jujube/fruit_quality_outputs_jujube/plots/final_quality_benchmark_comparison.jpg}
     \caption{Jujube: Model benchmark comparison}
     \label{fig:jujube-benchmark}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/jujube/fruit_quality_outputs_jujube/plots/mobilenetv3_large_confusion_matrix_and_roc.jpg}
+    \includegraphics[width=0.85\textwidth]{Result/jujube/fruit_quality_outputs_jujube/plots/mobilenetv3_large_confusion_matrix_and_roc.jpg}
     \caption{Jujube: MobileNetV3-Large (top model, 98.81\% accuracy) -- Confusion matrix and ROC curve}
     \label{fig:jujube-cm}
 \end{figure}
@@ -1568,7 +1568,7 @@ ResNet-50 & 97.63 & 0.9769 & 0.9763 & Deep residual network \\
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.77\textwidth]{Output/jujube/fruit_quality_outputs_jujube/plots/mobilenetv3_large_correct_predictions.jpg}
+    \includegraphics[width=0.77\textwidth]{Result/jujube/fruit_quality_outputs_jujube/plots/mobilenetv3_large_correct_predictions.jpg}
     \caption{Jujube: MobileNetV3-Large -- Representative correct quality predictions with confidence scores}
     \label{fig:jujube-correct}
     \vspace{0.15cm}
@@ -1605,21 +1605,21 @@ ResNet-50 & 99.68 & 0.9967 & 0.9968 & High accuracy model \\
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/banana/fruit_quality_outputs_banana/plots/banana_distribution.jpg}
+    \includegraphics[width=0.85\textwidth]{Result/banana/fruit_quality_outputs_banana/plots/banana_distribution.jpg}
     \caption{Banana: Quality class distribution}
     \label{fig:banana-dist}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/banana/fruit_quality_outputs_banana/plots/final_quality_benchmark_comparison.jpg}
+    \includegraphics[width=0.85\textwidth]{Result/banana/fruit_quality_outputs_banana/plots/final_quality_benchmark_comparison.jpg}
     \caption{Banana: Model benchmark comparison}
     \label{fig:banana-benchmark}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/banana/fruit_quality_outputs_banana/plots/efficientnet_b0_confusion_matrix_and_roc.jpg}
+    \includegraphics[width=0.85\textwidth]{Result/banana/fruit_quality_outputs_banana/plots/efficientnet_b0_confusion_matrix_and_roc.jpg}
     \caption{Banana: EfficientNet-B0 (top model, 100.00\% accuracy) -- Confusion matrix and ROC curve}
     \label{fig:banana-cm}
 \end{figure}
@@ -1628,7 +1628,7 @@ ResNet-50 & 99.68 & 0.9967 & 0.9968 & High accuracy model \\
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.77\textwidth]{Output/banana/fruit_quality_outputs_banana/plots/efficientnet_b0_correct_predictions.jpg}
+    \includegraphics[width=0.77\textwidth]{Result/banana/fruit_quality_outputs_banana/plots/efficientnet_b0_correct_predictions.jpg}
     \caption{Banana: EfficientNet-B0 -- Representative correct quality predictions with confidence scores}
     \label{fig:banana-correct}
 \end{figure}
@@ -1663,21 +1663,21 @@ Small Custom CNN & 99.70 & 0.9969 & 0.9970 & Scratch CNN baseline \\
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/dragonfruit/fruit_quality_outputs_dragonfruit/plots/dragonfruit_distribution.jpg}
+    \includegraphics[width=0.85\textwidth]{Result/dragonfruit/fruit_quality_outputs_dragonfruit/plots/dragonfruit_distribution.jpg}
     \caption{Dragon Fruit: Quality class distribution}
     \label{fig:dragon-dist}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/dragonfruit/fruit_quality_outputs_dragonfruit/plots/final_quality_benchmark_comparison.jpg}
+    \includegraphics[width=0.85\textwidth]{Result/dragonfruit/fruit_quality_outputs_dragonfruit/plots/final_quality_benchmark_comparison.jpg}
     \caption{Dragon Fruit: Model benchmark comparison}
     \label{fig:dragon-benchmark}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/dragonfruit/fruit_quality_outputs_dragonfruit/plots/efficientnet_b0_confusion_matrix_and_roc.jpg}
+    \includegraphics[width=0.85\textwidth]{Result/dragonfruit/fruit_quality_outputs_dragonfruit/plots/efficientnet_b0_confusion_matrix_and_roc.jpg}
     \caption{Dragon Fruit: EfficientNet-B0 (top model, 100.00\% accuracy) -- Confusion matrix and ROC curve}
     \label{fig:dragon-cm}
 \end{figure}
@@ -1686,7 +1686,7 @@ Small Custom CNN & 99.70 & 0.9969 & 0.9970 & Scratch CNN baseline \\
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.77\textwidth]{Output/dragonfruit/fruit_quality_outputs_dragonfruit/plots/efficientnet_b0_correct_predictions.jpg}
+    \includegraphics[width=0.77\textwidth]{Result/dragonfruit/fruit_quality_outputs_dragonfruit/plots/efficientnet_b0_correct_predictions.jpg}
     \caption{Dragon Fruit: EfficientNet-B0 -- Representative correct quality predictions with confidence scores}
     \label{fig:dragon-correct}
 \end{figure}
@@ -1721,21 +1721,21 @@ ResNet-50 & 96.00 & 0.9598 & 0.9598 & Deep residual network \\
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/pineapple/fruit_quality_outputs_pineapple/plots/pineapple_distribution.jpg}
+    \includegraphics[width=0.85\textwidth]{Result/pineapple/fruit_quality_outputs_pineapple/plots/pineapple_distribution.jpg}
     \caption{Pineapple: Quality class distribution}
     \label{fig:pineapple-dist}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/pineapple/fruit_quality_outputs_pineapple/plots/final_quality_benchmark_comparison.jpg}
+    \includegraphics[width=0.85\textwidth]{Result/pineapple/fruit_quality_outputs_pineapple/plots/final_quality_benchmark_comparison.jpg}
     \caption{Pineapple: Model benchmark comparison}
     \label{fig:pineapple-benchmark}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/pineapple/fruit_quality_outputs_pineapple/plots/efficientnet_b0_confusion_matrix_and_roc.jpg}
+    \includegraphics[width=0.85\textwidth]{Result/pineapple/fruit_quality_outputs_pineapple/plots/efficientnet_b0_confusion_matrix_and_roc.jpg}
     \caption{Pineapple: EfficientNet-B0 (top model, 97.00\% accuracy) -- Confusion matrix and ROC curve}
     \label{fig:pineapple-cm}
 \end{figure}
@@ -1744,7 +1744,7 @@ ResNet-50 & 96.00 & 0.9598 & 0.9598 & Deep residual network \\
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.77\textwidth]{Output/pineapple/fruit_quality_outputs_pineapple/plots/efficientnet_b0_correct_predictions.jpg}
+    \includegraphics[width=0.77\textwidth]{Result/pineapple/fruit_quality_outputs_pineapple/plots/efficientnet_b0_correct_predictions.jpg}
     \caption{Pineapple: EfficientNet-B0 -- Representative correct quality predictions with confidence scores}
     \label{fig:pineapple-correct}
     \vspace{0.15cm}
@@ -1781,21 +1781,21 @@ ResNet-50 & 99.65 & 0.9964 & 0.9965 & High accuracy model \\
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/sapodilia/fruit_quality_outputs_sapodilla/plots/sapodilla_distribution.jpg}
+    \includegraphics[width=0.85\textwidth]{Result/sapodilia/fruit_quality_outputs_sapodilla/plots/sapodilla_distribution.jpg}
     \caption{Sapodilla: Quality class distribution}
     \label{fig:sapodilla-dist}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/sapodilia/fruit_quality_outputs_sapodilla/plots/final_quality_benchmark_comparison.jpg}
+    \includegraphics[width=0.85\textwidth]{Result/sapodilia/fruit_quality_outputs_sapodilla/plots/final_quality_benchmark_comparison.jpg}
     \caption{Sapodilla: Model benchmark comparison}
     \label{fig:sapodilla-benchmark}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/sapodilia/fruit_quality_outputs_sapodilla/plots/efficientnet_b0_confusion_matrix_and_roc.jpg}
+    \includegraphics[width=0.85\textwidth]{Result/sapodilia/fruit_quality_outputs_sapodilla/plots/efficientnet_b0_confusion_matrix_and_roc.jpg}
     \caption{Sapodilla: EfficientNet-B0 (top model, 100.00\% accuracy) -- Confusion matrix and ROC curve}
     \label{fig:sapodilla-cm}
 \end{figure}
@@ -1804,7 +1804,7 @@ ResNet-50 & 99.65 & 0.9964 & 0.9965 & High accuracy model \\
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.77\textwidth]{Output/sapodilia/fruit_quality_outputs_sapodilla/plots/efficientnet_b0_correct_predictions.jpg}
+    \includegraphics[width=0.77\textwidth]{Result/sapodilia/fruit_quality_outputs_sapodilla/plots/efficientnet_b0_correct_predictions.jpg}
     \caption{Sapodilla: EfficientNet-B0 -- Representative correct quality predictions with confidence scores}
     \label{fig:sapodilla-correct}
 \end{figure}
@@ -1839,21 +1839,21 @@ EfficientNet-B0 & 99.08 & 0.9910 & 0.9908 & Pre-trained baseline \\
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/custard_apple/fruit_quality_outputs_custard_apple/plots/custard_apple_distribution.jpg}
+    \includegraphics[width=0.85\textwidth]{Result/custard_apple/fruit_quality_outputs_custard_apple/plots/custard_apple_distribution.jpg}
     \caption{Custard Apple: Quality class distribution}
     \label{fig:custard-dist}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/custard_apple/fruit_quality_outputs_custard_apple/plots/final_quality_benchmark_comparison.jpg}
+    \includegraphics[width=0.85\textwidth]{Result/custard_apple/fruit_quality_outputs_custard_apple/plots/final_quality_benchmark_comparison.jpg}
     \caption{Custard Apple: Model benchmark comparison}
     \label{fig:custard-benchmark}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{Output/custard_apple/fruit_quality_outputs_custard_apple/plots/mobilenetv3_large_confusion_matrix_and_roc.jpg}
+    \includegraphics[width=0.85\textwidth]{Result/custard_apple/fruit_quality_outputs_custard_apple/plots/mobilenetv3_large_confusion_matrix_and_roc.jpg}
     \caption{Custard Apple: MobileNetV3-Large (top model, 99.69\% accuracy) -- Confusion matrix and ROC curve}
     \label{fig:custard-cm}
 \end{figure}
@@ -1862,7 +1862,7 @@ EfficientNet-B0 & 99.08 & 0.9910 & 0.9908 & Pre-trained baseline \\
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.77\textwidth]{Output/custard_apple/fruit_quality_outputs_custard_apple/plots/mobilenetv3_large_correct_predictions.jpg}
+    \includegraphics[width=0.77\textwidth]{Result/custard_apple/fruit_quality_outputs_custard_apple/plots/mobilenetv3_large_correct_predictions.jpg}
     \caption{Custard Apple: MobileNetV3-Large -- Representative correct quality predictions with confidence scores}
     \label{fig:custard-correct}
     \vspace{0.15cm}
@@ -1918,9 +1918,20 @@ Key comparative findings across the multi-fruit quality classification benchmark
 % =========================================================
 \section{Usage Notes and Reuse Potential}
 
-\subsection{Dataset Loading and Ingestion}
+\subsection{Dataset Loading, Repository Layout and Ingestion}
 
-The dataset is provided in both raw (\texttt{fruit\_dataset/}) and standardized processed (\texttt{fruit\_dataset\_processed/}) formats. In \texttt{fruit\_dataset/}, raw unpartitioned photographic captures are organized hierarchically by fruit variety and quality tier alongside original provenance files. In \texttt{fruit\_dataset\_processed/}, images are partitioned into deterministic 80\% training (\texttt{train/}, 16,658 images) and 20\% testing (\texttt{test/}, 4,165 images) sets (random seed $SEED = 42$), mapped through \texttt{split\_manifest.csv}. Preprocessing operations (resizing to $224 \times 224$, CLAHE contrast equalization, ImageNet normalization) can also be executed dynamically on-the-fly via PyTorch DataLoader transforms. The Python snippet below illustrates the native PyTorch data loading pipeline:
+The repository and open release bundles follow a standardized, modular structure designed for reproducible benchmarking:
+\begin{itemize}
+    \item \path{fruit_dataset/} (or \texttt{fruit\_dataset.zip}): Complete archive of 20,823 raw optical RGB photographic captures organized hierarchically by fruit species and 3-tier quality condition (\texttt{good}, \texttt{medium}, \texttt{bad}).
+    \item \path{fruit_dataset_processed/} (or \texttt{fruit\_dataset\_processed.zip}): Preprocessed, standardized $224 \times 224$ images pre-partitioned into deterministic 80\% training (\texttt{train/}, 16,658 images) and 20\% testing (\texttt{test/}, 4,165 images) sets ($SEED = 42$), accompanied by \texttt{split\_manifest.csv}.
+    \item \path{Codebase/}: Standalone, executable Jupyter Notebooks (\texttt{.ipynb}) for 13-fruit macro classification and all 13 intra-fruit quality grading experiments.
+    \item \path{Result/}: Comprehensive benchmark outputs per fruit species containing metric summaries (\texttt{final\_benchmark\_summary.csv}), trained PyTorch model weights (\texttt{models/}), high-resolution evaluation curves and confusion matrices (\texttt{plots/}), and classification text logs (\texttt{reports/}).
+    \item \path{metadata/}: Machine-readable data dictionaries (\texttt{data\_dictionary.csv}) and class mapping tables.
+    \item \path{README.md}: Complete repository guide, installation commands, hardware specifications, and reproduction instructions.
+    \item \path{app.py}: Interactive Streamlit web application for real-time two-stage species and quality inference with confidence gating.
+\end{itemize}
+
+Preprocessing operations (resizing to $224 \times 224$, CLAHE contrast equalization, ImageNet normalization) can also be executed dynamically on-the-fly via PyTorch DataLoader transforms. The Python snippet below illustrates the native PyTorch data loading pipeline:
 
 \begin{verbatim}
 import torch

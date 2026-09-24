@@ -1,6 +1,0 @@
-Model Architecture,Fruit Evaluated,Accuracy (%),Macro F1,Weighted F1
-Custom CNN,lychee,99.06%,0.9907,0.9906
-MobileNetV3-Large,lychee,100.00%,1.0000,1.0000
-YOLO26n-cls,lychee,100.00%,1.0000,1.0000
-EfficientNet-B0,lychee,100.00%,1.0000,1.0000
-ResNet-50,lychee,100.00%,1.0000,1.0000

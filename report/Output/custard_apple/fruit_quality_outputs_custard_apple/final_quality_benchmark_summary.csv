@@ -1,6 +1,0 @@
-Model Architecture,Fruit Evaluated,Accuracy (%),Macro F1,Weighted F1
-Custom CNN,custard_apple,72.00%,0.7224,0.7236
-MobileNetV3-Large,custard_apple,99.69%,0.9969,0.9969
-YOLO26n-cls,custard_apple,99.69%,0.9970,0.9969
-EfficientNet-B0,custard_apple,99.08%,0.9910,0.9908
-ResNet-50,custard_apple,99.69%,0.9968,0.9969
