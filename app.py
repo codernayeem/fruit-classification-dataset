@@ -2,7 +2,7 @@ import os
 import sys
 import time
 from pathlib import Path
-from PIL import Image
+from PIL import Image, ImageOps
 import numpy as np
 import pandas as pd
 import streamlit as st
@@ -143,7 +143,8 @@ with col_upload:
         label_visibility="collapsed"
     )
     if uploaded_file is not None:
-        st.session_state['active_image'] = Image.open(uploaded_file)
+        raw_img = Image.open(uploaded_file)
+        st.session_state['active_image'] = ImageOps.exif_transpose(raw_img).convert("RGB")
         st.session_state['active_source'] = 'upload'
         st.session_state['ground_truth'] = None
 
@@ -157,7 +158,8 @@ with col_random:
         if st.button("Random Test Sample", use_container_width=True):
             sample = get_random_test_sample(fruit_filter, quality_filter)
             if sample:
-                st.session_state['active_image'] = Image.open(sample['full_path'])
+                raw_img = Image.open(sample['full_path'])
+                st.session_state['active_image'] = ImageOps.exif_transpose(raw_img).convert("RGB")
                 st.session_state['active_source'] = 'test_set'
                 st.session_state['ground_truth'] = sample
                 st.session_state['uploader_key'] = st.session_state.get('uploader_key', 0) + 1
