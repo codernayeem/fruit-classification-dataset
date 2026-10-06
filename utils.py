@@ -130,7 +130,7 @@ def apply_clahe(pil_img: Image.Image):
     enhanced_rgb = cv2.cvtColor(merged, cv2.COLOR_LAB2RGB)
     return Image.fromarray(enhanced_rgb)
 
-def plot_fruit_probabilities(labels, values, title="Top-5 Fruit Species Confidence (%)"):
+def plot_fruit_probabilities(labels, values, threshold=None, title="Top-5 Fruit Species Confidence (%)"):
     """Generate a horizontal bar plot with crisp white background for fruit variety."""
     rev_labels = labels[::-1]
     rev_vals = values[::-1]
@@ -142,7 +142,14 @@ def plot_fruit_probabilities(labels, values, title="Top-5 Fruit Species Confiden
     
     # Highlight highest confidence
     colors = ['#CBD5E1' if i < len(labels)-1 else '#2563EB' for i in range(len(labels))]
-    bars = ax.barh(y_pos, rev_vals, color=colors, height=0.55, edgecolor='none')
+    bars = ax.barh(y_pos, rev_vals, color=colors, height=0.55, edgecolor='none', zorder=3)
+    
+    # Gate Threshold Line
+    if threshold is not None:
+        ax.axvline(x=threshold, color='#EF4444', linestyle='--', linewidth=1.5, alpha=0.9, zorder=4)
+        ax.text(threshold, len(labels) - 0.55, f' Gate: {threshold:.0f}%', color='#EF4444',
+                fontsize=8, fontweight='700', va='bottom', ha='center',
+                bbox=dict(boxstyle='round,pad=0.2', facecolor='#FEF2F2', edgecolor='#FCA5A5', alpha=0.95))
     
     ax.set_yticks(y_pos)
     ax.set_yticklabels(rev_labels, fontsize=9.5, fontweight='600', color='#0F172A')
@@ -160,7 +167,7 @@ def plot_fruit_probabilities(labels, values, title="Top-5 Fruit Species Confiden
     ax.spines['right'].set_visible(False)
     ax.spines['left'].set_color('#CBD5E1')
     ax.spines['bottom'].set_color('#CBD5E1')
-    ax.grid(axis='x', linestyle='--', color='#E2E8F0', alpha=0.8)
+    ax.grid(axis='x', linestyle='--', color='#E2E8F0', alpha=0.8, zorder=1)
     if title:
         ax.set_title(title, fontsize=10, fontweight='700', color='#0F172A', pad=8, loc='left')
     fig.tight_layout(pad=0.6)

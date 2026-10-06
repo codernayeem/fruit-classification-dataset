@@ -230,6 +230,7 @@ if active_image is not None:
         fig_fruit = plot_fruit_probabilities(
             labels=top5_labels,
             values=top5_values,
+            threshold=conf_threshold * 100,
             title="Top-5 Fruit Species Confidence (%)"
         )
         st.pyplot(fig_fruit)
@@ -269,9 +270,10 @@ if active_image is not None:
             )
             st.caption(f"Model: **{q_model_name}** | Latency: **{time_stage2:.1f} ms**")
 
-            # Quality Horizontal Matplotlib Figure (White Background)
-            q_labels = [q.capitalize() for q in QUALITY_CLASSES]
-            q_values = [probs_quality[i] * 100 for i in range(len(QUALITY_CLASSES))]
+            # Quality Horizontal Matplotlib Figure (White Background) - Ordered: Good, Medium, Bad
+            ordered_qualities = ['good', 'medium', 'bad']
+            q_labels = [q.capitalize() for q in ordered_qualities]
+            q_values = [probs_quality[QUALITY_CLASSES.index(q)] * 100 for q in ordered_qualities]
 
             fig_quality = plot_quality_probabilities(
                 labels=q_labels,
