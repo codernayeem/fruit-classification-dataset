@@ -29,7 +29,80 @@ A comprehensive deep learning benchmark and two-stage inspection system for 13 c
 
 ---
 
-## 2. Directory and Repository Layout
+## 2. Dataset Curation and Student Contributions
+
+The dataset was curated collaboratively by all six group members. Each student had primary responsibility for two fruit varieties, including online image curation, quality labeling, and model preparation. Custard Apple curation and the cross-fruit evaluation were completed jointly by the entire group.
+
+<table>
+<thead>
+<tr>
+<th>Student</th>
+<th>Fruit variety</th>
+<th>Good</th>
+<th>Medium</th>
+<th>Bad</th>
+<th>Total images</th>
+<th>Overall contribution</th>
+<th>Main contributions</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td rowspan="2">Kazi Rifat Al Muin</td>
+<td>Papaya</td><td>500</td><td>598</td><td>600</td><td>1,698</td>
+<td rowspan="2">16.67%</td>
+<td rowspan="2">Data curation, software, investigation, and formal analysis; YOLO baseline pipeline</td>
+</tr>
+<tr><td>Lemon</td><td>600</td><td>526</td><td>600</td><td>1,726</td></tr>
+<tr>
+<td rowspan="2">Farid Ahmed Patwary</td>
+<td>Lychee</td><td>525</td><td>529</td><td>543</td><td>1,597</td>
+<td rowspan="2">16.67%</td>
+<td rowspan="2">Data curation, validation, visualization, and writing; confusion matrix and ROC visualization</td>
+</tr>
+<tr><td>Jackfruit</td><td>509</td><td>500</td><td>499</td><td>1,508</td></tr>
+<tr>
+<td rowspan="2">Md Torikul Islam</td>
+<td>Mango</td><td>550</td><td>500</td><td>550</td><td>1,600</td>
+<td rowspan="2">16.67%</td>
+<td rowspan="2">Conceptualization, methodology, project administration, and software; repository structuring and data manifests</td>
+</tr>
+<tr><td>Star Fruit</td><td>550</td><td>500</td><td>550</td><td>1,600</td></tr>
+<tr>
+<td rowspan="2">Md Nayeem</td>
+<td>Guava</td><td>572</td><td>520</td><td>519</td><td>1,611</td>
+<td rowspan="2">16.67%</td>
+<td rowspan="2">Data curation, software, investigation, and validation; PyTorch DataLoader pipeline and GPU optimization</td>
+</tr>
+<tr><td>Jujube</td><td>598</td><td>556</td><td>529</td><td>1,683</td></tr>
+<tr>
+<td rowspan="2">Md Jahid Hasan Jim</td>
+<td>Banana</td><td>564</td><td>492</td><td>510</td><td>1,566</td>
+<td rowspan="2">16.67%</td>
+<td rowspan="2">Data curation, investigation, formal analysis, and writing; training loss and accuracy curve analysis</td>
+</tr>
+<tr><td>Dragon Fruit</td><td>560</td><td>528</td><td>579</td><td>1,667</td></tr>
+<tr>
+<td rowspan="2">Arka Braja Prasad Nath</td>
+<td>Pineapple</td><td>500</td><td>500</td><td>500</td><td>1,500</td>
+<td rowspan="2">16.67%</td>
+<td rowspan="2">Data curation, software, validation, and data dictionary; metadata dictionary generation and verification</td>
+</tr>
+<tr><td>Sapodilla</td><td>437</td><td>500</td><td>508</td><td>1,445</td></tr>
+<tr>
+<td>All group members</td><td>Custard Apple</td><td>512</td><td>533</td><td>577</td><td>1,622</td>
+<td>Joint</td><td>Collaborative curation and evaluation</td>
+</tr>
+<tr>
+<th colspan="2">Total curated dataset</th><th>6,977</th><th>6,782</th><th>7,064</th><th>20,823</th>
+<th>100%</th><th>Joint Custard Apple curation, 13-fruit evaluation, benchmarking, and report preparation</th>
+</tr>
+</tbody>
+</table>
+
+---
+
+## 3. Directory and Repository Layout
 
 ```text
 root
@@ -91,7 +164,7 @@ root
 
 ---
 
-## 3. Two-Stage Inspection Architecture
+## 4. Two-Stage Inspection Architecture
 
 ```text
                        [ Input Fruit Image (224x224 RGB) ]
@@ -124,7 +197,7 @@ root
 
 ---
 
-## 4. Benchmark Performance Summary
+## 5. Benchmark Performance Summary
 
 | Fruit Species | Custom CNN (%) | MobileNetV3-Large (%) | YOLO26n-cls (%) | EfficientNet-B0 (%) | ResNet-50 (%) | Top Architecture |
 | :--- | :---: | :---: | :---: | :---: | :---: | :--- |
@@ -145,7 +218,7 @@ root
 
 ---
 
-## 5. Quickstart & Execution
+## 6. Quickstart & Execution
 
 ### Prerequisites
 - Python 3.10+
