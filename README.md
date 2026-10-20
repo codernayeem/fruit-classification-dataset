@@ -2,7 +2,7 @@
 
 A comprehensive deep learning benchmark and two-stage inspection system for 13 commercial and domestic fruit varieties and their 3-tier quality grades (Good, Medium, Bad), featuring confidence-gated routing, state-of-the-art transfer learning architectures, lightweight custom CNN baselines, and an interactive Streamlit application.
 
-**Dataset + Results + Report + Presentation:** [Google Drive Folder](https://drive.google.com/drive/folders/1g24PoWzFZZ5G8QUJQuMFh3C15o2XU-c)
+**Dataset + Results + Report + Presentation:** [Google Drive Folder](https://drive.google.com/drive/folders/1g24PoWVzFZZ5G8QUJQuMFh3Cl5o2XU-c?usp=drive_link)
 
 ---
 
